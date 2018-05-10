@@ -9,7 +9,7 @@
 # About
 Hard Truck 2 game modding stuff: file formats, docs, tools.
 
-# Instruments
+## Tools
 
 * [.b3D Blender plugin](https://github.com/AlexKimov/HT2-modding-tools/tree/master/plugins)
 
