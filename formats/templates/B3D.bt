@@ -36,9 +36,11 @@ typedef struct {
 } TRANSFORMATION_MATRIX <name="Transformation matrix">;
 
 typedef enum <uint> {
-  Begin_Token = 333,
+  Begin_Token = 111,
+  End_Token = 222,
+  Begin_Chunk_Token = 333,
   Fours_Token = 444,
-  End_Token = 555
+  End_Chunk_Token = 555
 } TOKEN; 
 
 struct {
@@ -68,7 +70,7 @@ string MatName(MATERIAL &material) {
   return material.String;
 }
 
-UINT ChunkEnd;
+TOKEN Begin <name="BEGIN">;
 
 UINT chunkTree(UINT ChildCount) {
   typedef struct {
@@ -493,41 +495,53 @@ UINT chunkTree(UINT ChildCount) {
     }; 
     } PROPERTIES <name="Properties">; 
     TOKEN Token <name="Token">;  // end
-    if (ChunkEnd == 444) {
+    if (Token == 444) {
       FSeek(FTell() + 4);
     };
    //
-  } NODE <name=BlockName>;
+  } CH <name=Name>;
   typedef struct (int arraySize) {
-    NODE array[arraySize] <optimize=false>;
-  } NODE_ARRAY;         
-  NODE_ARRAY NodesArray(ChildCount) <name="Chunk Tree">;
+    CH array[arraySize] <optimize=false>;
+  } CHUNKS;         
+  CHUNKS ChunkArray(ChildCount) <name=ChunkName>;
 
   return 0;
 };
 
-typedef struct {
-  chunkTree(1);
-} CHUNK <optimize=false, name="Chunk">;
+string ChunkName(CHUNKS &chunks) {
+  if (exists(chunks.array.HEADER)) {
+   if (chunks.array.HEADER.String == "")
+    return "Empty";
+   else
+    if (chunks.array.HEADER.ID == 24)
+      return "Space: " + chunks.array.HEADER.String;
+   else
+    if (chunks.array.HEADER.ID == 5)
+      return "Group: " + chunks.array.HEADER.String;
+   else
+    return chunks.array.HEADER.String;
+  } else 
+    return "END";
+};
 
-//string TokenName(Token &node) {
-
-//};
-
-string BlockName(NODE &node) {
-  if (node.HEADER.String == "")
-    return "Chunk: Empty";
-  else
-  if (node.HEADER.ID == 5)
-    return "Chunk: Group: " + node.HEADER.String;
-  if (node.HEADER.ID == 24)
-    return "Chunk: Space: " + node.HEADER.String;
-  else
-    return "Chunk: " + node.HEADER.String;
+string Name(CH &chunk) {
+  if (exists(chunk.HEADER)) {
+    if (chunk.HEADER.String == "")
+      return "Chunk: Empty";
+    else
+    if (chunk.HEADER.ID == 5)
+      return "Chunk: Group: " + chunk.HEADER.String;
+    if (chunk.HEADER.ID == 24)
+      return "Chunk: Space: " + chunk.HEADER.String;
+    else
+      return "Chunk: " + chunk.HEADER.String;
+  } else 
+    return "END";
 }
 
-typedef struct (int arraySize) {
-  CHUNK array[arraySize] <optimize=false>;
-} CHUNK_ARRAY ;
 
-CHUNK_ARRAY ChunkArray(120) <name="Chunks">;
+while (chunkTree(1) == 0) 
+{
+  // pass chunks
+};
+ 
