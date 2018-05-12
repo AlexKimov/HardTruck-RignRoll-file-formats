@@ -44,31 +44,30 @@ typedef enum <uint> {
 } TOKEN; 
 
 struct {
- char B3D[4] <name="b3D signature">;
+  char B3D[4] <name="b3D signature">;
+  struct {
+    UINT FileSize; // 1/4*filesize
+    UINT MN; // 6
+    UINT MatListDataSize; // 1/4*(materials list data)
+    UINT HeaderSectionSize; // 1/4*(materials list data + data sizes block)
+    UINT DataSize; // 1/4*(datasize)
+  } DataSizes <name = "Data sizes">;
 } Header <name="File Header">;
 
 struct {
-  UINT MN;
-  UINT MN; // 6
-  UINT MN; // MaterialCount*8 + 1
-  UINT MN; // MaterialCount*8 + 7
-  UINT MN;
-} UN1;
-
-struct {
-  UINT MaterialCount <name="Count">;
-  typedef struct {
-    char String[32] <name="Name">; 
-  } MATERIAL <optimize=false, name=MatName>;
-  typedef struct (int arraySize) {
-    MATERIAL array[arraySize] <optimize=false>;
-  } MATERIAL_Array;       
-  MATERIAL_Array Materials(MaterialCount) <name="Materials Array">;
-} M <name="Materials">;
+    UINT MaterialCount <name="Count">;
+    typedef struct {
+      char String[32] <name="Name">; 
+    } MATERIAL <optimize=false, name=MatName>;
+    typedef struct (int arraySize) {
+      MATERIAL array[arraySize] <optimize=false>;
+    } MATERIAL_Array;       
+    MATERIAL_Array Materials(MaterialCount) <name="Materials Array">;
+} M <name="Material List">;
 
 string MatName(MATERIAL &material) {
   return material.String;
-}
+};
 
 TOKEN Begin <name="BEGIN">;
 
@@ -539,9 +538,10 @@ string Name(CH &chunk) {
     return "END";
 }
 
-
-while (chunkTree(1) == 0) 
-{
+struct {
+  while (chunkTree(1) == 0) 
+  {
   // pass chunks
-};
+  };
+} Chunks <name="Data Chunks">;
  
