@@ -1,0 +1,158 @@
+//------------------------------------------------
+//--- 010 Editor v2.0 Binary Template
+//
+//------------------------------------------------
+
+struct {
+  char WDB[4] <fgcolor=cBlack, bgcolor=0x0000FF>;
+} WDBID <name="WDB file Id"> ;
+
+struct {
+  UINT FileSize <name="WDB file size">; 
+  struct {
+    UINT mn <name="">;
+    UINT mn <name="">; 
+    UINT mn <name="">;
+    UINT mn <name="">; 
+  } header;
+
+  UINT mn <name="">; 
+  UINT mn <name="">;
+  UINT mn <name="">;
+  UINT mn <name="">; 
+  UINT mn <name="">;
+
+  UINT mn <name="">; 
+  UINT mn <name="">;
+  UINT mn <name="">;
+
+  struct {
+    struct {  
+      UINT mn <name="">;
+      UINT mn <name="">;
+      UINT mn <name="">;  
+      UINT SectionAdress <name="">; 
+      UINT SectionSize <name="">; 
+    } Section1;
+    struct {   
+      UINT mn <name="">; 
+      UINT mn <name="">;
+      UINT mn <name="">;
+      UINT SectionAdress <name="">; 
+      UINT SectionSize <name="">; 
+    } Section2;
+    struct {  
+      UINT mn <name="">;
+      UINT mn <name="">;
+      UINT mn <name="">;
+      UINT SectionAdress <name="">; 
+      UINT SectionSize <name="">; 
+    } Section3; 
+    struct {  
+      UINT mn <name="">; 
+      UINT mn <name="">;
+      UINT mn <name="">;  
+      UINT SectionAdress <name="">; 
+      UINT SectionSize <name="">;  
+    } Section4; 
+    struct {   
+      UINT mn <name="">; 
+      UINT mn <name="">;
+      UINT mn <name="">;  
+      UINT SectionAdress <name="">; 
+      UINT SectionSize <name="">; 
+    } Section5;
+  } Sections;
+} WDBHEADER <name="WDB file header">;
+
+
+struct {
+  UINT mn <name="">; 
+  UINT SectionSize <name="">;    
+  BYTE Default[8]; 
+  //
+  struct {  
+    UINT SectionsCount <name="Sections Count">; 
+    typedef struct {
+      UINT mn <name="">;
+      UINT SectionOffset <name="">; 
+      UINT SectionNameOffset <name="">;       
+    } Sn;
+    Sn SectonsArray[SectionsCount] <optimize=false>; 
+  } SectonsTable;
+  //
+  UINT PP <name="">;  
+  //
+  struct {   
+    typedef struct {
+      string str;
+    } Name <name="Name">;
+    Name NamesArray[SectonsTable.SectionsCount] <optimize=false>; 
+  } Names <name="Names">;
+} Section1;
+
+struct {
+  struct { 
+    UINT mn <name="">; 
+    UINT SectionSize <name="">;   
+    BYTE mn2[5];
+  } ms1;
+  struct { 
+    UINT mn <name="">; 
+    UINT SectionSize <name="">;   
+    BYTE mn3[5];
+  } ms2;
+
+  typedef struct {
+    UINT mn <name="">; 
+    UINT SectionSize <name="">;  
+
+    if (mn == 2) {
+      struct {
+        UINT mn <name="">; 
+        UINT mn <name="">; 
+        UINT mn <name="">; 
+      } mnstruct ;   
+    };
+
+    if (SectionSize > 12) {      
+        UINT mn <name="">; 
+        UINT subSectionSize <name="">;
+        BYTE ss[subSectionSize - 8]; 
+    }
+    else {
+      BYTE ss[SectionSize - 8];       
+    };
+   } ss;
+
+   //ss ssarray[Section1.SectonsTable.SectionsCount] <optimize = false>;
+   ss ssarray[488] <optimize = false>;
+
+} Section2;
+
+struct {
+  //FSeek(WDBHEADER.Sections.Section3.SectionAdress);
+  struct {
+    UINT mn <name="">; 
+    UINT subSectionSize <name="">; 
+    BYTE ss1[subSectionSize-8]; 
+  } ss1;   
+} Section3 <name="Geometry data">;
+
+struct {
+  FSeek(WDBHEADER.Sections.Section4.SectionAdress);
+  struct {
+    UINT mn <name="">; 
+    UINT subSectionSize <name="">; 
+    BYTE ss1[subSectionSize-8]; 
+  } ss1;  
+} Section4;
+
+struct {
+  FSeek(WDBHEADER.Sections.Section5.SectionAdress);
+  struct {
+    UINT mn <name="">; 
+    UINT subSectionSize <name="">; 
+    BYTE ss1[subSectionSize-8]; 
+  } ss1;  
+} Section5;
