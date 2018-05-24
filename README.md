@@ -8,7 +8,7 @@
 * [Шаблон формата .b3D для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt)
 #### Дальнобойщики 3
 * [Шаблон формата .wmd (Дальнобойщики 3) для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt)
-## Описание форматов
+## Описание форматов файлов
 [см. Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki)
 * * * 
 # About
