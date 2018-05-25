@@ -18,6 +18,16 @@ string IntToStr (uint i) {
   return s;
 } 
 
+void checkToken() {
+  while (true) { 
+    UINT T <hidden=true>;
+    if (T != 444) {
+      FSeek(FTell() - 4);
+      break; 
+    };
+  }
+}
+
 typedef struct {
   struct {
     FLOAT X;
@@ -77,10 +87,8 @@ string MatName(MATERIAL &material) {
 
 UINT chunkTree(UINT ChildCount) {
   typedef struct {
-    TOKEN Token <name="Token">; 
-    if (Token == 444) {
-      TOKEN Token <name="Token">;
-    };
+    checkToken(); 
+    TOKEN Token <name="Token">;
     struct {
       char String[32] <name="Name">;
       UINT ID <name="Chunk ID">;
@@ -148,9 +156,25 @@ UINT chunkTree(UINT ChildCount) {
         }; break;
 
         case 1  : {
-          BYTE A[32];
-          char Name1[32];
+          BYTE Name1[32];
+          char Name2[32];
         }; break;
+
+        case 2  : {
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          struct {
+            UINT ChildCount;
+            chunkTree(ChildCount);
+          } Children;  
+        }; break;
+
 
         case 4  : {
           FLOAT MN;
@@ -217,6 +241,65 @@ UINT chunkTree(UINT ChildCount) {
             UINT MN;
 
             UINT CountA;
+            if (type2 == 131) {
+              struct { 
+                UINT MN;
+                FLOAT MN;
+                FLOAT MN;                
+              } H[CountA];                           
+            } else
+            if (type2 == 129) {
+              struct { 
+                UINT MN;
+              } H[CountA];                           
+            } else
+            if (type2 == 3) {
+              struct { 
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+              } H[CountA];                           
+            } else
+            if (type2 == 176) {
+              struct { 
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+              } H[CountA];                           
+            } else
+            if (type2 == 51) {
+              struct { 
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+              } H[CountA];                           
+            } else
+            if (type2 == 178) {
+              struct { 
+                UINT CCount;
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN; 
+                FLOAT MN;  
+              } H[CountA] <optimize=false>;                           
+            } else
+            if (type2 == 179) {
+              struct { 
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+              } H[CountA];                           
+            } else
+            if (type2 == 177) {
+              struct { 
+                FLOAT MN;
+                FLOAT MN;
+              } H[CountA];                           
+            } else
             if (type2 == 48) {
               struct { 
                 FLOAT MN;
@@ -272,6 +355,23 @@ UINT chunkTree(UINT ChildCount) {
           } Children;             
         }; break;
 
+        case 12  : {
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;  
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN; 
+          UINT MN;
+          UINT MN;      
+          struct {
+            UINT ChildCount;
+            chunkTree(ChildCount);
+          } Children;             
+        }; break;
+
         case 13  : {
           UINT MN;
           UINT MN;
@@ -280,8 +380,8 @@ UINT chunkTree(UINT ChildCount) {
           UINT MN;
           UINT MN;
           UINT type1;
-          if (type1 > 0)
-            FLOAT MN;
+          //if (type1 > 0)
+            FLOAT MN1[type1];  
         }; break;
 
         case 14  : {
@@ -381,98 +481,20 @@ UINT chunkTree(UINT ChildCount) {
             UINT MN;
             UINT MN;
             UINT type2;
-            // 
-            if (type1 == 25) {
-              struct {
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;                         
-              } Y[type1];
-            };
-            if (type1 == 5) {
+
+            struct {
               FLOAT MN;
               FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;             
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;              
-             } else 
-            if (type1 == 3) {
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              FLOAT MN;
-              if (type1 == 3) {
-                FLOAT MN;
-                FLOAT MN;
-              };
-             } else 
-              if (type1 == 2 && type2 == 1) {
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN; 
-                FLOAT MN; 
-            } else 
-              if (type1 == 2 && type2 == 4) {
-                char String[16] <name="Name">; // name 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;  
-                FLOAT MN;  
-                  struct {
-                    UINT ChildCount;
-                    chunkTree(ChildCount);
-                  } Children;      
-             } else 
-              if (type1 == 2 && type2 == 0) {
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                  struct {
-                    UINT ChildCount;
-                    chunkTree(ChildCount);
-                  } Children; 
-             } else
-              if (type1 == 2 && type2 == 2) {
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-             } else
-              if (type1 == 2 && type2 == 3) {
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN;
-             };               
+              FLOAT MN;                         
+            } Y[type1];
+
+            FLOAT A[type2]; 
+
+            //if (type2 != 0 && type2 != 1 && type2 != 2)
+           // struct {
+           //   UINT ChildCount;
+          //    chunkTree(ChildCount);
+          //  } Children;                   
         }; break;
 
         case 21  : {
@@ -491,70 +513,133 @@ UINT chunkTree(UINT ChildCount) {
         case 23  : {
             UINT MN;
             UINT MN;
-            UINT MN;
-            UINT type2; 
-            if (type2 == 24) {
-              struct { 
-                UINT Count;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN; 
-                FLOAT MN;   
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN;         
-              } K1[24];              
-            } else
-            if (type2 == 5) {
-              UINT Count;
-              struct { 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN; 
-                FLOAT MN;   
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN; 
-                FLOAT MN; 
-                FLOAT MN; 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;         
-              } K1[Count];
+            UINT type;
+            if (type == 3) {
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;   
+           
+              UINT CountA;  
+                struct {  
+                  UINT Count;
 
+                  struct { 
+                    FLOAT MN;
+                    FLOAT MN;   
+                    FLOAT MN;
+                  } L[Count];
+                                 
+                } L[CountA] <optimize=false>;               
             } else
-            if (type2 == 4) {  
-              UINT Count;
-              struct { 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-              } K1[Count];
-              UINT Count;
-              struct { 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-              } K2[Count];
+            if (type == 2) {
+              FLOAT MN;
+              FLOAT MN;
+              UINT CountA;  
+                struct {  
+                  FLOAT MN;
+                  FLOAT MN;
+                  FLOAT MN;   
+                  FLOAT MN;
+                  FLOAT MN;
+                  FLOAT MN; 
+                  FLOAT MN;
+                  FLOAT MN;
+                  FLOAT MN;   
+                  FLOAT MN;               
+                } L[CountA]; 
+
             } else {
-              UINT Count;
-              struct { 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-              } K[Count];
-            }
+              UINT CountA; 
+              struct {    
+                UINT Count;
+                struct {  
+                    FLOAT MN;
+                    FLOAT MN;
+                    FLOAT MN;                   
+                } L[Count];         
+              } K1[CountA] <optimize=false>;
+            };   
         }; break;
 
         case 24  : {
             TRANSFORMATION_MATRIX TM;
             UINT MN;
+            struct {
+              UINT ChildCount;
+              chunkTree(ChildCount);
+            } Children;    
+        }; break;
+
+        case 25  : {
+            FLOAT MN;
+            UINT MN;
+            UINT MN;
+            char Name[32]; 
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN; 
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;    
+        }; break;
+
+        case 28  : {
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN; 
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+
+            UINT Count;
+            struct {
+              FLOAT type;
+              FLOAT MN;
+              UINT A;
+              UINT B;
+              UINT Count;
+              if (type == 4294967040) {
+                struct {
+                  FLOAT MN; 
+                  FLOAT MN;
+                } E[Count]; 
+              } else 
+              struct {
+                FLOAT MN; 
+                FLOAT MN;
+                FLOAT MN;
+                FLOAT MN;
+              } E[Count];
+            } Y[Count] <optimize=false>;
+
+            //struct {
+            //  UINT ChildCount;
+            //  chunkTree(ChildCount);
+            //} Children;    
+        }; break;
+
+        case 29  : {
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN; 
+            UINT type; 
+            UINT Count;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN; 
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN; 
+            if (type != 3)
+              FLOAT MN;           
             struct {
               UINT ChildCount;
               chunkTree(ChildCount);
@@ -592,6 +677,25 @@ UINT chunkTree(UINT ChildCount) {
               chunkTree(ChildCount);
             } Children;  
         }; break;   
+
+        case 34  : {
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            UINT Count;
+            struct { 
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+            } K[Count];
+            //struct {
+            //  UINT ChildCount;
+            //  chunkTree(ChildCount);
+            //} Children;  
+        }; break; 
  
         case 35  : {
           FLOAT MN;
@@ -618,15 +722,30 @@ UINT chunkTree(UINT ChildCount) {
               UINT MN;
               UINT MN;
               UINT Count;
-              UINT L[Count];
-              if (type == 3) {
-                UINT MN;
-                FLOAT MN;
-                FLOAT MN;
-                UINT MN;
-                FLOAT MN;
-                UINT MN;
-             };
+              if (type == 49) {
+                struct {
+                  UINT MN;
+                  FLOAT MN;
+                } U[Count];
+              } else
+              if (type == 51) {
+                struct {
+                  UINT MN;
+                  FLOAT MN;
+                  FLOAT MN;
+                  FLOAT MN;
+                }U[Count];
+              } else {
+                UINT L[Count];
+                if (type == 3) {
+                  UINT MN;
+                  FLOAT MN;
+                  FLOAT MN;
+                  UINT MN;
+                  FLOAT MN;
+                  UINT MN;
+                };
+             };            
             } K[Count] <optimize=false>;
            };
            if (type == 1) {
@@ -636,6 +755,18 @@ UINT chunkTree(UINT ChildCount) {
                 UINT MN;
                 UINT MN;
                 UINT Count;
+                if (type3 == 0) {
+                  struct {
+                    FLOAT MN;
+                  } Y[Count];
+                } else
+                if (type3 == 2) {
+                  struct {
+                    FLOAT MN;
+                    FLOAT MN;
+                    FLOAT MN;
+                  } Y[Count];
+                } else
                 struct {
                   UINT MN;
                   FLOAT MN;
@@ -658,7 +789,19 @@ UINT chunkTree(UINT ChildCount) {
           char Name1[32];
           char Name2[32];
           UINT type;
-          UINT Count;   
+          UINT Count;
+          if (type == 2) {
+            struct { 
+              FLOAT X;
+              FLOAT Y;
+              FLOAT Z;
+              FLOAT X;
+              FLOAT Y;
+              FLOAT Z;
+              FLOAT X;
+              FLOAT X;
+            } K1[Count];
+          } else 
           struct { 
             FLOAT X;
             FLOAT Y;
@@ -679,56 +822,74 @@ UINT chunkTree(UINT ChildCount) {
           FLOAT MN;
           FLOAT MN;
           FLOAT MN;
-          UINT MN;
-          if (MN == 0)
-            BYTE B[28];
-          else {
-            UINT MN;
-            UINT MN;
-            UINT MN;
-            char String2[32];
-          }; 
-            UINT type;
-            UINT Count;
-          if (type == 2)         
-              struct { 
-                FLOAT X;
-                FLOAT Y;
-                FLOAT Z;
-                FLOAT U;
-                FLOAT V;
-                FLOAT X;
-                FLOAT Y;
-                FLOAT Z;
-              } K1[Count];
-           else 
-           if (type == 258)
-              struct { 
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;
-                FLOAT MN;     
-              } K2[Count];
-            else {
-                struct { 
-                  FLOAT MN;
-                  FLOAT MN;
-                  FLOAT MN;
-                  FLOAT MN;
-                  FLOAT MN;
-                  FLOAT MN;
-                } K3[Count]; 
-             };             
-            struct {
-              UINT ChildCount;
-              chunkTree(ChildCount);
-            } Children; 
+          char Name[32];
+          UINT type;
+          UINT Count;
+          if (type == 515) 
+            struct { 
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN; 
+              FLOAT MN; 
+              FLOAT MN;
+              FLOAT MN; 
+              FLOAT MN;  
+              FLOAT MN;
+              FLOAT MN;           
+            } K[Count]; 
+          if (type == 514) 
+            struct { 
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN; 
+              FLOAT MN; 
+              FLOAT MN;
+              FLOAT MN; 
+              FLOAT MN;  
+              FLOAT MN;
+              FLOAT MN; 
+              FLOAT MN;  
+              FLOAT MN;           
+            } K[Count];  
+          if (type == 258) 
+            struct { 
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;  
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;  
+              FLOAT MN;                 
+            } K[Count]; 
+          if (type == 2)      
+            struct { 
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;                   
+            } K[Count];  
+          if (type == 3) 
+            struct { 
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;                 
+            } K[Count];    
+          struct {
+            UINT ChildCount;
+            chunkTree(ChildCount);
+          } Children; 
       }; break;
 
       case 39: {
@@ -747,12 +908,24 @@ UINT chunkTree(UINT ChildCount) {
         } Children;       
       }; break;
 
+      case 40: {
+        FLOAT MN;
+        FLOAT MN;
+        FLOAT MN;
+        FLOAT MN;
+
+        char Name1[32];
+        char Name2[32];
+
+        UINT Count;
+        FLOAT MN;
+        UINT Count;
+        FLOAT MN1[Count];      
+      }; break;
     }; 
-   // } PROPERTIES <name="Properties">; 
+   // } PROPERTIES <name="Properties">;
+    checkToken();   
     TOKEN Token <name="Token">;
-    if (Token == 444) { // pas token
-      FSeek(FTell() + 4);
-    };
    //
   } CH <name=Name>;
   typedef struct (int arraySize) {
