@@ -65,8 +65,8 @@ struct {
     UINT FileSize; // 1/4*filesize
     UINT MN; // 6
     UINT MatListDataSize; // 1/4*(materials list data)
-    UINT HeaderSectionSize; // 1/4*(materials list data + data sizes block)
-    UINT DataSize; // 1/4*(datasize)
+    UINT MatHeaderSectionSize; // 1/4*(materials list data + data sizes block)
+    UINT ChunksSectionSize; // 1/4*(datasize)
   } DataSizes <name = "Data sizes">;
 } Header <name="File Header">;
 
@@ -78,7 +78,7 @@ struct {
     typedef struct (int arraySize) {
       MATERIAL array[arraySize] <optimize=false>;
     } MATERIAL_Array;       
-    MATERIAL_Array Materials(MaterialCount) <name="Materials Array">;
+    MATERIAL_Array Materials(MaterialCount) <name="Materials">;
 } M <name="Material List">;
 
 string MatName(MATERIAL &material) {
@@ -93,8 +93,7 @@ UINT chunkTree(UINT ChildCount) {
       char String[32] <name="Name">;
       UINT ID <name="Chunk ID">;
     } HEADER <name="Header">;
-    //
-    //struct {
+
     switch ( HEADER.ID ) 
     {
         case 0  : {
@@ -330,9 +329,9 @@ UINT chunkTree(UINT ChildCount) {
           UINT MN;
           UINT MN;
           UINT MN;
-          UINT type1;
+          UINT Count;
           //if (type1 > 0)
-            FLOAT MN1[type1];  
+            FLOAT MN1[Count];  
         }; break;
 
         case 14  : {
@@ -346,7 +345,8 @@ UINT chunkTree(UINT ChildCount) {
           FLOAT MN;  
           FLOAT MN;
           FLOAT MN;
-          FLOAT MN;     
+          FLOAT MN;  
+          //asf();   
         }; break;
 
         case 18  : {
@@ -549,13 +549,26 @@ UINT chunkTree(UINT ChildCount) {
             FLOAT MN;
             FLOAT MN;
             FLOAT MN;
+            UINT MN;
+            UINT MN;
+            UINT MN;
             FLOAT MN;
             FLOAT MN;
             FLOAT MN;
-            FLOAT MN;
-            FLOAT MN;
-            FLOAT MN;
-            TRANSFORMATION_MATRIX TM;
+            struct {
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+            } Color;
             struct {
               UINT ChildCount;
               chunkTree(ChildCount);
@@ -793,13 +806,13 @@ UINT chunkTree(UINT ChildCount) {
       }; break;
 
       case 40: {
-        FLOAT MN;
-        FLOAT MN;
-        FLOAT MN;
+        FLOAT X;
+        FLOAT Y;
+        FLOAT Z;
         FLOAT MN;
 
         char Name1[32];
-        char Name2[32];
+        char Name2[32]; // generator name
 
         UINT Count;
         FLOAT MN;
