@@ -1,0 +1,235 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: RES.bt
+//   Authors: Alexandr Evdokimov
+//   Version: 0.1
+//   Purpose: Hard truck 2 RES file
+//
+//   History: 
+//    
+//   2018.05 v 0.1 initial release 
+//
+//------------------------------------------------
+
+local uint count;
+local uint passthrough = 0;
+
+uint getNumber(string Str) {
+  local uint pos = 0, count = 0;
+  local string S;
+  pos = Strchr(Str, ' ');
+  S = SubStr(Str, pos + 1, Strlen(Str) - pos);
+  if (SScanf(S, "%d", count) > 0)
+    return count;
+  else
+    return 1;
+}
+
+uint blockCount(uint width) {
+  return Ceil(width/127) + 1;
+}
+
+string getID(string Str) {
+  local uint pos = 0;
+  local string S;
+  pos = Strchr(Str, ' ');
+  return SubStr(Str, 0, pos);
+}
+
+typedef enum <char> {
+  PFRM,
+  LVMP,
+  ENDR,
+  MS16,
+  MASK
+} IDENTIFIER;
+
+typedef struct {
+  UINT SectionSize;
+  UINT type;
+  UINT Width;
+  UINT Height; 
+  UINT HS; 
+  local uint w,h;
+  w = Width; h = Height;
+  while (w >= 1) {
+    typedef struct {  
+      UBYTE Blue: 5;
+      UBYTE Green: 5;
+      UBYTE Red: 5;
+      UBYTE Alpha: 1;
+    } PIXEL_RGB16; 
+    typedef struct (int arraySize) {
+      PIXEL_RGB16 array[arraySize];
+    } PIXEL_RGB16_Array; 
+    PIXEL_RGB16_Array Pixels(w*h);
+    w = w/2; h = h/2;
+  };
+  BYTE A[2];  
+} LVMP;
+
+typedef struct {
+  BYTE B[40];
+} PFRM;
+
+BitfieldDisablePadding(); 
+
+typedef struct {
+  WORD W;
+  WORD H;
+  BYTE A[768]; // empty
+
+  local uint blockCount;
+  blockCount = 1;
+ 
+  if (W > 127)
+    blockCount = blockCount(W);
+      
+  typedef struct {
+    UBYTE Count;
+    if (Count == 129) UBYTE Count;
+    struct {
+       UBYTE Blue:  5;
+       UBYTE Green: 5;
+       UBYTE Red:   5;
+       UBYTE Alpha: 1;
+    } PXL[Count] <optimize=false>;
+  } BLOCK <optimize=false, name="Block">; 
+
+  typedef struct (int arraySize) {
+    BLOCK array[arraySize] <optimize=false>;
+  } BLOCK_Array;       
+  BLOCK_Array Pixels(blockCount*H) <name="Blocks">;
+
+  UBYTE U;
+  if (U != 129) FSeek(FTell() - 1);  
+
+  PFRM pfrmid;
+  UINT A;
+} MS16 <optimize=false>;
+
+typedef struct {
+  struct {
+    WORD W;
+    WORD H;
+  } HEADER;
+  
+  struct {
+    BYTE A;
+    BYTE B;
+    BYTE C;
+  } O[256];
+
+  typedef struct {  
+    UBYTE Color;
+  } P <size=1, name="Pixel", optimize=false>;
+  typedef struct (int arraySize) {
+    P array[arraySize];
+  } P_Array;       
+  P_Array Ps(HEADER.W*HEADER.H) <name="Ps">;
+ 
+} MASK <optimize=false>;
+
+typedef struct { 
+  string FileName;
+  UINT SectionSize;   
+  IDENTIFIER identifier[4];
+  if (identifier == "MS16") {
+    MS16 m16; 
+  } else {
+    MASK mask;    
+  };
+} MS <name=maskFileName, optimize=false>;
+
+string maskFileName(MS &ms) {
+  return ms.FileName;
+}
+
+typedef struct {
+    string Name;
+} ID <name = idName>;
+
+string idName(ID &id) {
+  return "ID: " + id.Name;
+}
+
+local uint i = 0;
+local string idname;
+while (true) {
+  ID identifier;
+  idname = getID(identifier.Name);
+  if (idname == "COLORS") {
+    struct {
+      string Name;
+      count = getNumber(identifier.Name);
+      struct {
+        string name;
+      } C[count] <optimize=false>;
+    } COLORS;
+  };
+  if (idname == "TEXTUREFILES") {
+    count = getNumber(identifier.Name);         
+    struct {
+      struct {
+        string FileName;
+        UINT SectionSize;  
+      
+        UBYTE  IDLength;
+        UBYTE  ColorMapType;
+        UBYTE  ImageType;
+        WORD   FirstIndexEntry;
+        WORD   ColorMapLength;
+        UBYTE  ColorMapEntrySize; 
+    
+        WORD   XOrigin;
+        WORD   YOrigin;
+        WORD   Width;
+        WORD   Height;
+        UBYTE  PixelDepth;
+        UBYTE  ImageDescriptor;
+    
+        char Name[4]; // Line Offset
+        UINT LineOffset;
+        UINT SizeImage;
+      } HEADER;
+    
+      //struct {  
+     //   UBYTE Blue:  5;
+      //  UBYTE Green: 5;
+     //   UBYTE Red:   5;
+     //   UBYTE Alpha: 1;
+     // } RGB16[HEADER.Width*HEADER.Height] <size=2>;
+      
+      FSeek(FTell() + 2*HEADER.Width*HEADER.Height);
+    
+      IDENTIFIER id[4];
+      if (id == "LVMP") {
+        LVMP lvmpid;
+        PFRM pfrmid;
+        UINT V;
+      } else {
+        PFRM pfrmid;
+      };
+    } TXR[count] <optimize=false>;
+  };
+  if (idname == "PALETTEFILES") { };
+  if (idname == "SOUNDFILES"){ };
+  if (idname == "BACKFILES") { };
+  if (idname == "MASKFILES") {
+    count = getNumber(identifier.Name); 
+
+    MS Masks[10] <name="Masks">;
+  };
+  if (idname == "MATERIALS") {
+    struct {
+      string Name;
+      count = getNumber(Name);
+      struct {
+        string name;
+      } M[count] <optimize=false>;
+      } MATERIALS;
+  };
+  i++;
+  if (i > 8) break;
+};
