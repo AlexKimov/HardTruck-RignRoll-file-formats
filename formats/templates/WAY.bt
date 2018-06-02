@@ -1,0 +1,141 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: B3D.bt
+//   Authors: Alexandr Evdokimov
+//   Version: 0.1
+//   Purpose: Hard truck 2 WAY file
+//
+//   History: 
+//    
+//   2018.05 v 0.1 initial release 
+//
+//------------------------------------------------
+
+local uint chunkcount = 26;
+
+typedef enum <char> {
+  MNAM,
+  GDAT,
+  GROM,
+  RNAM,
+  RNOD,
+  NNAM,
+  POSN,
+  WDTH,
+  RSEG,
+  ATTR,
+  VDAT,
+  FLAG,
+} IDENTIFIER;
+
+
+struct {
+  char WTWR[4] <name="WTWR signature">;
+  UINT DataSize; // File size - 8
+  IDENTIFIER id1[4];
+  UINT Count; //
+  char RegionShortName[4] <name="Region Short Name">;
+  IDENTIFIER id12[4];  
+  UINT DataSize; // File size - Header size
+} Header <name="File Header">;
+
+typedef struct {
+  struct {
+    IDENTIFIER id3[4];
+    UINT ChunkSize; //
+    IDENTIFIER id4[4];
+    struct {
+      UINT NameLengh; //
+      char Name[12]; 
+    } NAME <name="Room Name">;  
+  } CHUNK_HEADER <name="Chunk Header">;
+
+  struct {
+    while (true) {
+      struct {
+        IDENTIFIER id[4];
+      } ID <name="Node identifier">;
+      if (ID.id == "GROM") {
+        FSeek(FTell() - 4);
+        break;
+      }; 
+
+      if (ID.id == "RNOD") {
+        struct {
+          UINT DataSize; 
+          struct {
+            IDENTIFIER id[4];
+            UINT NameLengh; //
+            if (NameLengh > 12) 
+              char Name[16]; 
+            else
+              char Name[12];
+          } NNAM;   
+          struct {
+            IDENTIFIER id[4];
+            UINT Count; //
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } POSN;
+          struct {
+            IDENTIFIER id[4];
+            UINT Count;
+            UINT Count;
+          } FLAG;  
+        } RNOD <name="RNOD">;
+      };
+
+      if (ID.id == "RSEG") {
+        struct {
+          UINT DataSize;  
+          struct {
+            IDENTIFIER id[4];
+            UINT Count;
+            UINT Count;
+            FLOAT S;
+            FLOAT S;
+            UINT Count; 
+          } ATTR; 
+          struct {
+            IDENTIFIER id[4];
+            UINT S;
+            FLOAT S;
+            FLOAT S;
+            FLOAT S;
+            FLOAT S; 
+          } WDTH; 
+          struct {
+            IDENTIFIER id[4];
+            UINT DataSize;
+            UINT Count;
+            struct { 
+              FLOAT X;
+              FLOAT Y;
+              FLOAT Z;
+              FLOAT X;
+              FLOAT Y;
+              FLOAT Z;
+            } Ar[Count];  
+          } VDAT; 
+        } RNOD <name="RSEG">;
+      };
+
+    };
+  } PROPERTIES;
+} CHUNK <name=chunkName, optimize=false>;
+
+string chunkName(CHUNK &chunk) {
+  return chunk.CHUNK_HEADER.NAME.Name;
+};
+
+typedef struct (int arraySize) {
+      CHUNK array[arraySize] <optimize=false>;
+    } CHUNK_Array; 
+      
+CHUNK_Array Chunks(chunkcount) <name="Chunks">;
+
