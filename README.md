@@ -4,8 +4,14 @@
 
 ## Инструменты
 #### Дальнобойщики 2
+Плагины
 * [Плагин для Blender для работы с b3D файлами.](https://github.com/AlexKimov/HT2-modding-tools/tree/master/plugins)
+
+Шаблоны форматов для 010 Editor
 * [Шаблон формата .b3D для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt)
+* [Шаблон формата .RES (.res) для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-RnR-tools/blob/master/formats/templates/RES.bt)
+* [Шаблон формата .WAY для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-RnR-tools/blob/master/formats/templates/WAY.bt)
+
 #### Дальнобойщики 3
 * [Шаблон формата .wmd (Дальнобойщики 3) для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt)
 ## Описание форматов файлов
