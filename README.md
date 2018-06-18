@@ -1,33 +1,32 @@
 # Описание
 
-Набор инструментов для создания модификаций игры Дальнобойщики 2/3.
+Описание бинарных форматов игр Дальнобойщики 2 (8) и Дальнобойщики 3. Текущий прогресс [Issues](https://github.com/AlexKimov/HT2-RnR-tools/issues). Описание форматов [Вики страница]().
 
-## Инструменты
-#### Дальнобойщики 2 (версия)
-Плагины:
-* [Плагин для Blender для работы с b3D файлами.](https://github.com/AlexKimov/HT2-modding-tools/tree/master/plugins)
+#### Дальнобойщики 2 (версия 8)
 
-Шаблоны форматов для 010 Editor:
-* [Шаблон формата .b3D для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt)
-* [Шаблон формата .RES (.res) для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-RnR-tools/blob/master/formats/templates/RES.bt)
-* [Шаблон формата .WAY для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-RnR-tools/blob/master/formats/templates/WAY.bt)
+| № | Формат | Прогресс  | Шаблон |  Описание   |
+| :-- | :------- | :-- | :-- | :-- |
+|  1  |  .b3D  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
+|  2  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3)   | [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Архив ресурсов (звуки, текстуры) | 
+|  3  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)    | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) | Пути для транспорта под управлением ИИ | 
 
 #### Дальнобойщики 3
-* [Шаблон формата .wmd (Дальнобойщики 3) для Hex редактора 010 Editor.](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt)
-## Описание форматов файлов
-[см. Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki)
+| № | Формат | Прогресс  | Шаблон |  Описание   |
+| :-- | :------- | :-- | :-- | :-- |
+|  1  |  .WMD  |     | [WMD.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
+
 * * * 
 # About
-Hard Truck/RignRoll game modding stuff: file formats, docs, tools.
+Hard Truck/RignRoll game modding stuff: file formats, docs, tools. Formats description [see Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki)
 
-## Tools
-Plugins:
-* [.b3D Blender plugin.](https://github.com/AlexKimov/HT2-modding-tools/tree/master/plugins)
+#### Hard Truck 2 King of the Road (2002)
+| № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
+| :-- | :------- | :-- | :-- | :-- |
+|  1  |  .b3D  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | Game logic and 3D objects |
+|  2  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3)   | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
+|  3  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)   | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) | AI waypoints | 
 
-010 Editor templates:
-* [.b3D (Hard Truck 2)](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt)
-* [.RES (Hard Truck 2)](https://github.com/AlexKimov/HT2-RnR-tools/blob/master/formats/templates/RES.bt)
-* [.WAY (Hard Truck 2)](https://github.com/AlexKimov/HT2-RnR-tools/blob/master/formats/templates/WAY.bt)
-* [.wmd (RignRoll) 010 Editor Template.](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt)
-## Formats description
-[see Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki)
+#### RignRoll (2010)
+| № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
+| :-- | :------- | :-- | :-- | :-- |
+|  1  |  .WMD  |   WIP  | [WMD.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt) | Game logic and 3D objects |
