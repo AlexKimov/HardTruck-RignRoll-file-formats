@@ -27,7 +27,7 @@
 
 * * * 
 # About
-Hard Truck/RignRoll file formats. Current progress status [see Issues](https://github.com/AlexKimov/hitman-file-formats/issues). 
+Hard Truck 1 (1998), Hard Truck 2 King of the Road (2002) and RignRoll (2010) games file formats. Current progress status [see Issues](https://github.com/AlexKimov/hitman-file-formats/issues). 
 
 Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-tools/wiki).
 
