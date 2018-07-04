@@ -41,7 +41,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 |  2  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
 
     *  almost the same as RES format from Hard Truck 2
-    **  b3D format from Hard Truck 2 has the same structure, but there are some differencies
+    **  b3D format from Hard Truck 2 has the same structure, but there are some differences
 
 #### Hard Truck 2 King of the Road (2002)
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
