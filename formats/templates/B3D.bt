@@ -3,11 +3,12 @@
 //
 //      File: B3D.bt
 //   Authors: Alexandr Evdokimov
-//   Version: 0.1
-//   Purpose: Hard truck 2 B3D file
+//   Version: 0.2
+//   Purpose: Hard truck 1/2 B3D file
 //
 //   History: 
 //    
+//   2018.06 v 0.2 added Hard Truck 1 structures
 //   2018.05 v 0.1 initial release 
 //
 //------------------------------------------------
@@ -134,6 +135,20 @@ UINT chunkTree(UINT ChildCount) {
            
         }; break;
 
+        // id = 3 only in Hard Truck 1
+        case 3  : {
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } ORIGIN;
+          FLOAT radius;
+          struct {
+            UINT ChildCount;
+            chunkTree(ChildCount);
+          } Children;           
+        }; break;
+
         case 4  : {
           struct { 
             FLOAT X;
@@ -163,6 +178,31 @@ UINT chunkTree(UINT ChildCount) {
             UINT ChildCount;
             chunkTree(ChildCount);
           } Children;       
+        }; break;
+
+        // Only in Hard Truck 1
+        case 6  : {
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } ORIGIN;
+          FLOAT radius; 
+          char GroupName[32] <name="Name">; // name 
+          char Name[32]; // name 
+          UINT Count;   
+          typedef struct { 
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+              FLOAT MN;
+          } ARRAY;      
+          ARRAY Arr[Count];
+          struct {
+            UINT ChildCount;
+            chunkTree(ChildCount);
+          } Children;        
         }; break;
 
         case 7  : {
@@ -328,6 +368,28 @@ UINT chunkTree(UINT ChildCount) {
           } Children;             
         }; break;
 
+        // only in Hard Truck 1
+        case 11  : {
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } ORIGIN;
+          FLOAT radius;  
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;    
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;  
+          struct {
+            UINT ChildCount;
+            chunkTree(ChildCount);
+          } Children;             
+        }; break;
+
         case 12  : {
           struct { 
             FLOAT X;
@@ -374,6 +436,48 @@ UINT chunkTree(UINT ChildCount) {
           FLOAT MN;
           FLOAT MN;  
           //asf();   
+        }; break;
+
+        // only in Hard Truck 1
+        case 16  : {
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } ORIGIN;
+          FLOAT radius; 
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+        }; break;
+
+        // only in Hard Truck 1
+        case 17  : {
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } ORIGIN;
+          FLOAT radius; 
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
+          FLOAT MN;
         }; break;
 
         case 18  : {
@@ -587,6 +691,29 @@ UINT chunkTree(UINT ChildCount) {
                 FLOAT Z;
               } P2; 
             } PORTAL;                 
+        }; break;
+
+        // only in Hard Truck 1
+        case 31  : {
+            struct {
+              FLOAT X;
+              FLOAT Y;
+              FLOAT Z;
+            } ORIGIN;
+            FLOAT MN;
+            UINT Count;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            UINT MN;
+            FLOAT MN;
+            FLOAT MN;
+            FLOAT MN;
+            struct {
+              FLOAT MN;
+              UINT Count; 
+            } Ar[Count];  
         }; break;
 
         case 33  : {
