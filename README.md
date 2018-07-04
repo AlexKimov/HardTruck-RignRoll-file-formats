@@ -4,6 +4,14 @@
 
 Текущий прогресс [Issues](https://github.com/AlexKimov/HT2-RnR-tools/issues). Описание форматов [Вики страница]().
 
+#### Дальнобойщики 1 (1998)
+
+| № | Формат | Прогресс  | Шаблон (010 Editor) | Описание | О формате |
+| :-- | :------- | :-- | :-- | :-- | :-- |
+|  1  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) |   | Архив ресурсов (звуки, текстуры) | 
+
+    * Формат аналогичен формату RES из второй части игры (Дальнобойщики 2)
+
 #### Дальнобойщики 2 (версия 8)
 
 | № | Формат | Прогресс  | Шаблон (010 Editor) | Описание | О формате |
@@ -22,6 +30,14 @@
 Hard Truck/RignRoll file formats. Current progress [Issues](https://github.com/AlexKimov/hitman-file-formats/issues). 
 
 Formats description [see Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki).
+
+#### Hard Truck 1 (1998)
+
+| № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
+| :-- | :------- | :-- | :-- | :-- | :-- |
+|  1  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
+
+    *  almost the same as RES format from Hard Truck 2
 
 #### Hard Truck 2 King of the Road (2002)
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
