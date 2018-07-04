@@ -9,8 +9,10 @@
 | № | Формат | Прогресс  | Шаблон (010 Editor) | Описание | О формате |
 | :-- | :------- | :-- | :-- | :-- | :-- |
 |  1  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) |   | Архив ресурсов (звуки, текстуры) | 
+|  2  |  .b3D  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | [Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki/b3D-File-Format-Rus) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
 
     * Формат аналогичен формату RES из второй части игры (Дальнобойщики 2)
+    ** Формат аналогичен формату b3D из второй части игры (Дальнобойщики 2), ну или наоборот
 
 #### Дальнобойщики 2 (версия 8)
 
@@ -35,9 +37,11 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
 | :-- | :------- | :-- | :-- | :-- | 
-|  1  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
+|  1  |  .b3D**  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | Game logic and 3D objects |
+|  2  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
 
     *  almost the same as RES format from Hard Truck 2
+    **  b3D format from Hard Truck 2 has the same structure, but there are some differencies
 
 #### Hard Truck 2 King of the Road (2002)
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
