@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0.1 Binary Template
 //
-//      File: B3D.bt
+//      File: WAY.bt
 //   Authors: Alexandr Evdokimov
 //   Version: 0.1
 //   Purpose: Hard truck 2 WAY file
@@ -15,16 +15,16 @@
 local uint chunkcount = 26;
 
 typedef enum <char> {
-  MNAM,
-  GDAT,
+  MNAM, // = Name
+  GDAT, //
   GROM,
-  RNAM,
-  RNOD,
-  NNAM,
-  POSN,
+  RNAM, // = Room Name
+  RNOD, // = Room Node
+  NNAM, // = node name
+  POSN, // = position
   WDTH,
-  RSEG,
-  ATTR,
+  RSEG, // = Room Segment
+  ATTR, // = Attributes
   VDAT,
   FLAG,
 } IDENTIFIER;
