@@ -27,9 +27,9 @@
 
 * * * 
 # About
-Hard Truck/RignRoll file formats. Current progress [Issues](https://github.com/AlexKimov/hitman-file-formats/issues). 
+Hard Truck/RignRoll file formats. Current progress status [see Issues](https://github.com/AlexKimov/hitman-file-formats/issues). 
 
-Formats description [see Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki).
+Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-tools/wiki).
 
 #### Hard Truck 1 (1998)
 
