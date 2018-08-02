@@ -1,0 +1,100 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: UnpackResource(HT).1sc
+//   Authors: Alexander Evdokimov
+//   Version: 0.1
+//   Purpose: Unpack Har Truck 1/2 Resource file (.rmp/.res)
+// File Mask: *.1sc
+//
+//------------------------------------------------
+
+local uchar Buffer[10485760]; // file buffer
+local uint datasize, i, length, count, index, NewFile = 0;
+local int FileIndex;
+local string identifier, FileName, Path, idname, folder, str;
+
+uint getNumberFromStr(string Str) 
+{
+  local uint pos, count = 0;
+  local string S;
+  pos = Strchr(Str, ' ');
+  S = SubStr(Str, pos + 1, Strlen(Str) - pos);
+  if (SScanf(S, "%d", count) > 0)
+    return count;
+  else
+    return 1;
+};
+
+string getID(string Str) 
+{
+  local uint pos = 0;
+  local string S;
+  pos = Strchr(Str, ' ');
+  return SubStr(Str, 0, pos);
+};
+
+FileIndex = GetFileNum();
+FileName = GetFileName();
+Path = FileNameGetPath(FileName) + FileNameGetBase(FileName) + " (unpacked)\\";
+MakeDir(Path); // current dir
+SetWorkingDirectory(Path);
+
+while (!FEof())
+{  
+  identifier = ReadString(FTell());
+  length = ReadStringLength(FTell());
+  FSkip(length);  
+  idname = getID(identifier);
+  count = getNumberFromStr(identifier);  
+
+  for ( i = 0 ; i < count ; ++i ) 
+  {
+    if (idname == "COLORS" || idname == "MATERIALS" || idname == "SOUNDS") 
+    {
+      if (!NewFile)
+        NewFile = FileNew("Text");
+
+      FileSelect(FileIndex);
+      str = ReadString(FTell());
+      length = ReadStringLength(FTell());
+      FSkip(length);
+
+      FileSelect(NewFile);
+      WriteString(FTell(), str + "\n");  
+      FSkip(length);
+      if (i + 1 == count)
+      { 
+        FileSave(Path + identifier); 
+        FileClose();
+        FileSelect(FileIndex);
+        NewFile = 0;
+      };   
+    }
+    else
+    {
+      FileName = ReadString(FTell());
+      length = ReadStringLength(FTell());
+      FSkip(length); 
+      datasize = ReadInt();
+      FSkip(4);  
+
+      if (Strchr(FileName, '\\') > 1) 
+      {
+        index = Strchr(FileName, '\\');
+        if (SubStr(FileName, 0, index) != folder) 
+        { 
+        folder = SubStr(FileName, 0, index);
+        MakeDir(Path + folder);       
+        };
+      };
+      ReadBytes(Buffer, FTell(), datasize); 
+      FSkip(datasize);       
+      FileNew();
+      WriteBytes(Buffer, 0, datasize);  
+      FileSave(Path + FileName);
+      FileClose();
+      FileSelect(FileIndex);
+    };
+  };
+};
