@@ -4,6 +4,8 @@
 
 Текущий прогресс [Issues](https://github.com/AlexKimov/HT2-RnR-tools/issues). Описание форматов [Вики страница](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki).
 
+### Форматы файлов
+
 #### Дальнобойщики 1 (1998)
 
 | № | Формат | Прогресс  | Шаблон (010 Editor) | Описание | О формате |
@@ -26,6 +28,10 @@
 | № | Формат | Прогресс  | Шаблон |  Описание   |
 | :-- | :------- | :-- | :-- | :-- |
 |  1  |  .WMD  |     | [WMD.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
+
+### Скрипты
+
+[UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**)
 
 * * * 
 # About
