@@ -32,7 +32,7 @@
 ### Скрипты
 
 * [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
-* [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - скрипт 010 Editor для конвертироывния файлов масок игры **.msk** Дальнобойщики 1/2 в формат **.tga**. 
+* [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - скрипт 010 Editor для конвертироывния файлов масок **.msk** игры Дальнобойщики 1/2 в формат **.tga**. 
 
 * * * 
 # About
