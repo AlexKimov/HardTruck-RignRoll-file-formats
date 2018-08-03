@@ -31,7 +31,8 @@
 
 ### Скрипты
 
-[UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
+* [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
+* [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - скрипт 010 Editor для конвертироывния файлов масок игры **.msk** Дальнобойщики 1/2 в формат **.tga**. 
 
 * * * 
 # About
@@ -63,4 +64,5 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 
 ### Scripts
 
-[UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - unpack files from (**.RES/.RMP**) game archives
+* [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - unpack files from (**.RES/.RMP**) game archives (010 Editor).
+* [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - **.msk** to **.tga** conversion script (010 Editor). 
