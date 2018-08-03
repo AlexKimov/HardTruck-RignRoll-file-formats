@@ -1,0 +1,40 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+local uint i, count, size, number = 0;
+
+char Magic[4]; // signature
+UINT16 Width;
+UINT16 Height;
+
+struct {
+  BYTE R;
+  BYTE G;
+   BYTE B;
+} PALETTE[256];
+
+while (!FEof())
+  struct {
+    UBYTE Size;
+    if  (Size <= 127) 
+    { 
+      UBYTE Block[Size];  
+      number += Size;
+    }
+    else
+    {
+      number += Size - 128;
+    };  
+  } BLOCK;
+
+Printf("%d", number);
