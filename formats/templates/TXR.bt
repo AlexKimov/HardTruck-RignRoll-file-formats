@@ -1,0 +1,86 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef enum <char> {
+  PFRM,
+  LVMP,
+  ENDR
+} IDENTIFIER;
+
+typedef struct {
+  UINT SectionSize;
+  UINT type;
+  UINT Width;
+  UINT Height; 
+  UINT HS; 
+  local uint w,h;
+  w = Width; h = Height;
+  while (w >= 1) {
+    typedef struct {  
+      UBYTE Blue: 5;
+      UBYTE Green: 5;
+      UBYTE Red: 5;
+      UBYTE Alpha: 1;
+    } PIXEL_RGB16; 
+    typedef struct (int arraySize) {
+      PIXEL_RGB16 array[arraySize];
+    } PIXEL_RGB16_Array; 
+    PIXEL_RGB16_Array Pixels(w*h);
+    w = w/2; h = h/2;
+  };
+  BYTE A[2];  
+} LVMP;
+
+typedef struct {
+  UINT SectionSize;
+  UINT RedMask;
+  UINT GreenMask;
+  UINT BlueMask; 
+} PFRM;
+
+typedef struct {          
+  UBYTE  IDLength;
+  UBYTE  ColorMapType;
+  UBYTE  ImageType;
+  WORD   FirstIndexEntry;
+  WORD   ColorMapLength;
+  UBYTE  ColorMapEntrySize; 
+
+  WORD   XOrigin;
+  WORD   YOrigin;
+  WORD   Width;
+  WORD   Height;
+  UBYTE  PixelDepth;
+  UBYTE  ImageDescriptor;
+} TGA_HEADER;
+
+typedef struct { 
+  TGA_HEADER TGAHEADER;
+
+  char Name[4]; // Line Offset
+  UINT LineOffset;
+  UINT ImageSize;
+  
+  BYTE Data[ImageSize - sizeof(TGAHEADER) - 12];
+
+  IDENTIFIER id[4];
+  if (id == "LVMP") {
+    LVMP lvmpid;
+    PFRM pfrmid;
+    UINT V;
+  } else {
+    PFRM pfrmid;
+  };
+} TXR;
+
+TXR txrFile;
