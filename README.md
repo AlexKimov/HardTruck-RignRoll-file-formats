@@ -14,6 +14,7 @@
 |  2  | .MSK |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | 8 битные файлы масок, хранятся в архиве .RMP | 
 |  3  | .PLM |  |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |   | Палитра и что-то еще, хранятся в архиве .RMP | 
 |  4  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) |   | Архив ресурсов (звуки, текстуры) | 
+|  5  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Текстура | 
 
     * Формат аналогичен формату RES из второй части игры (Дальнобойщики 2)
     ** Формат аналогичен формату b3D из второй части игры (Дальнобойщики 2), ну или наоборот
@@ -26,7 +27,8 @@
 |  2  | .MSK |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | 8 битные файлы масок, хранятся в архиве .RES | 
 |  3  | .PLM |  |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |   | Палитра, хранится в архиве .RES | 
 |  4  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) |   | Архив ресурсов (звуки, текстуры) | 
-|  5  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)  | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) |  | Пути для транспорта под управлением ИИ | 
+|  5  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Текстура | 
+|  6  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)  | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) |  | Пути для транспорта под управлением ИИ | 
 
 #### Дальнобойщики 3
 | № | Формат | Прогресс  | Шаблон |  Описание   |
@@ -53,6 +55,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 |  1  |  .b3D**  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | Game logic and 3D objects |
 |  2  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
 |  3  | .MSK* |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | Texture Masks, 8-bit with palette | 
+|  4  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Texture file |
 
     *  almost the same as RES format from Hard Truck 2
     **  b3D format from Hard Truck 2 has the same structure, but there are some differences
@@ -64,7 +67,8 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 |  2  | .MSK |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | Mask files stored in .RES | 
 |  3  | .PLM |  |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |   | Palette file in .RES | 
 |  4  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3)   | [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
-|  5  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)   | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) | AI waypoints | 
+|  5  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Texture file |
+|  6  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)   | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) | AI waypoints | 
 
 #### RignRoll (2010)
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
