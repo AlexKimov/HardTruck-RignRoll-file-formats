@@ -1,0 +1,127 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local uchar Header[30];
+local uchar palette[768];
+local uchar Buffer[10485760] = 0; // file buffer
+local uint width, height, pos, NewFile, size = 0;
+local int FileIndex;
+local ubyte b, IDLength, ColorMapType, ImageType, ColorMapEntrySize, PixelDepth, ImageDescriptor;
+local uint16 FirstIndexEntry, ColorMapLength, XOrigin, YOrigin, Width, Height; 
+local string FileName;
+local char bfType[2];
+local WORD bfReserved1, bfReserved2, biPlanes, biBitCount; 
+local DWORD bfSize, bfOffBits, biSize, biWidth, biHeight, biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant, biRMask, biGMask, biBMask; 
+
+FileIndex = GetFileNum();
+FileName = GetFileName();
+
+IDLength = ReadByte(0);
+FSkip(1);
+ColorMapType = ReadByte(FTell());
+FSkip(1);
+ImageType = ReadByte(FTell());
+FSkip(1);
+FirstIndexEntry = ReadShort(FTell());
+FSkip(2);
+ColorMapLength = ReadShort(FTell());
+FSkip(2);
+ColorMapEntrySize = ReadByte(FTell());
+FSkip(1);
+XOrigin = ReadShort(FTell());
+FSkip(2);
+YOrigin = ReadShort(FTell());
+FSkip(2);
+Width = ReadShort(FTell() );
+FSkip(2);
+Height = ReadShort(FTell());
+FSkip(2);
+PixelDepth = ReadByte(FTell());
+FSkip(1);
+ImageDescriptor = ReadByte(FTell());
+FSkip(1);
+
+FSkip(12);
+
+size = 23*Width/23*Height*2;
+
+ReadBytes(Buffer, FTell(), size);
+
+NewFile = FileNew("Hex");
+
+bfType = "BM";
+WriteBytes(bfType, 0, 2);
+FSkip(2);
+bfSize = size + 66;
+WriteInt(FTell(), bfSize);
+FSkip(4);
+
+bfReserved1 = 0;
+WriteShort(FTell(), bfReserved1 );
+FSkip(2);
+bfReserved2 = 0;
+WriteShort(FTell(), bfReserved2 );
+FSkip(2);
+bfOffBits = 66;
+WriteInt(FTell(), bfOffBits);
+FSkip(4);
+
+biSize = 40;
+WriteInt(FTell(), biSize);
+FSkip(4);
+
+biWidth = Width;
+WriteInt(FTell(), biWidth);
+FSkip(4);
+biHeight = -Height;
+WriteInt(FTell(), biHeight);
+FSkip(4);
+
+biPlanes = 1;
+WriteShort(FTell(), biPlanes );
+FSkip(2);
+biBitCount = 16;
+WriteInt(FTell(), biBitCount);
+FSkip(2);
+biCompression = 3;
+WriteInt(FTell(), biCompression);
+FSkip(4);
+biSizeImage = size + 66;
+WriteInt(FTell(), biSizeImage);
+FSkip(4);
+
+biXPelsPerMeter = 3780;
+WriteInt(FTell(), biXPelsPerMeter );
+FSkip(4);
+biYPelsPerMeter = 3780;
+WriteInt(FTell(), biYPelsPerMeter);
+FSkip(4);
+biClrUsed = 0;
+WriteInt(FTell(), biClrUsed);
+FSkip(4);
+biClrImportant = 0;
+WriteInt(FTell(), biClrImportant);
+FSkip(4);
+
+biRMask = 63488;
+WriteInt(FTell(), biRMask);
+FSkip(4);
+biGMask = 2016;
+WriteInt(FTell(), biGMask);
+FSkip(4);
+biBMask = 31;
+WriteInt(FTell(), biBMask);
+FSkip(4);
+
+WriteBytes(Buffer, FTell(), size);
+FileSave(FileNameGetPath(FileName) + FileNameGetBase(FileName) + ".bmp");
+FileClose();
+FileSelect(FileIndex);
