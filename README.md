@@ -42,6 +42,14 @@
 * [PLMToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMToTGA.1sc) - скрипт 010 Editor для конвертирования **.plm** файлов игры Дальнобойщики 1 в формат **.tga**. 
 * [TXRtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoTGA.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры Дальнобойщики 1 в формат **.bmp**. 
 
+## Другие игры
+
+1. [Игры на движке Storm 1: Корсары (2000), Age of Sail 2, Рыцари морей (2001)](https://github.com/AlexKimov/seadogs-file-formats)
+
+2. [Серия Hitman: Hitman Сodename 47, Hitman 2 Silent Assassin](https://github.com/AlexKimov/hitman-file-formats)
+
+3. [Игры Red Storm Ent: Rainbow Six 1/2, Ghost Recon (2001) и др.](https://github.com/AlexKimov/RSE-file-formats)
+
 * * * 
 # About
 Hard Truck 1 (1998), Hard Truck 2 King of the Road (2002) and RignRoll (2010) games file formats. Current progress status [see Issues](https://github.com/AlexKimov/hitman-file-formats/issues). 
@@ -81,3 +89,11 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 * [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - **.msk** to **.tga** conversion script (010 Editor) 
 * [PLMToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMToTGA.1sc) - **.plm** to **.tga** conversion script (010 Editor) 
 * [TXRToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRToTGA.1sc) - **.txr* to **.bmp* conversion script (010 Editor) 
+
+## More formats
+
+1. [Sea dogs (2000), Age of Sail 2 (2001)](https://github.com/AlexKimov/seadogs-file-formats)
+
+2. [Hitman Сodename 47, Hitman 2 Silent Assassin](https://github.com/AlexKimov/hitman-file-formats)
+
+3. [Red Storm Ent games: Rainbow Six 1/2, Ghost Recon (2001) and other](https://github.com/AlexKimov/RSE-file-formats)
