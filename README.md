@@ -38,7 +38,7 @@
 * [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
 * [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - скрипт 010 Editor для конвертирования файлов масок **.msk** игры Дальнобойщики 1/2 в формат **.tga**. 
 * [PLMToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMToTGA.1sc) - скрипт 010 Editor для конвертирования **.plm** файлов игры Дальнобойщики 1 в формат **.tga**. 
-* [TXRtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoTGA.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры Дальнобойщики 1 в формат **.tga**. 
+* [TXRtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoTGA.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры Дальнобойщики 1 в формат **.bmp**. 
 
 * * * 
 # About
@@ -76,4 +76,4 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 * [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - unpack files from (**.RES/.RMP**) game archives (010 Editor)
 * [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - **.msk** to **.tga** conversion script (010 Editor) 
 * [PLMToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMToTGA.1sc) - **.plm** to **.tga** conversion script (010 Editor) 
-* [TXRToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRToTGA.1sc) - **.txr* to **.tga** conversion script (010 Editor) 
+* [TXRToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRToTGA.1sc) - **.txr* to **.bmp* conversion script (010 Editor) 
