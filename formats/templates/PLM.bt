@@ -1,0 +1,130 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef enum <char> {
+  PFRM,
+  LVMP,
+  ENDR,
+  MS16,
+  MASK,
+  PALT,
+  OPAC,
+  INTE,
+  MSK8
+} IDENTIFIER;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UBYTE Data[HEADER.Size];
+  } OPAC_FILE[HEADER.Width*HEADER.Height];
+} OPAC;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UINT16 Data[HEADER.Size/2];
+  } OPAC16_FILE[HEADER.Width*HEADER.Height];
+} OP16;
+
+typedef struct {
+  struct {
+    UBYTE Red;
+    UBYTE Green;
+    UBYTE Blue;      
+  } COLOR[256];
+} PALT;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UBYTE Data[HEADER.Size];
+  } FOG_FILE[HEADER.Height];
+} FOG;
+
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UINT16 Data[HEADER.Size/2];
+  } FO16_FILE[HEADER.Height];
+} FO16;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UBYTE Data[HEADER.Size];
+  } INTE_FILE[HEADER.Height];
+} INTE;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UINT16 Data[HEADER.Size/2];
+  } IN16_FILE[HEADER.Height];
+} IN16;
+
+typedef struct  {
+  char PLM[4]; // signature
+  UINT DataSize;
+  while (!FEof())
+  {      
+    struct {  
+      IDENTIFIER id[4];
+      UINT DataSize;
+    } HEADER;
+    if (HEADER.id == "PALT")
+      PALT Palette;
+    else
+    if (HEADER.id == "OPAC")
+      OPAC Opac;
+    else
+    //if (HEADER.id == "OP16")
+    //  OP16 Opac16;
+    //else
+    if (HEADER.id == "FOG")
+      FOG Fog;
+    else
+    //if (HEADER.id == "FO16")
+    //  FO16 Fog16;
+    //else
+    if (HEADER.id == "INTE")
+      INTE Inte;
+ }; 
+} PLM_FILE;
+
+PLM_FILE plm; 
