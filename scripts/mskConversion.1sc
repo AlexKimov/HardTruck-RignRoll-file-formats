@@ -14,8 +14,9 @@ local uchar PFRM[4];
 local uchar Empty[256] = 0;
 local uchar Block[256];
 local uchar Magic[4]; // signature
+local float aligment;
 local uchar Buffer[10485760] = 0; // file buffer
-local uint width, height, pos, NewFile, size = 0;
+local uint width, height, pos, pos2, NewFile, size = 0;
 local int FileIndex;
 local ubyte b, IDLength, ColorMapType, ImageType, ColorMapEntrySize, PixelDepth, ImageDescriptor;
 local uint16 sh, FirstIndexEntry, ColorMapLength, XOrigin, YOrigin, Width, Height; 
@@ -23,7 +24,6 @@ local string FileName;
 local char bfType[2];
 local WORD bfReserved1, bfReserved2, biPlanes, biBitCount; 
 local DWORD bfSize, bfOffBits, biSize, biWidth, biHeight, biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant, biRMask, biGMask, biBMask; 
-local int MaskPos;
 
 FileIndex = GetFileNum();
 FileName = GetFileName();
@@ -165,6 +165,9 @@ else
   WriteInt(FTell(), biClrImportant);
   FSkip(4);
 
+  local float w = width;
+  aligment = Ceil(w*2/4)*4 - width*2;
+
   FileSelect(FileIndex);
   while (!FEof())
   {
@@ -172,7 +175,8 @@ else
     if (b == 80) 
     {
       ReadBytes(PFRM, FTell(), 4);
-      if (PFRM == "PFRM") {
+      if (PFRM == "PFRM") 
+      {
         FSkip(8);
         biRMask = ReadInt(FTell());
         FSkip(4);
@@ -194,6 +198,7 @@ else
     if (b > 127) 
     {
       pos += (b - 128)*2;
+      pos2 += b - 128;
     }
     else 
     {
@@ -201,6 +206,14 @@ else
       FSkip(b*2);
       Memcpy(Buffer, Block, b*2, pos, 0);
       pos += b*2;
+      pos2 += b;
+    };
+
+    if (pos2 == width && aligment > 0) 
+    {
+      pos2 = 0;
+      Memcpy(Buffer, Empty, aligment, pos, 0);
+      pos += aligment;             
     };
   };
   FileSelect(NewFile);
