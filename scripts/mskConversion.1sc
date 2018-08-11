@@ -10,88 +10,203 @@
 //------------------------------------------------
 
 local uchar palette[768];
+local uchar PFRM[4];
 local uchar Empty[256] = 0;
-local uchar Block[128];
+local uchar Block[256];
+local uchar Magic[4]; // signature
 local uchar Buffer[10485760] = 0; // file buffer
 local uint width, height, pos, NewFile, size = 0;
 local int FileIndex;
 local ubyte b, IDLength, ColorMapType, ImageType, ColorMapEntrySize, PixelDepth, ImageDescriptor;
-local uint16 FirstIndexEntry, ColorMapLength, XOrigin, YOrigin, Width, Height; 
+local uint16 sh, FirstIndexEntry, ColorMapLength, XOrigin, YOrigin, Width, Height; 
 local string FileName;
+local char bfType[2];
+local WORD bfReserved1, bfReserved2, biPlanes, biBitCount; 
+local DWORD bfSize, bfOffBits, biSize, biWidth, biHeight, biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant, biRMask, biGMask, biBMask; 
+local int MaskPos;
 
 FileIndex = GetFileNum();
 FileName = GetFileName();
 
+ReadBytes(Magic, FTell(), 4);
 FSkip(4);
 width = ReadShort();
 FSkip(2);
 height = ReadShort();
 FSkip(2);
 
-ReadBytes(palette, FTell(), 768);
-FSkip(768);
-size = FileSize() -  FTell();
-while (!FEof())
-{
-  b = ReadByte(FTell());
+if (Magic != "MS16")
+{ 
+  // TGA Header
+  IDLength = 0;
+  FirstIndexEntry = 0;  
+  XOrigin = 0;
+  YOrigin = 0;
+  Width = width;
+  Height = height;
+
+  ColorMapType = 1;
+  ImageType = 1;
+  ColorMapLength = 256;
+  ColorMapEntrySize = 24; 
+  PixelDepth = 8;
+  ImageDescriptor = 32; 
+
+  NewFile = FileNew("Hex");
+
+  WriteByte(0, IDLength);
   FSkip(1);
-  if (b > 127) 
+  WriteByte(FTell(), ColorMapType);
+  FSkip(1);
+  WriteByte(FTell(), ImageType);
+  FSkip(1);
+  WriteShort(FTell(), FirstIndexEntry );
+  FSkip(2);
+  WriteShort(FTell(), ColorMapLength);
+  FSkip(2);
+  WriteByte(FTell(), ColorMapEntrySize);
+  FSkip(1);
+  WriteShort(FTell(), XOrigin);
+  FSkip(2);
+  WriteShort(FTell(), YOrigin);
+  FSkip(2);
+  WriteShort(FTell(), Width );
+  FSkip(2);
+  WriteShort(FTell(), Height);
+  FSkip(2);
+  WriteByte(FTell(), PixelDepth);
+  FSkip(1);
+  WriteByte(FTell(), ImageDescriptor);
+  FSkip(1);
+
+  FileSelect(FileIndex);
+  ReadBytes(palette, FTell(), 768);
+  FSkip(768);
+  size = FileSize() -  FTell();
+  while (!FEof())
   {
-    pos += b - 128;
-  }
-  else 
-  {
-    ReadBytes(Block, FTell(), b);
-    FSkip(b);
-    Memcpy(Buffer, Block, b, pos, 0);
-    pos += b;
+    b = ReadByte(FTell());
+    FSkip(1);
+    if (b > 127) 
+    {
+      pos += b - 128;
+    }
+    else 
+    {
+      ReadBytes(Block, FTell(), b);
+      FSkip(b);
+      Memcpy(Buffer, Block, b, pos, 0);
+      pos += b;
+    };
   };
+  FileSelect(NewFile);
+  WriteBytes(palette, FTell(), 768);
+  FSkip(768);
+  WriteBytes(Buffer, FTell(), width*height);
+  FileSave(FileNameGetPath(FileName) + FileNameGetBase(FileName) + ".tga");
+}
+else
+{
+
+  NewFile = FileNew("Hex");
+  size = 23*width/23*height*2;
+  // BMP Header
+  bfType = "BM";
+  WriteBytes(bfType, 0, 2);
+  FSkip(2);
+  bfSize = size + 66;
+  WriteInt(FTell(), bfSize);
+  FSkip(4);
+
+  bfReserved1 = 0;
+  WriteShort(FTell(), bfReserved1 );
+  FSkip(2);
+  bfReserved2 = 0;
+  WriteShort(FTell(), bfReserved2 );
+  FSkip(2);
+  bfOffBits = 66;
+  WriteInt(FTell(), bfOffBits);
+  FSkip(4);
+
+  biSize = 40;
+  WriteInt(FTell(), biSize);
+  FSkip(4);
+
+  biWidth = width;
+  WriteInt(FTell(), biWidth);
+  FSkip(4);
+  biHeight = -height;
+  WriteInt(FTell(), biHeight);
+  FSkip(4);
+
+  biPlanes = 1;
+  WriteShort(FTell(), biPlanes );
+  FSkip(2);
+  biBitCount = 16;
+  WriteInt(FTell(), biBitCount);
+  FSkip(2);
+  biCompression = 3;
+  WriteInt(FTell(), biCompression);
+  FSkip(4);
+  biSizeImage = size + 66;
+  WriteInt(FTell(), biSizeImage);
+  FSkip(4);
+
+  biXPelsPerMeter = 3780;
+  WriteInt(FTell(), biXPelsPerMeter );
+  FSkip(4);
+  biYPelsPerMeter = 3780;
+  WriteInt(FTell(), biYPelsPerMeter);
+  FSkip(4);
+  biClrUsed = 0;
+  WriteInt(FTell(), biClrUsed);
+  FSkip(4);
+  biClrImportant = 0;
+  WriteInt(FTell(), biClrImportant);
+  FSkip(4);
+
+  FileSelect(FileIndex);
+  while (!FEof())
+  {
+    b = ReadShort(FTell());
+    if (b == 80) 
+    {
+      ReadBytes(PFRM, FTell(), 4);
+      if (PFRM == "PFRM") {
+        FSkip(8);
+        biRMask = ReadInt(FTell());
+        FSkip(4);
+        biGMask = ReadInt(FTell());
+        FSkip(4);
+        biBMask = ReadInt(FTell());
+
+        FileSelect(NewFile);
+        WriteInt(FTell(), biRMask);
+        FSkip(4);
+        WriteInt(FTell(), biGMask);
+        FSkip(4);
+        WriteInt(FTell(), biBMask);
+        FSkip(4);
+        break;
+      };
+    };
+    FSkip(1);
+    if (b > 127) 
+    {
+      pos += (b - 128)*2;
+    }
+    else 
+    {
+      ReadBytes(Block, FTell(), b*2);
+      FSkip(b*2);
+      Memcpy(Buffer, Block, b*2, pos, 0);
+      pos += b*2;
+    };
+  };
+  FileSelect(NewFile);
+  WriteBytes(Buffer, FTell(), size);
+  FileSave(FileNameGetPath(FileName) + FileNameGetBase(FileName) + ".bmp");
 };
 
-// TGA Header
-IDLength = 0;
-ColorMapType = 1;
-ImageType = 1;
-FirstIndexEntry = 0;
-ColorMapLength = 256;
-ColorMapEntrySize = 24;   
-XOrigin = 0;
-YOrigin = 0;
-Width = width;
-Height = height;
-PixelDepth = 8;
-ImageDescriptor = 32; 
-
-NewFile = FileNew("Hex");
-
-WriteByte(0, IDLength);
-FSkip(1);
-WriteByte(FTell(), ColorMapType);
-FSkip(1);
-WriteByte(FTell(), ImageType);
-FSkip(1);
-WriteShort(FTell(), FirstIndexEntry );
-FSkip(2);
-WriteShort(FTell(), ColorMapLength);
-FSkip(2);
-WriteByte(FTell(), ColorMapEntrySize);
-FSkip(1);
-WriteShort(FTell(), XOrigin);
-FSkip(2);
-WriteShort(FTell(), YOrigin);
-FSkip(2);
-WriteShort(FTell(), Width );
-FSkip(2);
-WriteShort(FTell(), Height);
-FSkip(2);
-WriteByte(FTell(), PixelDepth);
-FSkip(1);
-WriteByte(FTell(), ImageDescriptor);
-FSkip(1);
-
-WriteBytes(palette, FTell(), 768);
-FSkip(768);
-WriteBytes(Buffer, FTell(), width*height);
-FileSave(FileNameGetPath(FileName) + FileNameGetBase(FileName) + ".tga");
 FileClose();
 FileSelect(FileIndex);
