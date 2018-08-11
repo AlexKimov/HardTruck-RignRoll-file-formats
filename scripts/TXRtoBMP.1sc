@@ -11,8 +11,10 @@
 
 local uchar Header[30];
 local uchar palette[768];
+local uchar Empty[256];
 local uchar Buffer[10485760] = 0; // file buffer
-local uint width, height, pos, NewFile, size = 0;
+local uchar Buffer2[3200] = 0;
+local uint i, width, height, pos, pos2, NewFile, size, alignment = 0;
 local int FileIndex;
 local ubyte b, IDLength, ColorMapType, ImageType, ColorMapEntrySize, PixelDepth, ImageDescriptor;
 local uint16 FirstIndexEntry, ColorMapLength, XOrigin, YOrigin, Width, Height; 
@@ -53,7 +55,35 @@ FSkip(12);
 
 size = 23*Width/23*Height*2;
 
-ReadBytes(Buffer, FTell(), size);
+local float w = Width;
+alignment = Ceil(w*2/4)*4 - Width*2;
+
+if (alignment)
+  for ( i = 0; i < Height; ++i)
+  {
+    ReadBytes(Buffer2, FTell(), Width*2);
+    Memcpy(Buffer, Buffer2, Width*2, pos, 0);
+    pos += Width*2;
+    Memcpy(Buffer, Empty, alignment, pos, 0);
+    pos += alignment;
+    FSkip(Width*2);
+  }
+else
+  {
+    ReadBytes(Buffer, FTell(), size);  
+    FSkip(size);
+  };
+
+if (!FEof())
+{
+  Printf("%d", FTell());
+  FSkip(8);
+  biRMask = ReadInt(FTell());
+  FSkip(4);
+  biGMask = ReadInt(FTell());
+  FSkip(4);
+  biBMask = ReadInt(FTell());
+};
 
 NewFile = FileNew("Hex");
 
@@ -111,17 +141,18 @@ biClrImportant = 0;
 WriteInt(FTell(), biClrImportant);
 FSkip(4);
 
-biRMask = 63488;
 WriteInt(FTell(), biRMask);
 FSkip(4);
-biGMask = 2016;
 WriteInt(FTell(), biGMask);
 FSkip(4);
-biBMask = 31;
 WriteInt(FTell(), biBMask);
 FSkip(4);
 
-WriteBytes(Buffer, FTell(), size);
+if (pos > 0)
+  WriteBytes(Buffer, FTell(), pos);
+else
+  WriteBytes(Buffer, FTell(), size);
+
 FileSave(FileNameGetPath(FileName) + FileNameGetBase(FileName) + ".bmp");
 FileClose();
 FileSelect(FileIndex);
