@@ -26,15 +26,36 @@ struct {
 while (!FEof())
   struct {
     UBYTE Size;
-    if  (Size <= 127) 
+    if (Magic != "MS16")
     { 
-      UBYTE Block[Size];  
-      number += Size;
+      if  (Size <= 127) 
+      { 
+        UBYTE Block[Size];  
+        number += Size;
+      }
+      else
+      {
+        number += Size - 128;
+      }; 
     }
-    else
+    else  
     {
-      number += Size - 128;
-    };  
+      if (Size == 80) 
+      {
+        FSkip(-1);
+        char PFRM[4];
+        if (PFRM == "PFRM") break;
+      };
+      if  (Size <= 127) 
+      { 
+        UINT16 Block[Size];  
+        number += Size;
+      }
+      else
+      {
+        number += Size - 128;
+      }; 
+    };
   } BLOCK;
 
 Printf("%d", number);
