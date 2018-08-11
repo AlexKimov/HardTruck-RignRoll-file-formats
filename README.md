@@ -38,9 +38,9 @@
 ### Скрипты
 
 * [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
-* [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - скрипт 010 Editor для конвертирования файлов масок **.msk** игры Дальнобойщики 1/2 в формат **.tga**. 
+* [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskConversion.1sc) - скрипт 010 Editor для конвертирования файлов масок **.msk** игры **Дальнобойщики 1/2** в формат **.tga** или **.bmp**. 
 * [PLMToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMToTGA.1sc) - скрипт 010 Editor для конвертирования **.plm** файлов игры Дальнобойщики 1 в формат **.tga**. 
-* [TXRtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoTGA.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры Дальнобойщики 1 в формат **.bmp**. 
+* [TXRtoBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoBMP.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры **Дальнобойщики 1/2** в формат **.bmp**. 
 
 ## Другие игры
 
@@ -86,7 +86,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 ### Scripts
 
 * [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - unpack files from (**.RES/.RMP**) game archives (010 Editor)
-* [mskToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - **.msk** to **.tga** conversion script (010 Editor) 
+* [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskToTGA.1sc) - **.msk** to **.tga** conversion script (010 Editor) 
 * [PLMToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMToTGA.1sc) - **.plm** to **.tga** conversion script (010 Editor) 
 * [TXRToTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRToTGA.1sc) - **.txr* to **.bmp* conversion script (010 Editor) 
 
