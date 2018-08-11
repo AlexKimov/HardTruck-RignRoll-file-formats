@@ -44,7 +44,17 @@ while (!FEof())
       {
         FSkip(-1);
         char PFRM[4];
-        if (PFRM == "PFRM") break;
+        if (PFRM == "PFRM") 
+        {
+          UINT Size;
+          UINT RedMask;
+          UINT GreenMask;
+          UINT BlueMask;
+          BYTE Empty1[16]; 
+          uchar A[4]; 
+          BYTE Empty2[4];           
+          break;
+        };
       };
       if  (Size <= 127) 
       { 
