@@ -10,11 +10,11 @@
 
 | № | Формат | Прогресс  | Шаблон (010 Editor) | Описание | О формате |
 | :-- | :------- | :-- | :-- | :-- | :-- |
-|  1  |  .b3D**  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | [Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki/b3D-File-Format-Rus) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
-|  2  | .MSK | [MSK](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/1) |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) | [Вики](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/MSK-File-Format-Rus)  | 8 битные файлы масок, хранятся в архиве .RMP | 
-|  3  | .PLM | [PLM](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/7) |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |  [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/PLM-File-Format-Rus) | Палитра и что-то еще, хранятся в архиве .RMP | 
-|  4  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/RES-RMP-File-Format-RUS)  | Архив ресурсов (звуки, текстуры) | 
-|  5  | .TXR | [TXR](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/6) |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/TXR-File-Format-RUS)  | Текстура | 
+|  **1**  |  .b3D**  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | [Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki/b3D-File-Format-Rus) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
+|  **2**  | .MSK | [MSK](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/1) |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) | [Вики](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/MSK-File-Format-Rus)  | 8 битные файлы масок, хранятся в архиве .RMP | 
+|  **3**  | .PLM | [PLM](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/7) |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |  [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/PLM-File-Format-Rus) | Палитра и что-то еще, хранятся в архиве .RMP | 
+|  **4**  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/RES-RMP-File-Format-RUS)  | Архив ресурсов (звуки, текстуры) | 
+| **5**  | .TXR | [TXR](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/6) |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/TXR-File-Format-RUS)  | Текстура | 
 
     * Формат аналогичен формату RES из второй части игры (Дальнобойщики 2)
     ** Формат аналогичен формату b3D из второй части игры (Дальнобойщики 2), ну или наоборот
@@ -23,17 +23,17 @@
 
 | № | Формат | Прогресс  | Шаблон (010 Editor) | Описание | О формате |
 | :-- | :------- | :-- | :-- | :-- | :-- |
-|  1  |  .b3D  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | [Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki/b3D-File-Format-Rus) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
-|  2  | .MSK | [MSK](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/1) |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) | [Вики](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/MSK-File-Format-Rus)  | 8/16 битные файлы масок, хранятся в архиве .RES | 
-|  3  | .PLM | [PLM](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/7) |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |  [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/PLM-File-Format-Rus) | Палитра, хранится в архиве .RES | 
-|  4  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/RES-RMP-File-Format-RUS)  | Архив ресурсов (звуки, текстуры) | 
-|  5  | .TXR | [TXR](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/6)  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/TXR-File-Format-RUS) | Текстура | 
-|  6  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)  | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) |  | Пути для транспорта под управлением ИИ | 
+|  **1**  |  .b3D  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | [Wiki](https://github.com/AlexKimov/HT2-RnR-tools/wiki/b3D-File-Format-Rus) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
+|  **2**  | .MSK | [MSK](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/1) |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) | [Вики](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/MSK-File-Format-Rus)  | 8/16 битные файлы масок, хранятся в архиве .RES | 
+|  **3**  | .PLM | [PLM](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/7) |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |  [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/PLM-File-Format-Rus) | Палитра, хранится в архиве .RES | 
+|  **4**  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/RES-RMP-File-Format-RUS)  | Архив ресурсов (звуки, текстуры) | 
+|  **5**  | .TXR | [TXR](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/6)  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/TXR-File-Format-RUS) | Текстура | 
+|  **6**  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)  | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) |  | Пути для транспорта под управлением ИИ | 
 
 #### Дальнобойщики 3
 | № | Формат | Прогресс  | Шаблон |  Описание   |
 | :-- | :------- | :-- | :-- | :-- |
-|  1  |  .WMD  |     | [WMD.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
+|  **1**  |  .WMD  |     | [WMD.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt) | 3D объекты и объекты игровой логики (модели коллизий, порталы, объекты освещения и т.п.) |
 
 ### Скрипты
 
@@ -60,11 +60,11 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
 | :-- | :------- | :-- | :-- | :-- | 
-|  1  |  .b3D**  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | Game logic and 3D objects |
-|  2  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
-|  3  | .PLM |  |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |   | Palette | 
-|  4  | .MSK |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | Texture Masks, 8-bit with palette | 
-|  5  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Texture file |
+|  **1**  |  .b3D**  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | Game logic and 3D objects |
+|  **2**  | .RMP* | [RMP](https://github.com/AlexKimov/HT2-RnR-tools/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
+|  **3**  | .PLM |  |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |   | Palette | 
+|  **4**  | .MSK |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | Texture Masks, 8-bit with palette | 
+|  **5**  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Texture file |
 
     *  almost the same as RES format from Hard Truck 2
     **  b3D format from Hard Truck 2 has the same structure, but there are some differences
@@ -72,17 +72,17 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 #### Hard Truck 2 King of the Road (2002)
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
 | :-- | :------- | :-- | :-- | :-- |
-|  1  |  .b3D  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | Game logic and 3D objects |
-|  2  | .MSK |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | Mask files stored in .RES | 
-|  3  | .PLM |  |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |   | Palette file in .RES | 
-|  4  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3)   | [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
-|  5  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Texture file |
-|  6  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)   | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) | AI waypoints | 
+|  **1**  |  .b3D  |   [b3D](https://github.com/AlexKimov/HT2-RnR-tools/issues/2)  | [b3D.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/B3D.bt) | Game logic and 3D objects |
+|  **2**  | .MSK |  |  [MSK.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/MSK.bt) |   | Mask files stored in .RES | 
+|  **3**  | .PLM |  |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |   | Palette file in .RES | 
+|  **4**  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3)   | [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
+|  **5**  | .TXR |  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Texture file |
+|  **6**  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)   | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) | AI waypoints | 
 
 #### RignRoll (2010)
 | № | Format/Ext | Progress   | Template (010 Editor) |  Description   |
 | :-- | :------- | :-- | :-- | :-- |
-|  1  |  .WMD  |   WIP  | [WMD.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt) | Game logic and 3D objects |
+|  **1**  |  .WMD  |   WIP  | [WMD.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WDB.bt) | Game logic and 3D objects |
 
 ### Scripts
 
