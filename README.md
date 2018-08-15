@@ -41,6 +41,7 @@
 * [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskConversion.1sc) - скрипт 010 Editor для конвертирования файлов масок **.msk** игры **Дальнобойщики 1/2** в формат **.tga** или **.bmp**. 
 * [PLMtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMtoTGA.1sc) - скрипт 010 Editor для конвертирования **.plm** файлов игры Дальнобойщики 1 в формат **.tga**. 
 * [TXRtoBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoBMP.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры **Дальнобойщики 2** в формат **.bmp**. 
+* [RawToBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToBMP.1sc) - конвертирует **.RAW** (карта высот) файл в 16 битное изображение в формате **bmp**
 
 ## Другие игры
 
@@ -90,6 +91,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 * [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskConversion.1sc) - **.msk** to **.tga** conversion script (010 Editor) 
 * [PLMtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMtoTGA.1sc) - **.plm** to **.tga** conversion script (010 Editor) 
 * [TXRtoBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoBMP.1sc) - **.txr* to **.bmp* conversion script (010 Editor) 
+* [RawToBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToBMP.1sc) - **.raw* (HeightMap) to **.bmp* conversion script (010 Editor) 
 
 ## More formats
 
