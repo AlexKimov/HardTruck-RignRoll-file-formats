@@ -1,0 +1,117 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local uchar Buffer[10485760] = 0; // file buffer
+local uchar Buffer2[10485760] = 0; // file buffer
+local uchar Empty[4] = 0;
+local int NewFile, FileIndex;
+local uint i, z ,Width, Height, pos;
+local float size;
+local char bfType[2];
+local WORD bfReserved1, bfReserved2, biPlanes, biBitCount; 
+local DWORD bfSize, bfOffBits, biSize, biWidth, biHeight, biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant, biRMask, biGMask, biBMask; 
+local string FileName;
+
+FileIndex = GetFileNum();
+FileName = GetFileName();
+
+Width = 257;
+Height = 257;
+
+size = 257 * 257 * 2;
+
+NewFile = FileNew("Hex");
+
+// Header
+
+bfType = "BM";
+WriteBytes(bfType, 0, 2);
+FSkip(2);
+bfSize = 0;
+WriteInt(FTell(), bfSize);
+FSkip(4);
+
+bfReserved1 = 0;
+WriteShort(FTell(), bfReserved1 );
+FSkip(2);
+bfReserved2 = 0;
+WriteShort(FTell(), bfReserved2 );
+FSkip(2);
+bfOffBits = 66;
+WriteInt(FTell(), bfOffBits);
+FSkip(4);
+
+biSize = 40;
+WriteInt(FTell(), biSize);
+FSkip(4);
+
+biWidth = Width;
+WriteInt(FTell(), biWidth);
+FSkip(4);
+biHeight = -Height;
+WriteInt(FTell(), biHeight);
+FSkip(4);
+
+biPlanes = 1;
+WriteShort(FTell(), biPlanes );
+FSkip(2);
+biBitCount = 16;
+WriteInt(FTell(), biBitCount);
+FSkip(2);
+biCompression = 0;
+WriteInt(FTell(), biCompression);
+FSkip(4);
+biSizeImage = 0;
+WriteInt(FTell(), biSizeImage);
+FSkip(4);
+
+biXPelsPerMeter = 3780;
+WriteInt(FTell(), biXPelsPerMeter );
+FSkip(4);
+biYPelsPerMeter = 3780;
+WriteInt(FTell(), biYPelsPerMeter);
+FSkip(4);
+biClrUsed = 0;
+WriteInt(FTell(), biClrUsed);
+FSkip(4);
+biClrImportant = 0;
+WriteInt(FTell(), biClrImportant);
+FSkip(4);
+
+biRMask = 63488;
+WriteInt(FTell(), biRMask);
+FSkip(4);
+biGMask = 2016;
+WriteInt(FTell(), biGMask);
+FSkip(4);
+biBMask = 31;
+WriteInt(FTell(), biBMask);
+FSkip(4);
+
+pos = 0;
+FileSelect(FileIndex);
+while (!FEof())
+{
+  ReadBytes(Buffer2, FTell(), Width*2); 
+  Memcpy(Buffer, Buffer2, Width*2, pos, 0);
+  pos += Width*2 + 2; 
+  FSkip(Width*2);
+};
+
+FileSelect(NewFile);
+WriteBytes(Buffer, FTell(), pos);
+FSeek(2);
+WriteInt(FTell(), pos + 66);
+FSeek(34);
+WriteInt(FTell(), pos + 66);
+FileSave(FileName + ".bmp");
+FileClose();
+FileSelect(FileIndex);
