@@ -1,0 +1,74 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local int FileIndex, FileNew, count, width;
+local uint i, x, y, z, row, k, line, p;
+local uint sizex, sizey, height; 
+local string FileName, Str;
+local uchar Buffer[10485760] = 0; // file buffer
+
+string IntToStr (uint i) {
+  local string s;
+  SPrintf(s, "%d", i);
+  return s;
+} 
+
+width = 257;
+height = 257;
+
+FileIndex = GetFileNum();
+FileName = GetFileName();
+count = FileSize();
+ReadBytes(Buffer, 0, count);
+
+FileNew = FileNew("Text");
+
+z = 0;
+row = 0;
+line = 1;
+
+WriteString(FTell(), "g\n");
+for ( i = 0; i < count; i += 2 )
+{
+  SPrintf(Str, "v %d, %d, %d\n", z, row, Buffer[i]/10);
+  TextWriteLine(Str, line);
+  ++z;
+  ++line;
+  if (z == width)
+  {    
+    z = 0;
+    ++row;
+  };
+};
+
+k = line;
+
+p = 1; 
+
+for ( i = 1; i <= 257*255 + 1; ++i )
+{   
+  SPrintf(Str, "f %d, %d, %d\n", p + 1, p, p + width);
+  TextWriteLine(Str, k);
+  SPrintf(Str, "f %d, %d, %d\n", p + 1, p + width, p + width + 1);
+  TextWriteLine(Str, k + 1);
+  k += 2;
+  ++z;
+  ++p; 
+  if (z == width - 1)
+  {    
+    z = 0;
+    ++p; 
+  }; 
+};
+
+FileSave(FileName + ".obj");
+FileClose();
+FileSelect(FileIndex);
