@@ -1,0 +1,48 @@
+//-------------------------------------
+//--- 010 Editor v8.0.1 Script File ---
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//
+//-------------------------------------
+
+local uchar Buffer[10485760]; 
+local string filetypes = "*";
+local string FileName;
+local ubyte b = 0;
+local uint i, size, size2, File, FileNew;
+local char Magic[4];
+
+ReadBytes(Magic, 0, 4);
+FSkip(4);
+size = FileSize() - 4;
+File = GetFileNum();
+
+FileName = InputOpenFileName("Open key file", "Key", filetypes);
+
+if (FileName != "") 
+{
+  FileNew = FileOpen(FileName);
+  FileSelect(FileNew);
+  size2 = FileSize();
+  ReadBytes(Buffer, 0, size2);
+  //FileClose();
+
+  FileSelect(File);
+
+  if (Magic == "SDTE")
+  {
+    while (i < size) 
+    {
+      b = ReadByte(FTell());
+      b = b ^ Buffer[i];
+      WriteByte(FTell(), b);
+      FSkip(1);
+      ++i;
+    };
+  };
+};
