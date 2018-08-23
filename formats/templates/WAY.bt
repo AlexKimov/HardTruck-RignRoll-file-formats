@@ -12,7 +12,7 @@
 //
 //------------------------------------------------
 
-local uint chunkcount = 26;
+local uchar i[4];
 
 typedef enum <char> {
   MNAM, // = Name
@@ -22,11 +22,11 @@ typedef enum <char> {
   RNOD, // = Room Node
   NNAM, // = node name
   POSN, // = position
-  WDTH,
+  WDTH, // = width
   RSEG, // = Room Segment
   ATTR, // = Attributes
-  VDAT,
-  FLAG,
+  VDAT, //
+  FLAG //
 } IDENTIFIER;
 
 
@@ -40,102 +40,112 @@ struct {
   UINT DataSize; // File size - Header size
 } Header <name="File Header">;
 
-typedef struct {
+while (!FEof()) 
+{ 
   struct {
-    IDENTIFIER id3[4];
-    UINT ChunkSize; //
-    IDENTIFIER id4[4];
-    struct {
-      UINT NameLengh; //
-      char Name[12]; 
-    } NAME <name="Room Name">;  
-  } CHUNK_HEADER <name="Chunk Header">;
-
-  struct {
-    while (true) {
+    IDENTIFIER ID[4];
+    if (ID == "GROM")
+    {
       struct {
-        IDENTIFIER id[4];
-      } ID <name="Node identifier">;
-      if (ID.id == "GROM") {
-        FSeek(FTell() - 4);
-        break;
-      }; 
-
-      if (ID.id == "RNOD") {
+        UINT ChunkSize; //
+        IDENTIFIER id4[4];
         struct {
-          UINT DataSize; 
+          UINT NameLengh; //
+          char Name[12]; 
+        } NAME <name="Room Name">;  
+      } CHUNK_HEADER <name="Chunk Header">;
+
+      while (!FEof())  
+      {     
+        ReadBytes(i, FTell(), 4); 
+        if (i == "GROM") break;
+        struct { 
+          IDENTIFIER id[4];
+        } PID;
+        if (PID.id == "RNOD") 
+        {
           struct {
-            IDENTIFIER id[4];
-            UINT NameLengh; //
-            if (NameLengh > 12) 
-              char Name[16]; 
+            UINT DataSize; 
+            struct {
+              IDENTIFIER id[4];
+              UINT NameLengh; //
+              if (NameLengh > 12) 
+                char Name[16]; 
+              else
+                char Name[12];
+            } NNAM;   
+            struct {
+              IDENTIFIER id[4];
+              UINT SectionSize;
+              DOUBLE X;
+              DOUBLE Y;
+              DOUBLE Z;
+            } POSN;
+            IDENTIFIER id[4]; 
+            if (id == "FLAG")
+              struct {        
+                UINT SectionSize;
+                UINT Unknown;
+              } FLAG; 
             else
-              char Name[12];
-          } NNAM;   
+              struct {        
+                UINT SectionSize;
+                struct {
+                  DOUBLE X;
+                  DOUBLE Y;
+                  DOUBLE Z;
+                } X;
+                struct {
+                  DOUBLE X;
+                  DOUBLE Y;
+                  DOUBLE Z;
+                } Y;
+                struct {
+                  DOUBLE X;
+                  DOUBLE Y;
+                  DOUBLE Z;
+                } Z;
+                struct {
+                  DOUBLE X;
+                  DOUBLE Y;
+                  DOUBLE Z;
+                } Pos;
+              } ORTN;  
+          } RNOD <name="RNOD">;
+        };
+  
+        if (PID.id == "RSEG") 
+        {
           struct {
-            IDENTIFIER id[4];
-            UINT Count; //
-            FLOAT X;
-            FLOAT Y;
-            FLOAT Z;
-            FLOAT X;
-            FLOAT Y;
-            FLOAT Z;
-          } POSN;
-          struct {
-            IDENTIFIER id[4];
-            UINT Count;
-            UINT Count;
-          } FLAG;  
-        } RNOD <name="RNOD">;
+            UINT DataSize;  
+            struct {
+              IDENTIFIER id[4];
+              UINT SectionSize;
+              UINT Unknown;
+              DOUBLE Unknown;
+              UINT Unknown; 
+            } ATTR; 
+            struct {
+              IDENTIFIER id[4];
+              UINT SectionSize;
+              DOUBLE Unknown;
+              DOUBLE Unknown; 
+            } WDTH; 
+            struct {
+              IDENTIFIER id[4];
+              UINT DataSize;
+              UINT Count;
+              struct { 
+                DOUBLE X;
+                DOUBLE Y;
+                DOUBLE Z;
+              } P[Count];  
+            } VDAT; 
+          } RNOD <name="RSEG">;
+        };
       };
-
-      if (ID.id == "RSEG") {
-        struct {
-          UINT DataSize;  
-          struct {
-            IDENTIFIER id[4];
-            UINT Count;
-            UINT Count;
-            FLOAT S;
-            FLOAT S;
-            UINT Count; 
-          } ATTR; 
-          struct {
-            IDENTIFIER id[4];
-            UINT S;
-            FLOAT S;
-            FLOAT S;
-            FLOAT S;
-            FLOAT S; 
-          } WDTH; 
-          struct {
-            IDENTIFIER id[4];
-            UINT DataSize;
-            UINT Count;
-            struct { 
-              FLOAT X;
-              FLOAT Y;
-              FLOAT Z;
-              FLOAT X;
-              FLOAT Y;
-              FLOAT Z;
-            } Ar[Count];  
-          } VDAT; 
-        } RNOD <name="RSEG">;
-      };
-
     };
-  } PROPERTIES;
-} CHUNK <name=chunkName, optimize=false>;
+  } GROM;
+}
 
-string chunkName(CHUNK &chunk) {
-  return chunk.CHUNK_HEADER.NAME.Name;
-};
-
-typedef struct (int arraySize) {
-      CHUNK array[arraySize] <optimize=false>;
-    } CHUNK_Array; 
-      
-CHUNK_Array Chunks(chunkcount) <name="Chunks">;
 
