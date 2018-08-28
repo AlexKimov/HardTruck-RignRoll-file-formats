@@ -76,7 +76,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 
 2. Formats documentation in english.
 
-3. Import/Export tools.
+3. Conversion to other formats.
 
 #### Hard Truck 1 (1998)
 
