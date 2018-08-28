@@ -71,7 +71,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 
 **Roadmap**
 
-##### Hard Truck 1/2
+###### Hard Truck 1/2
 1. **b3D** format, evereything else is ready to use (almost).
 
 2. Formats documentation in english.
