@@ -4,6 +4,15 @@
 
 Текущий прогресс [Issues](https://github.com/AlexKimov/HT2-RnR-tools/issues). Описание форматов [Вики страница](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki).
 
+#### Текущие планы **
+
+##### Дальнобойщики 1/2
+1. Разбор переменных формата **b3D**, остальные форматы в той или иной степени разобраны и готовы для дальнейшего использования.
+
+2. Программы для импорта/экспорта из исходных форматов в промежуточные и обратно.
+
+3. Доработка документации на форматы.
+
 ### Форматы файлов
 
 #### Дальнобойщики 1 (1998)
@@ -59,6 +68,15 @@
 Hard Truck 1 (1998), Hard Truck 2 King of the Road (2002) and RignRoll (2010) games file formats. Current progress status [see Issues](https://github.com/AlexKimov/HT2-RnR-tools/issues). 
 
 Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-tools/wiki).
+
+**Roadmap**
+
+##### Hard Truck 1/2
+1. **b3D** format, evereything else is ready to use (almost).
+
+2. Formats documentation in english.
+
+3. Import/Export tools.
 
 #### Hard Truck 1 (1998)
 
