@@ -3,17 +3,20 @@
 //
 //      File: RES.bt
 //   Authors: Alexandr Evdokimov
-//   Version: 0.2
-//   Purpose: Hard truck 2 RES file
+//   Version: 1.0
+//   Purpose: Hard Truck: Road to Victory, Hard Truck 2 King of the road RES/RMP file
 //
 //   History: 
-//    
+//
+//   2018.10 v 1.0 minor fixes and changes
+//   2018.08 v 0.3 add Hard Truck: RtV structures  
 //   2018.05 v 0.1 initial release 
 //
 //------------------------------------------------
 
-local uint count;
+local uint count, size, n;
 local uint passthrough = 0;
+local char Name[4];
 
 uint getNumber(string Str) {
   local uint pos = 0, count = 0;
@@ -24,10 +27,6 @@ uint getNumber(string Str) {
     return count;
   else
     return 1;
-}
-
-uint blockCount(uint width) {
-  return Floor(width/127);
 }
 
 string getID(string Str) {
@@ -43,7 +42,10 @@ typedef enum <char> {
   ENDR,
   MS16,
   MASK,
-  PALT
+  PALT,
+  OPAC,
+  INTE,
+  MSK8
 } IDENTIFIER;
 
 typedef struct {
@@ -71,53 +73,22 @@ typedef struct {
 } LVMP;
 
 typedef struct {
-  BYTE B[40];
+  UINT Size;
+  UINT RedMask;
+  UINT GreenMask;
+  UINT BlueMask;
+  UINT AlphaMask;
+  BYTE Unknown[12];
 } PFRM;
 
 BitfieldDisablePadding(); 
 
 typedef struct {
-  WORD W;
-  WORD H;
-  BYTE A[768]; // empty
-  
-  if (W > H) {
-    local uint blockCount;
-    blockCount = 1;
- 
-    if (W > 127)
-      blockCount = blockCount(W);
-      
-    typedef struct {
-      UBYTE Count;
-      if (Count > 127) 
-        UBYTE Count;
-      struct {
-         UBYTE Blue:  5;
-         UBYTE Green: 5;
-         UBYTE Red:   5;
-         UBYTE Alpha: 1;
-      } PXL[Count] <optimize=false>;
-      if (Count < 127) UBYTE U;
-    } BLOCK <optimize=false, name="Block">; 
-
-    typedef struct (int arraySize) {
-      BLOCK array[arraySize] <optimize=false>;
-    } BLOCK_Array;       
-    BLOCK_Array Pixels(589) <name="Blocks">;
-  } else {
-    struct {
-       UBYTE Blue:  5;
-       UBYTE Green: 5;
-       UBYTE Red:   5;
-       UBYTE Alpha: 1;
-    } PXL[W*H] <optimize=false>; 
-    BYTE A;   
-  };
-//  if (U != 129) FSeek(FTell() - 1);  
-
-  PFRM pfrmid;
-  UINT A;
+  struct {
+    WORD W;
+    WORD H;
+  } HEADER;
+  BYTE Data[768];
 } MS16 <optimize=false>;
 
 typedef struct {
@@ -125,40 +96,56 @@ typedef struct {
     WORD W;
     WORD H;
   } HEADER;
-  
-  struct {
-    BYTE A;
-    BYTE B;
-    BYTE C;
-  } O[256];
+  BYTE Data[768];
 
-  typedef struct {  
-    UBYTE Color;
-  } P <size=1, name="Pixel", optimize=false>;
-  typedef struct (int arraySize) {
-    P array[arraySize];
-  } P_Array;       
-  P_Array Ps(HEADER.W*HEADER.H) <name="Ps">;
- 
 } MASK <optimize=false>;
 
+typedef struct {
+  struct {
+    WORD W;
+    WORD H;
+  } HEADER; 
+  BYTE Data[768]; // empty
+} MSKR <optimize=false>;
+
 typedef struct { 
-  string FileName;
-  UINT SectionSize;   
-  IDENTIFIER identifier[4];
-  if (identifier == "MS16") {
-    MS16 m16; 
-  } else {
-    MASK mask;    
+  struct {
+    WORD W;
+    WORD H;
+  } HEADER;
+  BYTE Data[768]; // empty
+} MS8 <optimize=false>;
+
+typedef struct { 
+  struct {
+    string FileName;
+    UINT SectionSize;   
+    IDENTIFIER identifier[4];
+  } HEADER;
+  switch (HEADER.identifier)
+  {
+    case "MSKR": 
+      MSKR mskr;       
+    break;
+    case "MS16": 
+      MS16 ms16;        
+    break;
+    case "MSK8":  
+      MS8 ms8;        
+    break;
+    default : 
+      MASK mask;       
+    break;
   };
-} MS <name=maskFileName, optimize=false>;
+  BYTE Data[HEADER.SectionSize - 776];  
+} MS <name=maskFileName>;
 
 string maskFileName(MS &ms) {
-  return ms.FileName;
+  return ms.HEADER.FileName;
 }
 
 typedef struct {
-    string Name;
+  string Name;
 } ID <name = idName>;
 
 string idName(ID &id) {
@@ -176,6 +163,184 @@ string Name(NAME &n) {
   return n.Name;
 }     
 
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    BYTE Data[HEADER.Size];
+  } OPAC_FILE[HEADER.Width*HEADER.Height];
+} OPAC;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UINT16 Data[HEADER.Size/2];
+  } OPAC16_FILE[HEADER.Width*HEADER.Height];
+} OP16;
+
+typedef struct {
+  struct {
+    UBYTE Red;
+    UBYTE Green;
+    UBYTE Blue;      
+  } COLOR[256];
+} PALT;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    BYTE Data[HEADER.Size];
+  } FOG_FILE[HEADER.Height];
+} FOG;
+
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    BYTE Data[HEADER.Size];
+  } FO16_FILE[HEADER.Height];
+} FO16;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    BYTE Data[HEADER.Size];
+  } INTE_FILE[HEADER.Height];
+} INTE;
+
+typedef struct {
+  struct {
+    UINT Width;
+    UINT Height;
+    UINT Size;
+  } HEADER;
+  struct {
+    UINT16 Data[HEADER.Size/2];
+  } IN16_FILE[HEADER.Height];
+} IN16;
+
+typedef struct {          
+  UBYTE  IDLength;
+  UBYTE  ColorMapType;
+  UBYTE  ImageType;
+  WORD   FirstIndexEntry;
+  WORD   ColorMapLength;
+  UBYTE  ColorMapEntrySize; 
+
+  WORD   XOrigin;
+  WORD   YOrigin;
+  WORD   Width;
+  WORD   Height;
+  UBYTE  PixelDepth;
+  UBYTE  ImageDescriptor;
+} TGA_HEADER;
+
+typedef struct {
+  string FileName;
+  UINT SectionSize;  
+  TGA_HEADER TGAHEADER;
+  // LineOffset
+  n = ReadInt(FTell());
+  size = SectionSize - sizeof(TGA_HEADER);
+
+  if (n == 1179012940) 
+  { // "LOFF"
+    IDENTIFIER Loff[4];
+    UINT Size;
+    UINT Offset;
+    size = SectionSize - sizeof(TGA_HEADER) - 12 - 44;
+    BYTE ImageData[size];  
+    if (Offset)
+    {
+      IDENTIFIER id[4];
+      if (id == "LVMP") 
+      {
+        LVMP lvmp;
+        IDENTIFIER id[4];
+        PFRM pfrm;
+      } else 
+        PFRM pfrm;  
+      IDENTIFIER Endr[4];
+      UINT Size;      
+    };  
+  }
+  else
+    BYTE Data[size];
+} TXR <optimize=false, name=txrName>;
+
+string txrName(TXR &txr) {
+  return txr.FileName;
+}  
+
+typedef struct  {
+  char PLM[4]; // signature
+  UINT DataSize;
+  while (true)
+  {      
+    struct {  
+      IDENTIFIER id[4];
+      UINT DataSize;
+    } HEADER;
+    if (HEADER.id == "PALT")
+      PALT Palette;
+    else
+    if (HEADER.id == "OPAC")
+      OPAC Opac;
+    else
+    //if (HEADER.id == "OP16")
+    //  OP16 Opac16;
+    //else
+    if (HEADER.id == "FOG")
+      FOG Fog;
+    else
+    //if (HEADER.id == "FO16")
+    //  FO16 Fog16;
+    //else
+    if (HEADER.id == "INTE")
+      INTE Inte;
+    else
+    //if (HEADER.id == "IN16")
+    //  IN16 Inte16;
+    //else
+    {
+      FSkip(-8);
+      break;
+    };
+ }; 
+} PLM_FILE;
+
+typedef struct {
+  string FileName;
+  UINT DataSize;
+  TGA_HEADER Header;
+  FSkip(DataSize - sizeof(Header));          
+} BACKFILE <optimize=false, name=bfName>;
+typedef struct (int arraySize) {
+  BACKFILE array[arraySize] <optimize=false>;
+} BACKFILE_ARRAY; 
+
+string bfName(BACKFILE &backfile) {
+  return backfile.FileName;
+} 
 
 local uint i = 0;
 local string idname;
@@ -185,104 +350,73 @@ while (!FEof()) {
 
   switch (idname) {
     case "COLORS": 
-        count = getNumber(identifier.Name);             
-        NAME_ARRAY Colors(count) <name="Colors">;
+        count = getNumber(identifier.Name); 
+        if (count)             
+          NAME_ARRAY Colors(count) <name="Colors">;
         break;
     case "TEXTUREFILES":
-        count = getNumber(identifier.Name);         
-        typedef struct {
-          struct {
-            string FileName;
-            UINT SectionSize;  
-          
-            UBYTE  IDLength;
-            UBYTE  ColorMapType;
-            UBYTE  ImageType;
-            WORD   FirstIndexEntry;
-            WORD   ColorMapLength;
-            UBYTE  ColorMapEntrySize; 
-        
-            WORD   XOrigin;
-            WORD   YOrigin;
-            WORD   Width;
-            WORD   Height;
-            UBYTE  PixelDepth;
-            UBYTE  ImageDescriptor;
-        
-            char Name[4]; // Line Offset
-            UINT LineOffset;
-            UINT SizeImage;
-          } TGAHEADER;
-        
-          //struct {  
-         //   UBYTE Blue:  5;
-          //  UBYTE Green: 5;
-         //   UBYTE Red:   5;
-         //   UBYTE Alpha: 1;
-         // } RGB16[HEADER.Width*HEADER.Height] <size=2>;
-          
-         FSeek(FTell() + 2*TGAHEADER.Width*TGAHEADER.Height);
-        
-          IDENTIFIER id[4];
-          if (id == "LVMP") {
-            LVMP lvmpid;
-            PFRM pfrmid;
-            UINT V;
-          } else {
-            PFRM pfrmid;
-          };
-        } TXR <optimize=false>;
-        typedef struct (int arraySize) {
-          TXR array[arraySize] <optimize=false>;
-        } TXR_Array;       
-        TXR_Array TXRs(count) <name="Texture files">;
+        count = getNumber(identifier.Name); 
+        if (count) 
+        {        
+          typedef struct (int arraySize) {
+            TXR array[arraySize] <optimize=false>;
+          } TXR_Array;       
+          TXR_Array TXRs(count) <name="Texture files">;
+        };
         break;
     case "PALETTEFILES":
         count = getNumber(identifier.Name); 
-        struct {
-          string FileName;
-          UINT DataSize;
-          char PLM[4];
-          UINT DataSize;
-          IDENTIFIER id[4];
-          UINT Size; // 768
+        if (count) 
           struct {
-            UBYTE Red;
-            UBYTE Green;
-            UBYTE Blue;      
-          } COLOR[256];
-        } PALETTE[count] <optimize=false>;
+            string FileName;
+            UINT DataSize;
+            PLM_FILE plm; 
+          } PALETTE_FILES[count] <optimize=false>;
         break;
     case "SOUNDFILES": 
         count = getNumber(identifier.Name); 
-        typedef struct {
-          string FileName;
-          UINT DataSize;
-          struct {
-            char groupID[4]; // RIFF
-            long size;
-            char riffType[4]; // WAVE
-          } WAVRIFFHEADER;    
-          FSkip(WAVRIFFHEADER.size - 4);
-        } SOUNDFILE <optimize=false>;
-        typedef struct (int arraySize) {
-          SOUNDFILE array[arraySize] <optimize=false>;
-        } SOUNDFILE_Array;       
-        SOUNDFILE_Array SoundFiles(count) <name="SoundFiles">;
+        if (count) 
+        {
+          typedef struct {
+            string FileName;
+            UINT DataSize;
+            struct {
+              char groupID[4]; // RIFF
+              long size;
+              char riffType[4]; // WAVE
+            } WAVRIFFHEADER;    
+            FSkip(WAVRIFFHEADER.size - 4);
+          } SOUNDFILE <optimize=false>;
+          typedef struct (int arraySize) {
+            SOUNDFILE array[arraySize] <optimize=false>;
+          } SOUNDFILE_Array;       
+          SOUNDFILE_Array SoundFiles(count) <name="Sound Files">;
+        }; 
         break;
     case "BACKFILES":
+        count = getNumber(identifier.Name); 
+        if (count)     
+          BACKFILE_ARRAY SoundFiles(count) <name="BACK Files">;
         break;
     case "MASKFILES":
-        count = getNumber(identifier.Name); 
-        MS Masks[count] <name="Masks">;
+        count = getNumber(identifier.Name);
+        if (count) 
+        {
+          typedef struct (int arraySize) {
+            MS array[arraySize] <optimize=false>;
+          } MASKS;   
+          MASKS Masks(count) <name="Masks">;
+        };
         break;
     case "MATERIALS":
-        count = getNumber(identifier.Name);        
-        NAME_ARRAY Files(count) <name="Materials">;
+        count = getNumber(identifier.Name); 
+        if (count)        
+          NAME_ARRAY Files(count) <name="Materials">;
         break; 
     case "SOUNDS":
         count = getNumber(identifier.Name); 
-        NAME_ARRAY Sounds(count) <name="Sounds">;    
+        if (count) 
+          NAME_ARRAY Sounds(count) <name="Sounds">;    
         break;
   };
 };
