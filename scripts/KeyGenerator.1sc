@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local uint Table[55] = { 0x3F8B385E, 0x36B04CD2, 0xE119A25A, 0xA117AAC8, 0x6FB37259, 0xAA5A06B7, 0xC6CA87F2, 0x285C96D7, 0xE30569AF, 0x60028EB5, 0x13176548, 0xE527D7A4, 0x03CA34B0, 0x56F50193, 0x05A372D4, 0xFCEEA0C5, 0x011B78E3, 0xFE96CDC1, 0x49B0A62A, 0x78F46E85, 0x03A2C50B, 0x0B0C7C91, 0x18E313DC, 0x97B42EA2, 0x7A2CA407, 0x4800E92F, 0xC73197A9, 0xF45E734C, 0xFEE0C3B4, 0xD8F2032F, 0xB34F7CCA, 0xB31E3D0E, 0x18957090, 0x2764AEDA, 0xFC7D41E6, 0x65371A8D, 0x198945D3, 0x00B53EB7, 0x5E65E29A, 0xB9B111FB, 0xA077872A, 0x188D17C5, 0xC5E7BBBB, 0xBECA9C9B, 0x2C38BA13, 0x23C83C99, 0xBF90DC6F, 0x4985B6D3, 0x025BAA6C, 0x0FCBD855, 0xD1C0AFD4, 0xAB67770A, 0x48609B84, 0x6C3B0B17, 0x8CDB888D };
+local uint count;
+local uint k, i, z, c;
+
+count = InputNumber("Input file size", "Key file generator", "18119");
+local uchar Key[count];
+
+z = 31;
+if (count > 0)
+  for ( i = 1; i <= count ; ++i )
+  {
+    k = Table[c] - Table[z];
+    Table[c] = k;
+    Key[i - 1] = k;
+    ++z;
+    ++c;
+    c = c % 55;
+    z = z % 55;
+  };
+
+FileNew("Hex");
+WriteBytes(Key, 0, count);
+FileSave(FileNameGetPath(GetScriptName()) + "key.file");
+FileClose();
