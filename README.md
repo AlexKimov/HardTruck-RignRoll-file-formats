@@ -53,7 +53,7 @@
 * [TXRtoBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoBMP.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры **Дальнобойщики 2** в формат **.bmp**. 
 * [RawToBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToBMP.1sc) - скрипт конвертирует **.RAW** (карта высот) файл в 8 битное изображение (оттенки серого) в формате **bmp**.
 * [RawToObj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToObj.1sc) - скрипт конвертирует **.RAW** (карта высот) файл в **.obj**.
-* [decodeSCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/decodeSCH.1sc) - скрипт  для расшифровки зашифрованных **SCH** файлов.
+* [decodeSCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/decodeSCH.1sc) - скрипт  для расшифровки зашифрованных **SCH** и **CNF** файлов.
 * [KeyGenerator.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/KeyGenerator.1sc) - скрипт для генерации файла ключа для расшифровки **SCH** файлов.
 * [b3dToobj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/b3dToobj.1sc) - скрипт  для конвертирования **B3D** файлов в набор файлов формата **.obj** (в работе).
 
@@ -116,7 +116,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 * [TXRtoBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoBMP.1sc) - **.txr* to **.bmp* conversion script (010 Editor) 
 * [RawToBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToBMP.1sc) - **.raw* (HeightMap) to **.bmp** conversion script (010 Editor) 
 * [RawToObj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToObj.1sc) -  **.raw* (HeightMap) to **.obj* conversion script (010 Editor) 
-* [decodeSCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/decodeSCH.1sc) - decode encrypted **SCH** files (xor), about key file see below.
+* [decodeSCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/decodeSCH.1sc) - decode encrypted **SCH** and **CNF** files, about key file see below.
 * [KeyGenerator.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/KeyGenerator.1sc) - key file generation script.
 * [b3dToobj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/b3dToobj.1sc) - convert **B3D** file to set of **.obj** files (WIP).
 
