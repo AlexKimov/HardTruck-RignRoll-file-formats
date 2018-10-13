@@ -31,5 +31,6 @@ if (count > 0)
 
 FileNew("Hex");
 WriteBytes(Key, 0, count);
-FileSave(FileNameGetPath(GetScriptName()) + "key.file");
+local string FileName = InputSaveFileName("Input file name", "", "key.file");
+FileSave(FileName);
 FileClose();
