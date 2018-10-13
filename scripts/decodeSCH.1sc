@@ -30,7 +30,7 @@ if (FileName != "")
   FileSelect(FileNew);
   size2 = FileSize();
   ReadBytes(Buffer, 0, size2);
-  //FileClose();
+  FileClose();
 
   FileSelect(File);
 
