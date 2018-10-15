@@ -37,7 +37,7 @@
 |  **3**  | .PLM | [PLM](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/7) |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |  [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/PLM-File-Format-Rus) | Палитра, хранится в архиве .RES | 
 |  **4**  | .RAW | [RAW](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/8) |  | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/RAW-File-Format-RUS)  |  Карты высот | 
 |  **5**  | .RES | [RES](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/3) |  [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/RES-RMP-File-Format-RUS)  | Архив ресурсов (звуки, текстуры) | 
-|  **6**  | .TECH | [TECH](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/9) |  [TECH.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   | Параметры транспортных средств | 
+|  **6**  | .TECH | [TECH](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/9) |  [TECH.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TECH.bt) |   | Параметры транспортных средств | 
 |  **7**  | .TXR | [TXR](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/6)  |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   [WIKI](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki/TXR-File-Format-RUS) | Текстура | 
 |  **8**  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)  | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) |  | Пути для транспорта под управлением ИИ | 
 
@@ -102,7 +102,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 |  **3**  | .PLM | [PLM](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/7) |  [PLM.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/PLM.bt) |    Palette file in .RES | 
 |  **4**  | .RAW | [RAW](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/8) |   [RAW.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RAW.bt) |  Heightmaps | 
 |  **5**  | .RES | [RES](https://github.com/AlexKimov/HT2-RnR-tools/issues/3)   | [RES.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/RES.bt) | Resource archive: sounds, textures | 
-|  **6**  | .TECH | [TECH](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/9)  |  [TECH.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   Vehicle params | 
+|  **6**  | .TECH | [TECH](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/9)  |  [TECH.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TECH.bt) |   Vehicle params | 
 |  **7**  | .TXR | [TXR](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/6) |  [TXR.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/TXR.bt) |   Texture file |
 |  **8**  | .WAY | [WAY](https://github.com/AlexKimov/HT2-RnR-tools/issues/4)   | [WAY.bt](https://github.com/AlexKimov/HT2-modding-tools/blob/master/formats/templates/WAY.bt) | AI waypoints | 
 
