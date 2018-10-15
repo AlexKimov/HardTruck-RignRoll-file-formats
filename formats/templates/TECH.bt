@@ -1,0 +1,332 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+struct {
+  UINT Length;
+  string FileName;
+  time_t st_mtime;
+  UINT BufferSize; // 2416
+  UINT CarsCount;
+  UINT Unknown; // 0
+  UINT LorrieCount;
+  UINT TractorsCount;
+  UINT SemiTrailersCoun;
+  UINT tTrailersCount;
+  UINT HelicoptersCount;
+  UINT VehicleCount;
+} HEADER  <name="TECHs section header">;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} ADDCOLPNTS;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} CORNER_MARK;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} CORNER_MARKW;
+
+typedef struct {
+  FLOAT TransCoeff;
+} GEAR_TRANS_COEFF;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} OV;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} RS;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} I;
+
+typedef struct {
+  FLOAT K1;
+  FLOAT K2;
+  FLOAT K3;
+  FLOAT K4;
+  FLOAT K5;
+  FLOAT K6;
+  FLOAT K7;
+  FLOAT K8;
+} SUSPENSION;
+
+typedef struct {
+  FLOAT K1;
+  FLOAT K2;
+  FLOAT K3;
+  FLOAT K4;
+  FLOAT K5;
+  FLOAT K6;
+  FLOAT K7;
+  FLOAT K8;
+} KS;
+
+typedef struct {
+  FLOAT K1;
+  FLOAT K2;
+  FLOAT K3;
+  FLOAT K4;
+  FLOAT K5;
+  FLOAT K6;
+  FLOAT K7;
+  FLOAT K8;
+} CS;
+
+typedef struct {
+  UINT K1;
+  UINT K2;
+  UINT K3;
+  UINT K4;
+  UINT K5;
+  UINT K6;
+  UINT K7;
+  UINT K8;
+} WHEELS;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;  
+} CENTER;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;  
+} SADDLE;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} TOWHOOK;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} COUPLER;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} ADD_COL_PNTS;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT W;
+  FLOAT Z;
+} COLLISIONPLANE;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} TV_CAMERA_POSITION;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+  FLOAT Z;
+} DRIVERS_NECK_ANG;
+
+
+typedef struct {
+
+  FLOAT U01[9];
+  CENTER CenterMassInB3D;
+  FLOAT U0[9];
+  FLOAT U02[3];
+
+  FLOAT Mass; 
+  FLOAT Rwheel; 
+  FLOAT Rwheel1; 
+  FLOAT Tank;
+  FLOAT FuelTimeEndurance; 
+
+  FSkip(4); 
+
+  FLOAT Unknown; 
+  FLOAT Unknown;
+  FLOAT Unknown; 
+
+  FSkip(12);
+
+  UINT GearCount;   
+
+  FSkip(8);
+
+  UINT Unknown;
+  FLOAT FuelConsumption; 
+   
+  FSkip(4);
+
+  FLOAT Kilometrage; 
+  FLOAT AirPressCoeff;  
+  FLOAT AirResistCoeff;
+  FLOAT AirSideResistCoeff; 
+  FLOAT FrontWheelThic; 
+  FLOAT RearWheelThick; 
+  FLOAT Maxrotmomentum;
+  FLOAT Unknown; 
+  FLOAT Breakpower; 
+  FLOAT RearAxleCoeff; 
+  FLOAT ReverseTransCoeff; 
+  GEAR_TRANS_COEFF GearTransCoeff[14];
+  FLOAT TachWithMaxPow; 
+  FLOAT CargoAndBodyPickLoad; 
+  FLOAT bodyMass;
+  FLOAT BodyHeight;
+  FLOAT BodySquare;
+  CENTER CenterOfCargoBottom; 
+  WHEELS DrivingWheels; 
+  WHEELS SteeringWheels;
+  WHEELS TouchingRoadWheels; 
+  OV ov; 
+  FLOAT tangViewer;
+  I i;
+  RS rs0; 
+  RS rs1; 
+  RS rs2; 
+  RS rs3;
+
+  FSkip(240);
+
+  FLOAT Unknown;  
+  uchar Buffer[32]; 
+  SUSPENSION Suspension; 
+  KS Ks;
+  CS Cs; 
+  FLOAT CollisionRadius; 
+  CENTER CollisionCenter;  
+  UINT Unknown; 
+  FLOAT RubberCollisionCoef;
+  FLOAT SlideCollisionCoef;
+  UINT CornerMarkCount; 
+  UINT AddColPntsCount; 
+  CORNER_MARK CornerMark[20];
+  ADD_COL_PNTS AddColPnts[20]; 
+
+  FLOAT S1[9];
+
+  UINT CornerMarkWCount; 
+  CORNER_MARK CornerMarkW[4]; 
+  COLLISIONPLANE ColPlane[20]; 
+  UINT Unkown;
+  FLOAT Unkown;
+  FLOAT Unkown;
+  TV_CAMERA_POSITION tvCameraPos[5];  
+  UINT tvCameraCount;
+  CENTER tvCameraRightConer;
+  CENTER SmokeDirection; 
+  CENTER Smokedirection; 
+  CENTER Smokeposition2; 
+  CENTER Smokedirection_0; 
+  CENTER FlamePlace;
+  CENTER FaraFl; 
+  CENTER FaraFr; 
+  CENTER FaraBls; 
+  CENTER FaraBrs; 
+  CENTER FaraBl; 
+  CENTER FaraBr; 
+  UINT HorsePower; 
+  UINT Price; 
+  FLOAT Glowwing; 
+  SADDLE lowSaddle; 
+  SADDLE topSaddle; 
+  TOWHOOK Towhook;
+  COUPLER Coupler;
+  FLOAT shiftSaddle; 
+  FLOAT Couplerlength; 
+  FLOAT Speedscale; 
+  FLOAT Unknown;
+  FLOAT Tachscale;
+  FLOAT Unknown;
+  FLOAT FuelScale; 
+  CENTER Cabrwindow; 
+  CENTER Cablwindow; 
+  FLOAT CabFrontWindow[4]; 
+  DRIVERS_NECK_ANG DriversNeckAng; 
+  FLOAT Unknown; 
+  FLOAT Unknown; 
+  uchar CockpitSpace[60]; 
+
+  uchar TCH[30]; 
+  uchar VCH[30];
+  uchar Name[30]; 
+  uchar Prefix[20]; 
+  uchar prefixCab[20];
+  uchar CarNode[30]; 
+
+  UINT Unknown; 
+  UINT TrailerType;  
+
+  FLOAT FaraDir[6];
+  FLOAT Fara_Width[3];
+} TECH <name=getTechName>;
+typedef struct (uint size) {
+  TECH array[size];
+} TECH_ARRAY;
+TECH_ARRAY Techs(80) <name="TECHs">;
+
+string getTechName(TECH &tech)
+{
+  return tech.VCH;
+}
+
+struct {
+  time_t st_mtime[HEADER.CarsCount];
+} TIMES;
+
+typedef struct {
+  uchar DATA[876];
+} TRASBOX;
+
+struct {
+  UINT Size; // 876
+  UINT TrasboxCount;
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown;
+} HEADER <name="Trashoxes section header">; 
+typedef struct (uint size) {
+  TRASBOX array[size];
+} TRASBOX_ARRAY;
+TRASBOX_ARRAY Trasboxes(35) <name="Trasboxes">;
