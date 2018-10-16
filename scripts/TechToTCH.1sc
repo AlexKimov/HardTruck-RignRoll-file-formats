@@ -1,0 +1,326 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local string Values, Str;
+local uchar VCHName[30];
+local uint FileIndex, TCH, LineNumber, k, i;
+local float number;
+
+string ReadDataToString(uint size, uint type)
+{
+  local string str, numberstr;
+  for ( i = 0; i < size; ++i )
+  {
+    if (type)
+      SPrintf(str, "%d ", ReadInt(FTell()));
+    else
+      SPrintf(str, "%4.4f ", ReadFloat(FTell())); 
+    FSkip(4);
+    numberstr += str;
+  };
+  return numberstr;
+};
+
+void WriteToFile(string PreKey, string KeyValue, string PostKey, uint type)
+{
+  local string KeyName;
+  FileSelect(TCH);
+  switch (type)
+  {
+    case 1: KeyName = "CenterMassInB3D"; break;
+    case 2: KeyName = "mass"; break;  
+    case 3: KeyName = "rwheel"; break;
+    case 4: KeyName = "rwheel1"; break;   
+    case 5: KeyName = "tank"; break;    
+    case 6: KeyName = "fuelTimeEndurance"; break; 
+    case 7: KeyName = "fuelConsumption"; break;  
+    case 8: KeyName = "kilometrage"; break; 
+    case 9: KeyName = "air_press_coeff"; break; 
+    case 10: KeyName = "air_resist_coeff"; break;
+    case 11: KeyName = "air_side_resist_coeff"; break;
+    case 12: KeyName = "front_wheel_thickness"; break;
+    case 13: KeyName = "rear_wheel_thickness"; break;
+    case 14: KeyName = "maxrotmomentum"; break;
+    case 15: KeyName = "breakpower"; break;
+    case 16: KeyName = "rear_axle_coeff"; break;
+    case 17: KeyName = "reverse_trans_coeff"; break;
+    case 18: KeyName = "gear_trans_coeff"; break;
+    case 19: KeyName = "tach_with_max_power"; break;
+    case 20: KeyName = "cargo_and_body_pick_load"; break;
+    case 21: KeyName = "body_mass"; break;
+    case 22: KeyName = "body_height"; break;
+    case 23: KeyName = "body_square"; break;
+    case 24: KeyName = "center_of_cargo_bottom"; break;
+    case 25: KeyName = "driving_wheels"; break;
+    case 26: KeyName = "steering_wheels"; break;
+    case 27: KeyName = "touching_road_wheels"; break;
+    case 28: KeyName = "OV"; break;
+    case 29: KeyName = "tangViewer"; break;
+    case 30: KeyName = "I"; break;
+    case 31: KeyName = "rs0"; break;
+    case 32: KeyName = "rs1"; break;
+    case 33: KeyName = "rs2"; break;
+    case 34: KeyName = "rs3"; break;
+    case 35: KeyName = "suspension"; break;
+    case 36: KeyName = "Ks"; break;
+    case 37: KeyName = "Cs"; break;
+    case 38: KeyName = "CollisionRadius"; break;
+    case 39: KeyName = "CollisionCenter"; break;
+    case 40: KeyName = "rubber_collision_coeff"; break;
+    case 41: KeyName = "slide_collision_coeff"; break;
+    case 42: KeyName = "Corner_Mark_"; break;
+    case 43: KeyName = "AddColPnts"; break;
+    case 44: KeyName = "Corner_Mark_W"; break;
+    case 45: KeyName = "CollisionPlane"; break;
+    case 46: KeyName = "tvCameraPosition"; break;
+    case 47: KeyName = "tvCameraRightConer"; break;
+    case 48: KeyName = "SmokePosition"; break;
+    case 49: KeyName = "SmokeDirection"; break;
+    case 50: KeyName = "SmokePosition2"; break;
+    case 51: KeyName = "SmokeDirection2"; break;
+    case 52: KeyName = "flame_place"; break;
+    case 53: KeyName = "Fara_FL"; break;
+    case 54: KeyName = "Fara_FR"; break;
+    case 55: KeyName = "Fara_BLs"; break;
+    case 56: KeyName = "Fara_BRs"; break;
+    case 57: KeyName = "Fara_BL"; break;
+    case 58: KeyName = "Fara_BR"; break;
+    case 59: KeyName = "horse_power"; break;
+    case 60: KeyName = "price"; break;
+    case 61: KeyName = "glowwing"; break;
+    case 62: KeyName = "lowSaddle"; break;
+    case 63: KeyName = "topSaddle"; break;
+    case 64: KeyName = "Towhook"; break;
+    case 65: KeyName = "Coupler"; break;
+    case 66: KeyName = "shiftSaddle"; break;
+    case 67: KeyName = "CouplerLength"; break;
+    case 68: KeyName = "SpeedScale"; break;
+    case 69: KeyName = "TachScale"; break;
+    case 70: KeyName = "FuelScale"; break;
+    case 71: KeyName = "CabRWindow"; break;
+    case 72: KeyName = "CabLWindow"; break;
+    case 73: KeyName = "CabFrontWindow"; break;
+    case 74: KeyName = "Drivers_neck_Angles"; break;
+    case 75: KeyName = "cockpit_space"; break;
+    case 76: KeyName = "tch"; break;
+    case 77: KeyName = "vch"; break;
+    case 78: KeyName = "prefix"; break;
+    case 79: KeyName = "prefixCab"; break;
+    case 80: KeyName = "car_node"; break;
+    case 81: KeyName = "trailer_type"; break;
+    case 82: KeyName = "Fara_Dir"; break;
+    case 83: KeyName = "Fara_Width"; break;
+  };
+  TextWriteLine(PreKey + KeyName + PostKey +"=" + KeyValue + "\n", LineNumber);
+  ++LineNumber;
+  FileSelect(FileIndex);
+};
+
+string ReadNumberToString(uint type)
+{
+  local string Str;
+  local float fnumber;
+  local float inumber;
+  if (type == 0)
+  {
+    fnumber = ReadFloat(FTell());
+    SPrintf(Str, "%6.4f", fnumber);
+  }
+  else
+  {
+    inumber = ReadInt(FTell());
+    SPrintf(Str, "%d", inumber);
+  };
+  FSkip(4);
+  return Str;
+};
+
+void ValuesToTCH(uint type, uint size, uint nodetype, uint Pren, uint Postn)
+{
+  local string Values;
+  local uchar Buffer[60];
+  local string Pre, Post;
+  if (Pren)
+    SPrintf(Pre, "%d", Pren);
+  if (Postn)     
+    SPrintf(Post, "%d", Postn);
+  //
+  if (type == 2) 
+  {
+    ReadBytes(Buffer, FTell(), size);
+    Values = Buffer;
+    FSkip(size); 
+  }
+  else
+    if ( size == 1 )
+      Values = ReadNumberToString(type);
+    else
+      Values = ReadDataToString(size, type);
+  
+  WriteToFile(Pre, Values, Post, nodetype); 
+};
+
+FileIndex = GetFileNum();
+TCH = FileNew("Text");
+FileSelect(FileIndex);
+
+FSkip(57);
+
+local uint z;
+for ( z = 0; z < 43; ++z )
+{ 
+  FSkip(2242);
+  ReadBytes(VCHName, FTell(), 30);
+  FileSelect(TCH);
+  TextWriteLine("[" + VCHName + "]\n", LineNumber);
+  ++LineNumber;
+  FileSelect(FileIndex);  
+  FSkip(-2242);
+
+  if (VCHName != "") 
+  {
+    FSkip(36);
+    ValuesToTCH(0, 3, 1, 0, 0);
+    FSkip(36 + 12);
+    ValuesToTCH(0, 1, 2, 0, 0);  
+    ValuesToTCH(0, 1, 3, 0, 0);
+    ValuesToTCH(0, 1, 4, 0, 0);
+    ValuesToTCH(0, 1, 5, 0, 0);
+    ValuesToTCH(0, 1, 6, 0, 0);
+    FSkip(12);
+    FSkip(12);
+    FSkip(12);
+    FSkip(4); // number of gears
+    FSkip(4);
+    ValuesToTCH(0, 1, 7, 0, 0);
+    FSkip(4);
+    ValuesToTCH(0, 1, 8, 0, 0);
+    ValuesToTCH(0, 1, 9, 0, 0);
+    ValuesToTCH(0, 1, 10, 0, 0);
+    ValuesToTCH(0, 1, 11, 0, 0);
+    ValuesToTCH(0, 1, 12, 0, 0);
+    ValuesToTCH(0, 1, 13, 0, 0);
+    ValuesToTCH(0, 1, 14, 0, 0);
+    FSkip(4);
+    ValuesToTCH(0, 1, 15, 0, 0);
+    ValuesToTCH(0, 1, 16, 0, 0);
+    ValuesToTCH(0, 1, 17, 0, 0);
+    //
+    for (k = 0; k < 14; ++k )
+      ValuesToTCH(0, 1, 18, 0, k + 1);
+    ValuesToTCH(0, 1, 19, 0, 0);
+    ValuesToTCH(0, 1, 20, 0, 0);  
+    ValuesToTCH(0, 1, 21, 0, 0);
+    ValuesToTCH(0, 1, 22, 0, 0);
+    ValuesToTCH(0, 1, 23, 0, 0);
+    ValuesToTCH(0, 3, 24, 0, 0);
+    // wheels
+    ValuesToTCH(1, 8, 25, 0, 0);
+    ValuesToTCH(1, 8, 26, 0, 0);
+    ValuesToTCH(1, 8, 27, 0, 0);
+    ValuesToTCH(0, 3, 28, 0, 0);  
+    ValuesToTCH(0, 1, 29, 0, 0);  
+
+    ValuesToTCH(0, 3, 30, 0, 0); 
+    // rs
+    ValuesToTCH(0, 3, 31, 0, 0); 
+    ValuesToTCH(0, 3, 32, 0, 0); 
+    ValuesToTCH(0, 3, 33, 0, 0); 
+    ValuesToTCH(0, 3, 34, 0, 0);  
+    FSkip(240);  
+    FSkip(4);  
+    FSkip(32); 
+    ValuesToTCH(0, 8, 35, 0, 0);    
+    // Ks 
+    ValuesToTCH(0, 8, 36, 0, 0); 
+    ValuesToTCH(0, 8, 37, 0, 0); 
+    ValuesToTCH(0, 1, 38, 0, 0);  
+    ValuesToTCH(0, 3, 39, 0, 0); 
+    FSkip(4); 
+    ValuesToTCH(0, 1, 40, 0, 0); 
+    ValuesToTCH(0, 1, 41, 0, 0); 
+    FSkip(4); 
+    FSkip(4); 
+    // cornermarkw  
+    for (k = 0; k < 20; ++k )
+      ValuesToTCH(0, 3, 42, 0, k + 1); 
+    for (k = 0; k < 20; ++k )
+      ValuesToTCH(0, 3, 43, 0, k + 1); 
+    //
+    FSkip(4*9);
+    FSkip(4);
+    for (k = 0; k < 4; ++k )
+      ValuesToTCH(0, 3, 44, 0, k + 1); 
+    for (k = 0; k < 20; ++k )
+      ValuesToTCH(0, 4, 45, 0, k + 1); 
+    FSkip(4);
+    FSkip(4);
+    FSkip(4); 
+    for (k = 0; k < 5; ++k )
+      ValuesToTCH(0, 3, 46, 0, k + 1); 
+    FSkip(4); 
+    // 
+    ValuesToTCH(0, 3, 47, 0, 0); 
+    ValuesToTCH(0, 3, 48, 0, 0); 
+    ValuesToTCH(0, 3, 49, 0, 0); 
+    ValuesToTCH(0, 3, 50, 0, 0);    
+    ValuesToTCH(0, 3, 51, 0, 0); 
+    ValuesToTCH(0, 3, 52, 0, 0); 
+    ValuesToTCH(0, 3, 53, 0, 0); 
+    ValuesToTCH(0, 3, 54, 0, 0);  
+    ValuesToTCH(0, 3, 55, 0, 0); 
+    ValuesToTCH(0, 3, 56, 0, 0); 
+    ValuesToTCH(0, 3, 57, 0, 0); 
+    ValuesToTCH(0, 3, 58, 0, 0);       
+    ValuesToTCH(1, 1, 59, 0, 0); 
+    ValuesToTCH(1, 1, 60, 0, 0); 
+    ValuesToTCH(0, 1, 61, 0, 0);
+
+    ValuesToTCH(0, 3, 62, 0, 0); 
+    ValuesToTCH(0, 3, 63, 0, 0); 
+    ValuesToTCH(0, 3, 64, 0, 0);
+    ValuesToTCH(0, 3, 65, 0, 0); 
+
+    ValuesToTCH(0, 1, 66, 0, 0);
+    ValuesToTCH(0, 1, 67, 0, 0);
+    ValuesToTCH(0, 2, 68, 0, 0);
+    ValuesToTCH(0, 2, 69, 0, 0);
+    ValuesToTCH(0, 1, 70, 0, 0);
+
+    ValuesToTCH(0, 3, 71, 0, 0); 
+    ValuesToTCH(0, 3, 72, 0, 0); 
+    ValuesToTCH(0, 4, 73, 0, 0); 
+    //
+    ValuesToTCH(0, 7, 74, 0, 0);
+    FSkip(4); 
+    FSkip(4); 
+    ValuesToTCH(2, 60, 75, 0, 0); 
+    FSkip(30); // tch
+    FSkip(30); // vch      
+    FSkip(30); //  
+    ValuesToTCH(2, 20, 78, 0, 0); 
+    ValuesToTCH(2, 20, 79, 0, 0); 
+    ValuesToTCH(2, 30, 80, 0, 0); // car node
+    //
+    FSkip(4);
+    ValuesToTCH(1, 1, 81, 0, 0);
+    ValuesToTCH(0, 2, 82, 0, 0);
+    FSkip(4*4);  
+    ValuesToTCH(0, 3, 83, 0, 0);
+ 
+    FileSelect(TCH);
+    TextWriteLine("\n", LineNumber);
+    ++LineNumber;
+    FileSelect(FileIndex);  
+  } 
+  else 
+    FSkip(2416); 
+};
