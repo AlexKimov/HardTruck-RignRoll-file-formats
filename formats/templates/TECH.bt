@@ -18,12 +18,12 @@ struct {
   UINT BufferSize; // 2416
   UINT CarsCount;
   UINT Unknown; // 0
-  UINT LorrieCount;
-  UINT TractorsCount;
-  UINT SemiTrailersCoun;
-  UINT tTrailersCount;
-  UINT HelicoptersCount;
-  UINT VehicleCount;
+  UINT LorriePos;
+  UINT TractorsPos;
+  UINT SemiTrailersPos;
+  UINT TrailersPos;
+  UINT HelicoptersPos;
+  UINT VehiclePos;
 } HEADER  <name="TECHs section header">;
 
 typedef struct {
@@ -165,7 +165,6 @@ typedef struct {
 
 
 typedef struct {
-
   FLOAT U01[9];
   CENTER CenterMassInB3D;
   FLOAT U0[9];
@@ -245,16 +244,16 @@ typedef struct {
   UINT CornerMarkWCount; 
   CORNER_MARK CornerMarkW[4]; 
   COLLISIONPLANE ColPlane[20]; 
-  UINT Unkown;
+  UINT PlaneCount;
   FLOAT Unkown;
   FLOAT Unkown;
   TV_CAMERA_POSITION tvCameraPos[5];  
   UINT tvCameraCount;
   CENTER tvCameraRightConer;
-  CENTER SmokeDirection; 
+  CENTER Smokeposition; 
   CENTER Smokedirection; 
-  CENTER Smokeposition2; 
-  CENTER Smokedirection_0; 
+  CENTER SmokePosition2; 
+  CENTER SmokeDirection2; 
   CENTER FlamePlace;
   CENTER FaraFl; 
   CENTER FaraFr; 
@@ -304,7 +303,7 @@ TECH_ARRAY Techs(80) <name="TECHs">;
 
 string getTechName(TECH &tech)
 {
-  return tech.VCH;
+  return tech.VCH + ":" + tech.TCH;
 }
 
 struct {
@@ -312,12 +311,57 @@ struct {
 } TIMES;
 
 typedef struct {
-  uchar DATA[876];
-} TRASBOX;
+  //TrashboX array[size];
+  UCHAR node[35];
+  UCHAR TrashBoxClass[37];
+  FLOAT U1[9];
+  CENTER CenterMassInB3D;
+  FLOAT U2[12]; 
+  I i; 
+  CENTER CollisionCenter;
+  FLOAT Mass; 
+  FLOAT CollisionRadius; 
+  FLOAT RubberCollisionCoeff;   
+  CORNER_MARK CornerMark[20];
+  FLOAT Unknown;  
+  FLOAT Unknown; 
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  UINT CornerMarkCount;
+  UINT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  COLLISIONPLANE ColPlanes[20];
+  UINT ColPlaneCount;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  UINT TextureBytes;
+  UINT CircularShadow; // X, Y, Z
+} TRASHBOX <name=GetTBName>;
+
+string GetTBName(TRASHBOX &tb)
+{
+  return SubStr(tb.node, 0, Strstr(tb.node, " "));
+};
 
 struct {
   UINT Size; // 876
-  UINT TrasboxCount;
+  UINT TrashboxCount;
   UINT Unknown;
   UINT Unknown;
   UINT Unknown;
@@ -325,8 +369,8 @@ struct {
   UINT Unknown;
   UINT Unknown;
   UINT Unknown;
-} HEADER <name="Trashoxes section header">; 
+} HEADER <name="Trashboxes section header">; 
 typedef struct (uint size) {
-  TRASBOX array[size];
-} TRASBOX_ARRAY;
-TRASBOX_ARRAY Trasboxes(35) <name="Trasboxes">;
+  TRASHBOX array[size]; 
+} TRASHBOX_ARRAY;
+TRASHBOX_ARRAY Trashboxes(HEADER.TrashboxCount) <name="Trashboxes">;
