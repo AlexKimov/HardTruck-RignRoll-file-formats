@@ -9,20 +9,25 @@
 //   History: 
 //------------------------------------------------
 
-local string Values, Str;
-local uchar VCHName[30];
-local uint FileIndex, TCH, LineNumber, k, i;
+local string Values, Str, Path;
+local uchar VCHName[30], TCHName[30];
+local uint Truck2Line, FileIndex, Truck2, TCH, Cars, Lorries, Tractors, Trailers, Line, LineNumber, k, i;
 local float number;
+local uint PlaneCount, GearCount, CorMarkCount, CorMarkWCount, AddColPtsCount, CameraPosCount;
 
 string ReadDataToString(uint size, uint type)
 {
   local string str, numberstr;
+  local float fvalue;
   for ( i = 0; i < size; ++i )
   {
     if (type)
       SPrintf(str, "%d ", ReadInt(FTell()));
     else
-      SPrintf(str, "%4.4f ", ReadFloat(FTell())); 
+    {
+      fvalue = ReadFloat(FTell());
+      SPrintf(str, "%f ", fvalue); 
+    }  
     FSkip(4);
     numberstr += str;
   };
@@ -118,13 +123,16 @@ void WriteToFile(string PreKey, string KeyValue, string PostKey, uint type)
     case 81: KeyName = "trailer_type"; break;
     case 82: KeyName = "Fara_Dir"; break;
     case 83: KeyName = "Fara_Width"; break;
+    case 84: KeyName = "node"; break;
+    case 85: KeyName = "texture_Bytes"; break;
+    case 86: KeyName = "circular_shadow"; break;
   };
   TextWriteLine(PreKey + KeyName + PostKey +"=" + KeyValue + "\n", LineNumber);
   ++LineNumber;
   FileSelect(FileIndex);
 };
 
-string ReadNumberToString(uint type)
+string ReadNumberToString(uint type, uint nodetype, uint index)
 {
   local string Str;
   local float fnumber;
@@ -132,7 +140,22 @@ string ReadNumberToString(uint type)
   if (type == 0)
   {
     fnumber = ReadFloat(FTell());
-    SPrintf(Str, "%6.4f", fnumber);
+    if (nodetype == 18)
+      if (index >= GearCount )
+        fnumber = -100; 
+    if (nodetype == 7) 
+      fnumber = fnumber*10;
+    if (nodetype == 29) 
+      fnumber = fnumber/0.017453292;
+    if (nodetype == 19)
+      fnumber = fnumber/0.016666668;
+    if (nodetype == 68)
+      fnumber = fnumber/0.2777777778;
+    if (nodetype == 69)
+      fnumber = fnumber/1.66666667;
+    if (nodetype == 70)
+      fnumber = 90*0.017453292222/fnumber;      
+    SPrintf(Str, "%f", fnumber);
   }
   else
   {
@@ -143,25 +166,26 @@ string ReadNumberToString(uint type)
   return Str;
 };
 
-void ValuesToTCH(uint type, uint size, uint nodetype, uint Pren, uint Postn)
+void ValuesToTCH(uint type, uint size, uint nodetype, int Pren, int Postn)
 {
   local string Values;
   local uchar Buffer[60];
   local string Pre, Post;
-  if (Pren)
+  if (Pren >= 0)
     SPrintf(Pre, "%d", Pren);
-  if (Postn)     
+  if (Postn >= 0)     
     SPrintf(Post, "%d", Postn);
   //
   if (type == 2) 
   {
     ReadBytes(Buffer, FTell(), size);
     Values = Buffer;
+    SubStr(Values, 0, Strstr(Values, " "));
     FSkip(size); 
   }
   else
     if ( size == 1 )
-      Values = ReadNumberToString(type);
+      Values = ReadNumberToString(type, nodetype, Postn);
     else
       Values = ReadDataToString(size, type);
   
@@ -169,152 +193,267 @@ void ValuesToTCH(uint type, uint size, uint nodetype, uint Pren, uint Postn)
 };
 
 FileIndex = GetFileNum();
-TCH = FileNew("Text");
+
+Truck2 = FileNew("Text");
+TextWriteLine("[WHAT]\n", Truck2Line);
+++Truck2Line;
+TextWriteLine("what=this_is_the_file_of_the_dynamics_behavior\n", Truck2Line);
+++Truck2Line;
+TextWriteLine("\n", Truck2Line);
+++Truck2Line;
+TextWriteLine("[CARS]\n", Truck2Line);
+++Truck2Line;
+TextWriteLine("\n", Truck2Line);
+++Truck2Line;
+
+Cars = FileNew("Text"); 
+Lorries = FileNew("Text"); 
+Tractors = FileNew("Text"); 
+Trailers = FileNew("Text");
 FileSelect(FileIndex);
+
+Path = FileNameGetPath(GetFileName());
 
 FSkip(57);
 
 local uint z;
+local string tchn, str;
+
+Line = 1;
 for ( z = 0; z < 43; ++z )
 { 
-  FSkip(2242);
-  ReadBytes(VCHName, FTell(), 30);
+  FSkip(2212);
+  ReadBytes(TCHName, FTell(), 30);
+  ReadBytes(VCHName, FTell() + 30, 30); 
+
+  TCHName = StrDel(TCHName, 0, 2);
+  SPrintf(str, "%d", Line);
+  if (tchn != TCHName)
+  { 
+    FileSelect(Truck2); 
+    if (LineNumber)
+    {   
+
+      TextWriteLine(str + "veh=ThereIsNoMoreAnything" + "\n", Truck2Line);
+      ++Truck2Line;   
+      if (TCHName == "lorries.tch")   
+      {
+        TextWriteLine(str + "tch=cars.tch\n" + TCHName, Truck2Line);
+        ++Truck2Line; 
+        TextWriteLine("\n", Truck2Line);
+        ++Truck2Line; 
+        TextWriteLine("[LORRIES]\n", Truck2Line);
+      } 
+      if (TCHName == "tractors.tch")  
+      { 
+        TextWriteLine(str + "tch=lorries.tch\n" + TCHName, Truck2Line);
+        ++Truck2Line; 
+        TextWriteLine("\n", Truck2Line);
+        ++Truck2Line; 
+        TextWriteLine("[TRACTORS]\n", Truck2Line);
+      };
+      if (TCHName == "trailers.tch")
+      {  
+        TextWriteLine(str + "tch=tractors.tch\n" + TCHName, Truck2Line);
+        ++Truck2Line; 
+        TextWriteLine("\n", Truck2Line);
+        ++Truck2Line;  
+        TextWriteLine("[SEMI-TRAILERS]\n", Truck2Line);
+      };
+      ++Truck2Line; 
+      TextWriteLine("\n", Truck2Line);
+      ++Truck2Line;  
+    };  
+    LineNumber = 0;
+    Line = 1;
+    SPrintf(str, "%d", Line);
+  };
+
+  tchn = TCHName;
+
+  FileSelect(Truck2);
+  TextWriteLine(str + "veh=" + VCHName + "\n", Truck2Line);
+  ++Truck2Line;
+  switch (TCHName)
+  {
+    case "cars.tch":  
+     TCH = Cars; 
+     TextWriteLine(str + "tch=cars.tch\n" + TCHName, Truck2Line);
+    break;
+    case "lorries.tch": 
+      TCH = Lorries; 
+      TextWriteLine(str + "tch=lorries.tch\n" + TCHName, Truck2Line);
+    break;
+    case "tractors.tch": 
+      TCH = Tractors; 
+      TextWriteLine(str + "tch=tractors.tch\n" + TCHName, Truck2Line);
+    break;
+    case "trailers.tch": 
+      TCH = Trailers;
+      TextWriteLine(str + "tch=trailers.tch\n" + TCHName, Truck2Line);
+  };
+  ++Truck2Line;
+
   FileSelect(TCH);
   TextWriteLine("[" + VCHName + "]\n", LineNumber);
   ++LineNumber;
+  ++Line;
   FileSelect(FileIndex);  
-  FSkip(-2242);
+  FSkip(-2212);
 
   if (VCHName != "") 
   {
     FSkip(36);
-    ValuesToTCH(0, 3, 1, 0, 0);
+    ValuesToTCH(0, 3, 1, -1, -1);
     FSkip(36 + 12);
-    ValuesToTCH(0, 1, 2, 0, 0);  
-    ValuesToTCH(0, 1, 3, 0, 0);
-    ValuesToTCH(0, 1, 4, 0, 0);
-    ValuesToTCH(0, 1, 5, 0, 0);
-    ValuesToTCH(0, 1, 6, 0, 0);
+    ValuesToTCH(0, 1, 2, -1, -1);  
+    ValuesToTCH(0, 1, 3, -1, -1);
+    ValuesToTCH(0, 1, 4, -1, -1);
+    ValuesToTCH(0, 1, 5, -1, -1);
+    ValuesToTCH(0, 1, 6, -1, -1);
     FSkip(12);
     FSkip(12);
     FSkip(12);
+    GearCount = ReadInt(FTell());
     FSkip(4); // number of gears
     FSkip(4);
-    ValuesToTCH(0, 1, 7, 0, 0);
+    ValuesToTCH(0, 1, 7, -1, -1);
     FSkip(4);
-    ValuesToTCH(0, 1, 8, 0, 0);
-    ValuesToTCH(0, 1, 9, 0, 0);
-    ValuesToTCH(0, 1, 10, 0, 0);
-    ValuesToTCH(0, 1, 11, 0, 0);
-    ValuesToTCH(0, 1, 12, 0, 0);
-    ValuesToTCH(0, 1, 13, 0, 0);
-    ValuesToTCH(0, 1, 14, 0, 0);
+    ValuesToTCH(0, 1, 8, -1, -1);
+    ValuesToTCH(0, 1, 9, -1, -1);
+    ValuesToTCH(0, 1, 10, -1, -1);
+    ValuesToTCH(0, 1, 11, -1, -1);
+    ValuesToTCH(0, 1, 12, -1, -1);
+    ValuesToTCH(0, 1, 13, -1, -1);
+    ValuesToTCH(0, 1, 14, -1, -1);
     FSkip(4);
-    ValuesToTCH(0, 1, 15, 0, 0);
-    ValuesToTCH(0, 1, 16, 0, 0);
-    ValuesToTCH(0, 1, 17, 0, 0);
+    ValuesToTCH(0, 1, 15, -1, -1);
+    ValuesToTCH(0, 1, 16, -1, -1);
+    ValuesToTCH(0, 1, 17, -1, -1);
     //
-    for (k = 0; k < 14; ++k )
-      ValuesToTCH(0, 1, 18, 0, k + 1);
-    ValuesToTCH(0, 1, 19, 0, 0);
-    ValuesToTCH(0, 1, 20, 0, 0);  
-    ValuesToTCH(0, 1, 21, 0, 0);
-    ValuesToTCH(0, 1, 22, 0, 0);
-    ValuesToTCH(0, 1, 23, 0, 0);
-    ValuesToTCH(0, 3, 24, 0, 0);
+    FSkip(4);
+    for (k = 0; k < 13; ++k )
+      ValuesToTCH(0, 1, 18, -1, k + 1);
+    ValuesToTCH(0, 1, 19, -1, -1);
+    ValuesToTCH(0, 1, 20, -1, -1);  
+    ValuesToTCH(0, 1, 21, -1, -1);
+    ValuesToTCH(0, 1, 22, -1, -1);
+    ValuesToTCH(0, 1, 23, -1, -1);
+    ValuesToTCH(0, 3, 24, -1, -1);
     // wheels
-    ValuesToTCH(1, 8, 25, 0, 0);
-    ValuesToTCH(1, 8, 26, 0, 0);
-    ValuesToTCH(1, 8, 27, 0, 0);
-    ValuesToTCH(0, 3, 28, 0, 0);  
-    ValuesToTCH(0, 1, 29, 0, 0);  
+    ValuesToTCH(1, 8, 25, -1, -1);
+    ValuesToTCH(1, 8, 26, -1, -1);
+    ValuesToTCH(1, 8, 27, -1, -1);
+    ValuesToTCH(0, 3, 28, -1, -1);  
+    ValuesToTCH(0, 1, 29, -1, -1);  
 
-    ValuesToTCH(0, 3, 30, 0, 0); 
+    ValuesToTCH(0, 3, 30, -1, -1); 
     // rs
-    ValuesToTCH(0, 3, 31, 0, 0); 
-    ValuesToTCH(0, 3, 32, 0, 0); 
-    ValuesToTCH(0, 3, 33, 0, 0); 
-    ValuesToTCH(0, 3, 34, 0, 0);  
+    FSkip(48);
+    //ValuesToTCH(0, 3, 31, -1, -1); 
+    //ValuesToTCH(0, 3, 32, -1, -1); 
+    //ValuesToTCH(0, 3, 33, -1, -1); 
+    //ValuesToTCH(0, 3, 34, -1, -1);  
     FSkip(240);  
     FSkip(4);  
     FSkip(32); 
-    ValuesToTCH(0, 8, 35, 0, 0);    
+    ValuesToTCH(0, 8, 35, -1, -1);    
     // Ks 
-    ValuesToTCH(0, 8, 36, 0, 0); 
-    ValuesToTCH(0, 8, 37, 0, 0); 
-    ValuesToTCH(0, 1, 38, 0, 0);  
-    ValuesToTCH(0, 3, 39, 0, 0); 
+    ValuesToTCH(0, 8, 36, -1, -1); 
+    ValuesToTCH(0, 8, 37, -1, -1); 
+    ValuesToTCH(0, 1, 38, -1, -1);  
+    ValuesToTCH(0, 3, 39, -1, -1); 
     FSkip(4); 
-    ValuesToTCH(0, 1, 40, 0, 0); 
-    ValuesToTCH(0, 1, 41, 0, 0); 
+    ValuesToTCH(0, 1, 40, -1, -1); 
+    ValuesToTCH(0, 1, 41, -1, -1); 
+
+    CorMarkCount = ReadInt(FTell());
     FSkip(4); 
+    AddColPtsCount = ReadInt(FTell());
     FSkip(4); 
     // cornermarkw  
-    for (k = 0; k < 20; ++k )
-      ValuesToTCH(0, 3, 42, 0, k + 1); 
-    for (k = 0; k < 20; ++k )
-      ValuesToTCH(0, 3, 43, 0, k + 1); 
+    for (k = 0; k < CorMarkCount; ++k )
+      ValuesToTCH(0, 3, 42, -1, k + 1); 
+    FSkip((20 - CorMarkCount)*12); 
+
+    for (k = 0; k < AddColPtsCount ; ++k )
+      ValuesToTCH(0, 3, 43, -1, k); 
+    FSkip((20 - AddColPtsCount)*12);     
     //
     FSkip(4*9);
+    CorMarkWCount = ReadInt(FTell());
     FSkip(4);
-    for (k = 0; k < 4; ++k )
-      ValuesToTCH(0, 3, 44, 0, k + 1); 
-    for (k = 0; k < 20; ++k )
-      ValuesToTCH(0, 4, 45, 0, k + 1); 
+    for (k = 0; k < CorMarkWCount; ++k )
+      ValuesToTCH(0, 3, 44, -1, k + 1); 
+    FSkip((4 - CorMarkWCount)*12);     
+
+    FSkip(320);
+    PlaneCount = ReadInt(FTell());
+    FSkip(-320);    
+    for (k = 0; k < PlaneCount; ++k )
+      ValuesToTCH(0, 4, 45, -1, k); 
+    FSkip((20 - PlaneCount)*16);     
     FSkip(4);
     FSkip(4);
     FSkip(4); 
-    for (k = 0; k < 5; ++k )
-      ValuesToTCH(0, 3, 46, 0, k + 1); 
+
+    FSkip(60);
+    CameraPosCount = ReadInt(FTell());
+    FSkip(-60); 
+    for (k = 0; k < CameraPosCount; ++k )
+      ValuesToTCH(0, 3, 46, -1, k + 1); 
+    FSkip((5 - CameraPosCount)*12);   
     FSkip(4); 
     // 
-    ValuesToTCH(0, 3, 47, 0, 0); 
-    ValuesToTCH(0, 3, 48, 0, 0); 
-    ValuesToTCH(0, 3, 49, 0, 0); 
-    ValuesToTCH(0, 3, 50, 0, 0);    
-    ValuesToTCH(0, 3, 51, 0, 0); 
-    ValuesToTCH(0, 3, 52, 0, 0); 
-    ValuesToTCH(0, 3, 53, 0, 0); 
-    ValuesToTCH(0, 3, 54, 0, 0);  
-    ValuesToTCH(0, 3, 55, 0, 0); 
-    ValuesToTCH(0, 3, 56, 0, 0); 
-    ValuesToTCH(0, 3, 57, 0, 0); 
-    ValuesToTCH(0, 3, 58, 0, 0);       
-    ValuesToTCH(1, 1, 59, 0, 0); 
-    ValuesToTCH(1, 1, 60, 0, 0); 
-    ValuesToTCH(0, 1, 61, 0, 0);
+    ValuesToTCH(0, 3, 47, -1, -1); 
+    ValuesToTCH(0, 3, 48, -1, -1); 
+    ValuesToTCH(0, 3, 49, -1, -1); 
+    ValuesToTCH(0, 3, 50, -1, -1);    
+    ValuesToTCH(0, 3, 51, -1, -1); 
+    ValuesToTCH(0, 3, 52, -1, -1); 
+    ValuesToTCH(0, 3, 53, -1, -1); 
+    ValuesToTCH(0, 3, 54, -1, -1);  
+    ValuesToTCH(0, 3, 55, -1, -1); 
+    ValuesToTCH(0, 3, 56, -1, -1); 
+    ValuesToTCH(0, 3, 57, -1, -1); 
+    ValuesToTCH(0, 3, 58, -1, -1);       
+    ValuesToTCH(1, 1, 59, -1, -1); 
+    ValuesToTCH(1, 1, 60, -1, -1); 
+    ValuesToTCH(0, 1, 61, -1, -1);
 
-    ValuesToTCH(0, 3, 62, 0, 0); 
-    ValuesToTCH(0, 3, 63, 0, 0); 
-    ValuesToTCH(0, 3, 64, 0, 0);
-    ValuesToTCH(0, 3, 65, 0, 0); 
+    ValuesToTCH(0, 3, 62, -1, -1); 
+    ValuesToTCH(0, 3, 63, -1, -1); 
+    ValuesToTCH(0, 3, 64, -1, -1);
+    ValuesToTCH(0, 3, 65, -1, -1); 
 
-    ValuesToTCH(0, 1, 66, 0, 0);
-    ValuesToTCH(0, 1, 67, 0, 0);
-    ValuesToTCH(0, 2, 68, 0, 0);
-    ValuesToTCH(0, 2, 69, 0, 0);
-    ValuesToTCH(0, 1, 70, 0, 0);
+    ValuesToTCH(0, 1, 66, -1, -1);
+    ValuesToTCH(0, 1, 67, -1, -1);
+    ValuesToTCH(0, 1, 68, -1, -1);
+    FSkip(4);
+    ValuesToTCH(0, 1, 69, -1, -1);
+    FSkip(4);
+    ValuesToTCH(0, 1, 70, -1, -1);
 
-    ValuesToTCH(0, 3, 71, 0, 0); 
-    ValuesToTCH(0, 3, 72, 0, 0); 
-    ValuesToTCH(0, 4, 73, 0, 0); 
+    ValuesToTCH(0, 3, 71, -1, -1); 
+    ValuesToTCH(0, 3, 72, -1, -1); 
+    ValuesToTCH(0, 4, 73, -1, -1); 
     //
-    ValuesToTCH(0, 7, 74, 0, 0);
+    ValuesToTCH(0, 7, 74, -1, -1);
     FSkip(4); 
     FSkip(4); 
-    ValuesToTCH(2, 60, 75, 0, 0); 
+    ValuesToTCH(2, 60, 75, -1, -1); 
     FSkip(30); // tch
     FSkip(30); // vch      
     FSkip(30); //  
-    ValuesToTCH(2, 20, 78, 0, 0); 
-    ValuesToTCH(2, 20, 79, 0, 0); 
-    ValuesToTCH(2, 30, 80, 0, 0); // car node
+    ValuesToTCH(2, 20, 78, -1, -1); 
+    ValuesToTCH(2, 20, 79, -1, -1); 
+    ValuesToTCH(2, 30, 80, -1, -1); // car node
     //
     FSkip(4);
-    ValuesToTCH(1, 1, 81, 0, 0);
-    ValuesToTCH(0, 2, 82, 0, 0);
+    ValuesToTCH(1, 1, 81, -1, -1);
+    ValuesToTCH(0, 2, 82, -1, -1);
     FSkip(4*4);  
-    ValuesToTCH(0, 3, 83, 0, 0);
+    ValuesToTCH(0, 3, 83, -1, -1);
  
     FileSelect(TCH);
     TextWriteLine("\n", LineNumber);
@@ -324,3 +463,86 @@ for ( z = 0; z < 43; ++z )
   else 
     FSkip(2416); 
 };
+
+FileSelect(Truck2);  
+
+TextWriteLine("\n", Truck2Line);
+++Truck2Line; 
+TextWriteLine("[TRAILERS]\n", Truck2Line);
+++Truck2Line;
+TextWriteLine("1veh=ThereIsNoMoreAnything\n", Truck2Line);
+++Truck2Line; 
+TextWriteLine("1tch=trailers.tch\n", Truck2Line);
+++Truck2Line; 
+TextWriteLine("\n", Truck2Line);
+++Truck2Line; 
+
+TextWriteLine("[HELICOPTERS]\n", Truck2Line);
+++Truck2Line;
+TextWriteLine("1veh=ThereIsNoMoreAnything\n", Truck2Line);
+++Truck2Line; 
+TextWriteLine("1tch=helicopters.tch\n", Truck2Line);
+++Truck2Line; 
+TextWriteLine("\n", Truck2Line);
+++Truck2Line; 
+
+FileSelect(FileIndex);
+ 
+void TrasBoxesToTCH()
+{
+  FSkip(89392);
+  FSkip(172);
+  FSkip(36);
+  TCH = Truck2; 
+  LineNumber = Truck2Line;
+  for ( z = 0; z < 29; ++z )
+  { 
+    FileSelect(TCH);
+    TextWriteLine("\n", LineNumber);
+    ++LineNumber; 
+    FileSelect(Truck2); 
+    SPrintf(str, "%02d", z + 1);
+    TextWriteLine("[TECH" + str + "]\n", LineNumber);
+    ++LineNumber; 
+    TextWriteLine("\n", LineNumber);
+    ++LineNumber; 
+    FileSelect(FileIndex);
+    //
+    ValuesToTCH(2, 35, 84, -1, -1);
+    FSkip(37);
+    FSkip(36);
+    ValuesToTCH(0, 3, 1, -1, -1);
+    FSkip(48);
+    ValuesToTCH(0, 3, 30, -1, -1);  
+    ValuesToTCH(0, 3, 39, -1, -1); 
+
+    ValuesToTCH(0, 1, 2, -1, -1);  
+    ValuesToTCH(0, 1, 38, -1, -1);  
+
+    ValuesToTCH(0, 1, 40, -1, -1); 
+
+    //FSkip(240);
+    for (k = 0; k < 20; ++k )
+      ValuesToTCH(0, 3, 42, -1, k + 1);
+    FSkip(92); 
+    //FSkip(320);
+    for (k = 0; k < 20; ++k )
+      ValuesToTCH(0, 4, 45, -1, k + 1); 
+    FSkip(12); 
+    ValuesToTCH(1, 1, 85, -1, -1);
+    ValuesToTCH(1, 1, 86, -1, -1);
+  };
+};
+
+//TrasBoxesToTCH();
+
+FileSelect(Truck2);
+FileSave(Path + "Truck2.tch");
+FileSelect(Cars);  
+FileSave(Path + "cars.tch"); 
+FileSelect(Lorries);  
+FileSave(Path + "lorries.tch"); 
+FileSelect(Tractors);  
+FileSave(Path + "tractors.tch"); 
+FileSelect(Trailers);  
+FileSave(Path + "trailers.tch"); 
