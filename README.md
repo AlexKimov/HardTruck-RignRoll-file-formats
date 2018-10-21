@@ -60,7 +60,7 @@
 * [TechToTCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TechToTCH.1sc) - скрипт конвертирования данных из vehicle.tech в исходную текстовую форму.
 
 ## Спасибо
-Юрий Гладышенко ()
+Юрий Гладышенко
 
 ## Другие игры
 
