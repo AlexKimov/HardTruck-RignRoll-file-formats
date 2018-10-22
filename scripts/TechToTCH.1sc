@@ -543,7 +543,7 @@ void AddEmptyTrashBoxToTCH(uint index)
 
 void TrasBoxesToTCH()
 {
-  local uint i, k, n, z;
+  local uint i, k, n, z, count;
   FSkip((80 - TECHCount)*2416);
   FSkip(172);
   ReadTrashBoxHeader();
@@ -575,12 +575,20 @@ void TrasBoxesToTCH()
 
     ValuesToTCH(0, 1, 40, -1); 
 
-    for (k = 0; k < 20; ++k )
+    FSkip(276);
+    count = ReadInt(FTell());
+    FSkip(-276);    
+    for (k = 0; k < count; ++k )
       ValuesToTCH(0, 3, 42, k + 1);
+    FSkip((20 - count)*12);     
     FSkip(92); 
 
-    for (k = 0; k < 20; ++k )
-      ValuesToTCH(0, 4, 45, k); 
+    FSkip(320);
+    count = ReadInt(FTell());
+    FSkip(-320);
+    for (k = 0; k < count; ++k )
+      ValuesToTCH(0, 4, 45, k);
+    FSkip((20 - count)*16); 
     FSkip(12); 
     ValuesToTCH(1, 1, 85, -1);
     ValuesToTCH(1, 1, 86, -1);
@@ -619,7 +627,7 @@ void TrasBoxesToTCH()
 TrasBoxesToTCH();
 
 FileSelect(Truck2);
-FileSave(Path + "Truck2.tch");
+FileSave(Path + "truck2.tch");
 FileSelect(Cars);  
 FileSave(Path + "cars.tch"); 
 FileSelect(Lorries);  
