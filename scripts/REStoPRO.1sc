@@ -1,0 +1,91 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local uint datasize, line, i, length, count, index, NewFile = 0;
+local int FileIndex;
+local string Name, Path, identifier, FileName, idname, str;
+
+string FileNameRemoveExt(string FileName)
+{
+  return SubStr(FileName, 0, Strchr(FileName, '.'));
+};
+
+uint getNumberFromStr(string Str) 
+{
+  local uint pos, count = 0;
+  local string S;
+  pos = Strchr(Str, ' ');
+  S = SubStr(Str, pos + 1, Strlen(Str) - pos);
+  if (SScanf(S, "%d", count) > 0)
+    return count;
+  else
+    return 1;
+};
+
+string getID(string Str) 
+{
+  local uint pos = 0;
+  local string S;
+  pos = Strchr(Str, ' ');
+  return SubStr(Str, 0, pos);
+};
+
+FileIndex = GetFileNum();
+FileName = GetFileName();
+Path = FileNameGetPath(FileName) + FileNameGetBase(FileName);
+NewFile = FileNew("Text");
+FileSelect(FileIndex);
+
+while (!FEof())
+{  
+  identifier = ReadString(FTell());
+  length = ReadStringLength(FTell());
+  FSkip(length);  
+  idname = getID(identifier);
+  count = getNumberFromStr(identifier);  
+
+  FileSelect(NewFile);
+  TextWriteLine(identifier + "\n", line);
+  ++line;
+  FileSelect(FileIndex);
+
+  for ( i = 0 ; i < count ; ++i ) 
+  {
+    if (idname == "COLORS" || idname == "MATERIALS" || idname == "SOUNDS") 
+    {
+      str = ReadString(FTell());
+      length = ReadStringLength(FTell());
+      FSkip(length);
+
+      FileSelect(NewFile);
+      TextWriteLine(str + "\n", line);
+      ++line;
+      FileSelect(FileIndex);
+    }
+    else
+    {
+      Name = ReadString(FTell());
+      length = ReadStringLength(FTell());
+      FSkip(length); 
+      datasize = ReadInt();
+      FSkip(4);  
+      FSkip(datasize); 
+      
+      FileSelect(NewFile);
+      TextWriteLine(Name + "\n", line);
+      ++line;
+      FileSelect(FileIndex);    
+    };
+  };
+};
+
+FileSelect(NewFile);
+FileSave(FileNameRemoveExt(FileName) + ".pro");
