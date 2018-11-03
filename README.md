@@ -59,7 +59,7 @@
 * [KeyGenerator.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/KeyGenerator.1sc) - скрипт для генерации файла ключа для расшифровки **SCH** файлов.
 * [b3dToobj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/b3dToobj.1sc) - скрипт  для конвертирования **B3D** файлов в набор файлов формата **.obj** (в работе).
 * [TechToTCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TechToTCH.1sc) - скрипт конвертирования данных из vehicle.tech в исходную текстовую форму.
-[REStoPRO.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/REStoPRO.1sc) - скрипт конвертирования файлов ресурсов **.res** в файл **.pro**.
+* [REStoPRO.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/REStoPRO.1sc) - скрипт конвертирования файлов ресурсов **.res** в файл **.pro**.
 
 ## Спасибо
 Юрий Гладышенко
