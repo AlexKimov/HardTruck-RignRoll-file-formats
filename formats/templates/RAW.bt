@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: RAW.bt
+//   Authors: Alexandr Evdokimov
+//   Version: 0.1
+//   Purpose: Hard truck 2 RAW file
+//
+//   History: 
+//    
+//   2018.05 v 0.1 initial release 
+//
+//------------------------------------------------
+
+local uint width = 257, height = 257;
+
+struct {
+  struct { 
+    struct {
+      struct {
+        UBYTE HeightValue;
+        FSkip(1);  
+      } POINT[width];
+    } ROW;
+  } COL[height];
+} HEIGHTMAP;
