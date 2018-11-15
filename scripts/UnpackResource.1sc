@@ -92,7 +92,7 @@ while (!FEof())
       FSkip(datasize);       
       FileNew();
       WriteBytes(Buffer, 0, datasize);  
-      FileSave(Path + FileName);
+      FileSave(Path + getID(FileName));
       FileClose();
       FileSelect(FileIndex);
     };
