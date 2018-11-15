@@ -127,6 +127,7 @@ void WriteToFile(string KeyValue, string PostKey, uint type)
     case 85: KeyName = "texture_Bytes"; break;
     case 86: KeyName = "circular_shadow"; break;
   };
+       // if (KeyValue == "z") KeyValue = "z";
   TextWriteLine(KeyName + PostKey +"=" + KeyValue + "\n", LineNumber);
   ++LineNumber;
   FileSelect(FileIndex);
@@ -167,7 +168,7 @@ string ReadNumberToString(int type, uint nodetype, uint index)
       if (inumber == 2) 
         Str = "y";
       if (inumber == 3)  
-        Str = "z";   
+        Str = "z"; 
     }
     else
       SPrintf(Str, "%d", inumber);
@@ -195,7 +196,7 @@ void ValuesToTCH(int type, uint size, uint nodetype, int Postn)
     }
     else
       if ( size == 1 )
-        Values = ReadNumberToString(type, nodetype, Postn);
+        Values = ReadNumberToString(type, nodetype, Postn);     
       else
         Values = ReadDataToString(size, type);
   }
@@ -545,8 +546,8 @@ void TrasBoxesToTCH()
 {
   local uint i, k, n, z, count;
   FSkip((80 - TECHCount)*2416);
-  Printf("%d", FTell());
   FSkip(4*TECHCount);
+  ReadTrashBoxHeader();
   TCH = Truck2; 
   LineNumber = Truck2Line;
   n = 1;
@@ -625,12 +626,11 @@ void TrasBoxesToTCH()
 };
 
 
-
 TrasBoxesToTCH();
 
 FileSelect(Truck2);
 FileSave(Path + "truck2.tch");
-FileClose();
+//FileClose();
 FileSelect(Cars);  
 FileSave(Path + "cars.tch"); 
 FileClose();
