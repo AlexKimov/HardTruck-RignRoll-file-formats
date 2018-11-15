@@ -27,10 +27,7 @@ typedef struct {
   w = Width; h = Height;
   while (w >= 1) {
     typedef struct {  
-      UBYTE Blue: 5;
-      UBYTE Green: 5;
-      UBYTE Red: 5;
-      UBYTE Alpha: 1;
+      UINT16 Pixel;
     } PIXEL_RGB16; 
     typedef struct (int arraySize) {
       PIXEL_RGB16 array[arraySize];
@@ -45,8 +42,19 @@ typedef struct {
   UINT SectionSize;
   UINT RedMask;
   UINT GreenMask;
-  UINT BlueMask; 
+  UINT BlueMask;
+  UINT AlphaMask; 
+  BYTE B[12];
+  IDENTIFIER ID[4];
 } PFRM;
+
+BitfieldDisablePadding();
+
+typedef struct { 
+  UBYTE Red: 5;
+  UBYTE Green: 6;
+  UBYTE Blue: 5;
+} RGB565;
 
 typedef struct {          
   UBYTE  IDLength;
@@ -64,23 +72,38 @@ typedef struct {
   UBYTE  ImageDescriptor;
 } TGA_HEADER;
 
+typedef struct {
+  ubyte R;
+  ubyte G;
+  ubyte B;
+} PALETTE;
+
 typedef struct { 
   TGA_HEADER TGAHEADER;
 
   char Name[4]; // Line Offset
-  UINT LineOffset;
-  UINT ImageSize;
+  if (Name == "LOFF") 
+  {
+    UINT SectionSize;
+    UINT Offset;
   
-  BYTE Data[ImageSize - sizeof(TGAHEADER) - 12];
+    RGB565 Pixel[(Offset - sizeof(TGAHEADER) - 12)/2];
 
-  IDENTIFIER id[4];
-  if (id == "LVMP") {
-    LVMP lvmpid;
-    PFRM pfrmid;
-    UINT V;
-  } else {
-    PFRM pfrmid;
-  };
+    IDENTIFIER id[4];
+    if (id == "LVMP") 
+    {
+      LVMP lvmpid;
+      PFRM pfrmid;
+    } else {
+      PFRM pfrmid;
+    };
+  } 
+  else
+  {
+    FSkip(-4); 
+    PALETTE palette[256];
+    UBYTE Data[23*TGAHEADER.Width/23*TGAHEADER.Height];
+  } 
 } TXR;
 
 TXR txrFile;
