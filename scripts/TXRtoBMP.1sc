@@ -14,14 +14,14 @@ local uchar palette[768];
 local uchar Empty[256];
 local uchar Buffer[10485760] = 0; // file buffer
 local uchar Buffer2[3200] = 0;
-local uint i, width, height, pos, pos2, NewFile, size, alignment = 0;
+local uint i, width, height, pos, pos2, NewFile, size, padding = 0;
 local int FileIndex;
 local ubyte b, IDLength, ColorMapType, ImageType, ColorMapEntrySize, PixelDepth, ImageDescriptor;
 local uint16 FirstIndexEntry, ColorMapLength, XOrigin, YOrigin, Width, Height; 
 local string FileName;
 local char bfType[2];
 local WORD bfReserved1, bfReserved2, biPlanes, biBitCount; 
-local DWORD bfSize, bfOffBits, biSize, biWidth, biHeight, biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant, biRMask, biGMask, biBMask; 
+local DWORD bfSize, bfOffBits, biSize, biWidth, biHeight, biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant, biRMask, biGMask, biBMask, biAMask; 
 
 FileIndex = GetFileNum();
 FileName = GetFileName();
@@ -53,36 +53,50 @@ FSkip(1);
 
 FSkip(12);
 
-size = 23*Width/23*Height*2;
+local float bitinPixel = ColorMapEntrySize/8;
+size = 23*Width/23*Height*bitinPixel;
 
 local float w = Width;
-alignment = Ceil(w*2/4)*4 - Width*2;
+padding = 4 - (w*bitinPixel)%4;
 
-if (alignment)
+pos = 0;
+if (padding)
+{
+  FSkip(size);
   for ( i = 0; i < Height; ++i)
   {
-    ReadBytes(Buffer2, FTell(), Width*2);
-    Memcpy(Buffer, Buffer2, Width*2, pos, 0);
-    pos += Width*2;
-    Memcpy(Buffer, Empty, alignment, pos, 0);
-    pos += alignment;
-    FSkip(Width*2);
+    FSkip(-w*bitinPixel);
+    ReadBytes(Buffer2, FTell(), w*bitinPixel);
+    Memcpy(Buffer, Buffer2, w*bitinPixel, pos, 0);
+    pos += w*bitinPixel;
+    Memcpy(Buffer, Empty, padding, pos, 0);
+    pos += padding;    
   }
+  FSkip(size);
+}
 else
   {
     ReadBytes(Buffer, FTell(), size);  
     FSkip(size);
   };
 
+
 if (!FEof())
 {
-  Printf("%d", FTell());
-  FSkip(8);
+  local uchar type[4];
+  ReadBytes(type, FTell(), 4);
+  FSkip(4);
+  if (type == "LVMP") 
+    FSkip(ReadInt(FTell()) + 6 + 8);
+  else
+   FSkip(4);
   biRMask = ReadInt(FTell());
   FSkip(4);
   biGMask = ReadInt(FTell());
   FSkip(4);
   biBMask = ReadInt(FTell());
+  FSkip(4);
+  biAMask = ReadInt(FTell());
 };
 
 NewFile = FileNew("Hex");
@@ -90,7 +104,10 @@ NewFile = FileNew("Hex");
 bfType = "BM";
 WriteBytes(bfType, 0, 2);
 FSkip(2);
-bfSize = size + 66;
+if (pos > 0)
+  bfSize = pos + 70;
+else
+  bfSize = size + 70;
 WriteInt(FTell(), bfSize);
 FSkip(4);
 
@@ -100,18 +117,18 @@ FSkip(2);
 bfReserved2 = 0;
 WriteShort(FTell(), bfReserved2 );
 FSkip(2);
-bfOffBits = 66;
+bfOffBits = 70;
 WriteInt(FTell(), bfOffBits);
 FSkip(4);
 
-biSize = 40;
+biSize = 56;
 WriteInt(FTell(), biSize);
 FSkip(4);
 
 biWidth = Width;
 WriteInt(FTell(), biWidth);
 FSkip(4);
-biHeight = -Height;
+biHeight = Height;
 WriteInt(FTell(), biHeight);
 FSkip(4);
 
@@ -124,7 +141,10 @@ FSkip(2);
 biCompression = 3;
 WriteInt(FTell(), biCompression);
 FSkip(4);
-biSizeImage = size + 66;
+if (pos > 0)
+  biSizeImage = pos;
+else
+  biSizeImage = size;
 WriteInt(FTell(), biSizeImage);
 FSkip(4);
 
@@ -146,6 +166,8 @@ FSkip(4);
 WriteInt(FTell(), biGMask);
 FSkip(4);
 WriteInt(FTell(), biBMask);
+FSkip(4);
+WriteInt(FTell(), biAMask);
 FSkip(4);
 
 if (pos > 0)
