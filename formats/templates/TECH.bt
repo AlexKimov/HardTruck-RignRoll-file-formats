@@ -186,9 +186,10 @@ typedef struct {
 
   UINT GearCount;   
 
-  FSkip(8);
-
   UINT Unknown;
+  UINT Unknown;
+
+  FLOAT Unknown;
   FLOAT FuelConsumption; 
    
   FSkip(4);
