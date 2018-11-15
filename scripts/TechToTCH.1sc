@@ -545,8 +545,8 @@ void TrasBoxesToTCH()
 {
   local uint i, k, n, z, count;
   FSkip((80 - TECHCount)*2416);
-  FSkip(172);
-  ReadTrashBoxHeader();
+  Printf("%d", FTell());
+  FSkip(4*TECHCount);
   TCH = Truck2; 
   LineNumber = Truck2Line;
   n = 1;
@@ -624,15 +624,22 @@ void TrasBoxesToTCH()
   };
 };
 
+
+
 TrasBoxesToTCH();
 
 FileSelect(Truck2);
 FileSave(Path + "truck2.tch");
+FileClose();
 FileSelect(Cars);  
 FileSave(Path + "cars.tch"); 
+FileClose();
 FileSelect(Lorries);  
-FileSave(Path + "lorries.tch"); 
+FileSave(Path + "lorries.tch");
+FileClose(); 
 FileSelect(Tractors);  
 FileSave(Path + "tractors.tch"); 
+FileClose(); 
 FileSelect(Trailers);  
 FileSave(Path + "trailers.tch"); 
+FileClose();
