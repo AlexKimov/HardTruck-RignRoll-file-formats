@@ -48,7 +48,13 @@
 
 ### Скрипты
 
-##### 010 Editor
+#### 3dsMax
+* [raw_to_level_surface.ms]() - скрипт создания поверхности уровня из игры Дальнобойщики 2 на основе файлов **.raw**;
+* [raw_export.ms]() - скрипт экспорта в формат **.raw** игры Дальнобойщики 2;
+* [raw_import.ms]() - скрипт для импорта данных карты высот **.raw** игры Дальнобойщики 2;
+* [material_to_txr_msk.ms]() - скрипт для создания материала из файлов формата **.txr** и **.msk** игры Дальнобойщики 1/2;
+
+#### 010 Editor
 * [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
 * [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskConversion.1sc) - скрипт 010 Editor для конвертирования файлов масок **.msk** игры **Дальнобойщики 1/2** в формат **.tga** или **.bmp**. 
 * [PLMtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMtoTGA.1sc) - скрипт 010 Editor для конвертирования **.plm** файлов игры Дальнобойщики 1 в формат **.tga**. 
