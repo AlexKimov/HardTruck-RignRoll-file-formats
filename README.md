@@ -55,17 +55,20 @@
 * [material_to_txr_msk.ms]() - скрипт для создания материала из файлов формата **.txr** и **.msk** игры Дальнобойщики 1/2;
 
 #### 010 Editor
-* [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт 010 Editor для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
-* [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskConversion.1sc) - скрипт 010 Editor для конвертирования файлов масок **.msk** игры **Дальнобойщики 1/2** в формат **.tga** или **.bmp**. 
-* [PLMtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMtoTGA.1sc) - скрипт 010 Editor для конвертирования **.plm** файлов игры Дальнобойщики 1 в формат **.tga**. 
-* [TXRtoBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoBMP.1sc) - скрипт 010 Editor для конвертирования **.txr** файлов игры **Дальнобойщики 2** в формат **.bmp**. 
+* [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - скрипт для распаковки файлов из игровых ресурсов (**.RES/.RMP**) 
+* [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskConversion.1sc) - скрипт для конвертирования файлов масок **.msk** игры **Дальнобойщики 1/2** в формат **.tga** или **.bmp**. 
+* [PLMtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMtoTGA.1sc) - скрипт для конвертирования **.plm** файлов игры Дальнобойщики 1 в формат **.tga**. 
+* [TXRtoBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TXRtoBMP.1sc) - скрипт для конвертирования **.txr** файлов игры **Дальнобойщики 2** в формат **.bmp**. 
 * [RawToBMP.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToBMP.1sc) - скрипт конвертирует **.RAW** (карта высот) файл в 8 битное изображение (оттенки серого) в формате **bmp**.
 * [RawToObj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/RawToObj.1sc) - скрипт конвертирует **.RAW** (карта высот) файл в **.obj**.
-* [decodeSCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/decodeSCH.1sc) - скрипт  для расшифровки зашифрованных **SCH** и **CNF** файлов.
+* [decodeSCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/decodeSCH.1sc) - скрипт для расшифровки зашифрованных **SCH** и **CNF** файлов.
 * [KeyGenerator.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/KeyGenerator.1sc) - скрипт для генерации файла ключа для расшифровки **SCH** файлов.
-* [b3dToobj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/b3dToobj.1sc) - скрипт  для конвертирования **B3D** файлов в набор файлов формата **.obj** (в работе).
+* [b3dToobj.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/b3dToobj.1sc) - скрипт для конвертирования **B3D** файлов в набор файлов формата **.obj** (в работе).
 * [TechToTCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TechToTCH.1sc) - скрипт конвертирования данных из vehicle.tech в исходную текстовую форму.
 * [REStoPRO.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/REStoPRO.1sc) - скрипт конвертирования файлов ресурсов **.res** в **.pro**.
+
+#### Noesis
+* [fmt_ht_txr_msk.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_txr_msk.py) - скрипт для открытия **.txr** и **.msk** файлов
 
 ## Спасибо
 Юрий Гладышенко
