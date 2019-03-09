@@ -69,6 +69,7 @@
 
 #### Noesis
 * [fmt_ht_txr_msk.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_txr_msk.py) - скрипт для открытия **.txr** и **.msk** файлов
+* [fmt_ht_rmp_res.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_rmp_res.py) - скрипт для распковки **.res** и **.rmp** архивов
 
 ## Спасибо
 Юрий Гладышенко
