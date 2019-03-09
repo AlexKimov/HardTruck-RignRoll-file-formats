@@ -215,8 +215,13 @@ class HTImage:
             self.bitDepth = 1        
             return self.unpackPalettedImage(filereader)    
     
+    def getFileExtension(self):
+        type = self.reader.readUByte()
+        self.reader.seek(0, NOESEEK_ABS)
+        return ".msk" if (type == 77) else ".txr"   
+    
     def parseHeader(self):
-        self.extension = os.path.splitext(rapi.getInputName())[1]
+        self.extension = self.getFileExtension()
         #noesis.logPopup()
         if self.extension == ".txr":
             if self.readTXRHeader(self.reader) == 1:
