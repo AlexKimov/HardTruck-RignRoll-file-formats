@@ -68,19 +68,11 @@
 * [REStoPRO.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/REStoPRO.1sc) - скрипт конвертирования файлов ресурсов **.res** в **.pro**.
 
 #### Noesis
-* [fmt_ht_txr_msk.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_txr_msk.py) - скрипт для открытия **.txr** и **.msk** файлов
+* [fmt_ht_txr_msk.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_txr_msk.py) - скрипт для открытия и сохранения **.txr** и **.msk** файлов
 * [fmt_ht_rmp_res.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_rmp_res.py) - скрипт для распковки **.res** и **.rmp** архивов
 
 ## Спасибо
 Юрий Гладышенко
-
-## Другие игры
-
-1. [Игры на движке Storm 1: Корсары (2000), Age of Sail 2, Рыцари морей (2001)](https://github.com/AlexKimov/seadogs-file-formats)
-
-2. [Серия Hitman: Hitman Сodename 47, Hitman 2 Silent Assassin](https://github.com/AlexKimov/hitman-file-formats)
-
-3. [Игры Red Storm Ent: Rainbow Six 1/2, Ghost Recon (2001) и др.](https://github.com/AlexKimov/RSE-file-formats)
 
 * * * 
 # About
@@ -129,6 +121,7 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 
 ### Scripts
 
+#### 010Editor
 * [UnpackResource.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/UnpackResource.1sc) - unpack files from (**.RES/.RMP**) game archives (010 Editor)
 * [mskConversion.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/mskConversion.1sc) - **.msk** to **.tga** conversion script (010 Editor) 
 * [PLMtoTGA.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/PLMtoTGA.1sc) - **.plm** to **.tga** conversion script (010 Editor) 
@@ -141,10 +134,6 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 * [TechToTCH.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/TechToTCH.1sc) - convert data from vehicle.tech to source text data.
 * [REStoPRO.1sc](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/REStoPRO.1sc) - **.res** files to **.pro** format.
 
-## More formats
-
-1. [Sea dogs (2000), Age of Sail 2 (2001)](https://github.com/AlexKimov/seadogs-file-formats)
-
-2. [Hitman Сodename 47, Hitman 2 Silent Assassin](https://github.com/AlexKimov/hitman-file-formats)
-
-3. [Red Storm Ent games: Rainbow Six 1/2, Ghost Recon (2001) and other](https://github.com/AlexKimov/RSE-file-formats)
+#### Noesis
+* [fmt_ht_txr_msk.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_txr_msk.py) - open, save (wip) **.txr**, **.msk** files 
+* [fmt_ht_rmp_res.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_rmp_res.py) - unpack **.res** and **.rmp**
