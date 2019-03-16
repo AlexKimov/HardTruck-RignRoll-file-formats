@@ -24,6 +24,7 @@ struct {
 
  typedef struct {
     UBYTE Size;
+    if (Size == 0) Printf("123  ");
     if (Magic != "MS16")
     { 
       if  (Size <= 127) 
@@ -65,8 +66,10 @@ struct {
     };
   } BLOCK <name=getBlockName>;
 
-while (!FEof())
-  BLOCK DataBlock;
+struct {
+  while (!FEof())
+    BLOCK DataBlock;
+} DATA;
 
 string getBlockName(BLOCK &block)
 {
@@ -85,5 +88,5 @@ string getBlockName(BLOCK &block)
     return "raw data";
       else
       return "black pixels" ; 
-  }    
+  }   
 }

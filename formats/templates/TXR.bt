@@ -12,53 +12,69 @@
 //------------------------------------------------
 
 typedef enum <char> {
+  LOFF,
   PFRM,
   LVMP,
   ENDR
 } IDENTIFIER;
 
+// mipmaps
 typedef struct {
+  IDENTIFIER Name[4];
   UINT SectionSize;
-  UINT type;
+  UINT Count;
   UINT Width;
   UINT Height; 
-  UINT HS; 
-  local uint w,h;
-  w = Width; h = Height;
-  while (w >= 1) {
-    typedef struct {  
-      UINT16 Pixel;
-    } PIXEL_RGB16; 
+  UINT bitDepth; 
+
+  local uint w, h;
+
+  w = Width; 
+  h = Height;
+  while (w >= 1) 
+  {
+    typedef struct {
+      if (bitDepth == 2) 
+        UINT16 Pixel;
+      else
+        BYTE Pixel;
+    } TEXEL; 
     typedef struct (int arraySize) {
-      PIXEL_RGB16 array[arraySize];
-    } PIXEL_RGB16_Array; 
-    PIXEL_RGB16_Array Pixels(w*h);
+      TEXEL array[arraySize];
+    } TEXELS; 
+    TEXELS Texel(w*h);
+
     w = w/2; h = h/2;
   };
+
   BYTE A[2];  
 } LVMP;
 
+// bit masks
 typedef struct {
+  IDENTIFIER Name[4];
   UINT SectionSize;
   UINT RedMask;
   UINT GreenMask;
   UINT BlueMask;
-  UINT AlphaMask; 
-  BYTE B[12];
-  IDENTIFIER ID[4];
+  UINT AlphaMask;
+
+  if (SectionSize > 16) 
+    BYTE Empty[12];
 } PFRM;
 
 BitfieldDisablePadding();
 
 typedef struct { 
+  // BGR565, BGRA5551, BGRA4444
   UBYTE Red: 5;
   UBYTE Green: 6;
   UBYTE Blue: 5;
-} RGB565;
+} RGB16;
 
 typedef struct {          
   UBYTE  IDLength;
-  UBYTE  ColorMapType;
+  UBYTE  ColorMapType; // 1 - Hard Truck 1, 0 - Hard Truck 2
   UBYTE  ImageType;
   WORD   FirstIndexEntry;
   WORD   ColorMapLength;
@@ -78,32 +94,32 @@ typedef struct {
   ubyte B;
 } PALETTE;
 
-typedef struct { 
-  TGA_HEADER TGAHEADER;
 
-  char Name[4]; // Line Offset
-  if (Name == "LOFF") 
-  {
+TGA_HEADER header;
+
+if (header.IDLength == 12) 
+{
+    IDENTIFIER id[4];
     UINT SectionSize;
     UINT Offset;
-  
-    RGB565 Pixel[(Offset - sizeof(TGAHEADER) - 12)/2];
-
-    IDENTIFIER id[4];
-    if (id == "LVMP") 
-    {
-      LVMP lvmpid;
-      PFRM pfrmid;
-    } else {
-      PFRM pfrmid;
-    };
-  } 
-  else
-  {
-    FSkip(-4); 
+};
+ 
+if (header.PixelDepth == 8)
+{ 
     PALETTE palette[256];
-    UBYTE Data[23*TGAHEADER.Width/23*TGAHEADER.Height];
-  } 
-} TXR;
+    UBYTE Data[23*header.Width/23*header.Height]; }
+else
+    RGB16 Pixel[23*header.Width/23*header.Height];
 
-TXR txrFile;
+if (header.IDLength == 12) 
+{
+  local char Name[4];
+  ReadBytes(Name, FTell(), 4);
+  if (Name == "LVMP") 
+    LVMP lvmpid;
+  else 
+    FSkip(-4);
+
+  if (header.PixelDepth == 16)
+    PFRM pfrmid;
+};
