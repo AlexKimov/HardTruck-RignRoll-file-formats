@@ -70,6 +70,7 @@
 #### Noesis
 * [fmt_ht_txr_msk.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_txr_msk.py) - скрипт для открытия и сохранения **.txr** и **.msk** файлов
 * [fmt_ht_rmp_res.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_rmp_res.py) - скрипт для распковки **.res** и **.rmp** архивов
+* [fmt_ht_raw.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_raw.py) - скрипт для просмотра .raw файлов (карта высот)
 
 ## Спасибо
 Юрий Гладышенко
@@ -137,3 +138,4 @@ Formats description will be [there (Wiki)](https://github.com/AlexKimov/HT2-RnR-
 #### Noesis
 * [fmt_ht_txr_msk.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_txr_msk.py) - open, save (wip) **.txr**, **.msk** files 
 * [fmt_ht_rmp_res.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_rmp_res.py) - unpack **.res** and **.rmp**
+* [fmt_ht_raw.py](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/blob/master/scripts/noesis/fmt_ht_raw.py) - script to view .raw (heightmaps)
