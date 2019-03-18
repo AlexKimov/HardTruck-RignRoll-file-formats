@@ -1,6 +1,7 @@
 from inc_noesis import *
 import time
 import os 
+import noewin
 
 
 def registerNoesisTypes():
@@ -17,10 +18,11 @@ def registerNoesisTypes():
  
 
 DEFAULT_HEIGHT_COEFF = 0.22
-DEFAULT_SEA_LEVEL = 90
+DEFAULT_SAND_LEVEL = 90
 DEFAULT_HEIGHTMAP_SIZE = 257
 DEFAULT_UTILE = 1  
 DEFAULT_VTILE = 1 
+DEFAULT_SCALE = 1
  
 class RAWFile:
     def __init__(self, reader):
@@ -63,7 +65,11 @@ class heightmapSurface:
         
 class heightmapMesh:
     def __init__(self, heightsData, heightCoeff = DEFAULT_HEIGHT_COEFF, \
-            seaLevel = DEFAULT_SEA_LEVEL):
+            seaLevel = DEFAULT_SAND_LEVEL, utile = DEFAULT_UTILE, \
+            vtile = DEFAULT_VTILE):
+        self.utileValue = utile 
+        self.vtileValue = vtile
+        
         self.heights = heightsData            
         self.heightCoeff = heightCoeff
         self.seaLevel = seaLevel * heightCoeff  
@@ -107,31 +113,25 @@ class heightmapMesh:
     def buildFaces(self):    
         heightmapSize = DEFAULT_HEIGHTMAP_SIZE
         
-        utile = 1/(heightmapSize - 1)
-        vtile = 1/(heightmapSize - 1)
-        
-        gridStepX = 1
-        gridStepY = 1
+        utile = self.utileValue/(heightmapSize - 1)
+        vtile = self.vtileValue/(heightmapSize - 1) 
         
         # building faces (triangles)
-        # starting from top bottom and back row by row
         for row in range(0, heightmapSize - 2):
             for col in range(0, heightmapSize - 1):
                 # first triangle 
                 vertex1 = faceVertex()
-                vertex1.pos = (gridStepX*(col + 1), gridStepY*(row), \
-                    self.heights[row][col + 1] * \
+                vertex1.pos = ((col + 1), (row), self.heights[row][col + 1] * \
                     self.heightCoeff)
                 vertex1.uv = (utile*col, vtile*row) 
                  
                 vertex2 = faceVertex()  
-                vertex2.pos = (gridStepX*col, gridStepY*(row), \
-                    self.heights[row][col] * self.heightCoeff)
+                vertex2.pos = (col, row, self.heights[row][col] * \
+                    self.heightCoeff)
                 vertex2.uv = (utile*col, vtile*row)
 
                 vertex3 = faceVertex()                     
-                vertex3.pos = (gridStepX*col, gridStepY*(row + 1), \
-                    self.heights[row + 1][col] * \
+                vertex3.pos = (col, row + 1, self.heights[row + 1][col] * \
                     self.heightCoeff)
                 vertex3.uv = (utile*col, vtile*row)
                           
@@ -139,20 +139,17 @@ class heightmapMesh:
                 
                 # second triangle
                 vertex1 = faceVertex()                
-                vertex1.pos = (gridStepX*(col + 1), gridStepY*(row + 1), \
-                    self.heights[row + 1][col + 1] * \
+                vertex1.pos = (col + 1, row + 1, self.heights[row + 1][col + 1] * \
                     self.heightCoeff)
                 vertex1.uv = (utile*col, vtile*row)
                 
                 vertex2 = faceVertex()    
-                vertex2.pos = (gridStepX*(col + 1), gridStepY*(row), \
-                    self.heights[row][col + 1] * \
+                vertex2.pos = (col + 1, row, self.heights[row][col + 1] * \
                     self.heightCoeff)
                 vertex2.uv = (utile*col, vtile*row)
                 
                 vertex3 = faceVertex()    
-                vertex3.pos = (gridStepX*col, gridStepY*(row + 1), \
-                    self.heights[row + 1][col] * \
+                vertex3.pos = (col, row + 1, self.heights[row + 1][col] * \
                     self.heightCoeff)
                 vertex3.uv = (utile*col, vtile*row)
                 
@@ -168,7 +165,7 @@ def rawCheckType(data):
 	return 1
  
 
-def rawWriteModel(mdl, filewriter):
+#def rawWriteModel(mdl, filewriter):
     #heightmapSize = DEFAULT_HEIGHTMAP_SIZE
     #count = 0
     #size = heightmapSize * heightmapSize
@@ -188,62 +185,174 @@ def rawWriteModel(mdl, filewriter):
 
             #count += 1
                       
-    return 1  
-            
-def rawLoadModel(data, mdlList):   
-    raw = RAWFile(NoeBitStream(data))
+   # return 1  
    
-    raw.loadData()
-    
-    if noesis.optWasInvoked("-heightcoeff"):
-        try: 
-            hc = float(noesis.optGetArg("-heightcoeff"))
-        except ValueError:
-            hc = DEFAULT_HEIGHT_COEFF
+ 
+def isNumber(number):
+    try:
+        float(number)
+    except:
+        return 0
         
-        if hc <= 0 or hc > 1:       
-            hc = DEFAULT_HEIGHT_COEFF
+    return 1    
+   
+    
+class openOptionsDialogWindow:
+    def __init__(self):
+        self.options = {"HeightCoefficient":DEFAULT_HEIGHT_COEFF, \
+            "SandLevel":DEFAULT_SAND_LEVEL, "UTile":DEFAULT_UTILE, \
+            "VTile":DEFAULT_VTILE, \
+            "Scale":DEFAULT_SCALE}
             
-        heightmap = heightmapMesh(raw.heightsData, hc)
-    else:
-        heightmap = heightmapMesh(raw.heightsData)
-    
-    heightmap.create()  
- 
-    ctx = rapi.rpgCreateContext()
+        self.isCanceled = True
+        
+    def openOptionsButtonImport(self, noeWnd, controlId, wParam, lParam):
 
-    #noesis.logPopup()
-    #startTime = time.time()   
- 
-    # rotating heightmap 90 left
-    transMatrix = NoeMat43( ((0, 1, 0), (1, 0, 0), (0, 0, 1), (0, 0, 0)) )    
-    rapi.rpgSetTransform(transMatrix) 
- 
-    for surface in heightmap.surfaces:
-        if heightmap.textures:     
-            rapi.rpgSetMaterial(surface.materialName)
-    
-        rapi.immBegin(noesis.RPGEO_TRIANGLE)
+        height = self.heightEdit.getText()
+        if isNumber(height):
+            self.options["HeightCoefficient"] = float(height)  
+            
+        level = self.levelEdit.getText()
+        if isNumber(level):        
+            self.options["SandLevel"] = float(level) 
+            
+        scale = self.scaleEdit.getText() 
+        if isNumber(scale):        
+            self.options["Scale"] = float(scale) 
+   
+        utile = self.utileEdit.getText() 
+        if isNumber(utile):        
+            self.options["UTile"] = float(utile) 
+
+        vtile = self.vtileEdit.getText() 
+        if isNumber(vtile):        
+            self.options["VTile"] = float(vtile)
+            
+        self.isCanceled = False
+        self.noeWnd.closeWindow()
        
-        for face in surface.faces:
-            for vertex in face:
-                rapi.immUV2(vertex.uv)
-                rapi.immVertex3(vertex.pos) 
-                
-        rapi.immEnd()           
+        return True  
+        
+    def openOptionsButtonCancel(self, noeWnd, controlId, wParam, lParam):
+        self.noeWnd.closeWindow()
+         
+        return True    
     
-    #rapi.rpgOptimize()
-    mdl = rapi.rpgConstructModelSlim()
-    if heightmap.textures: 
-        mdl.setModelMaterials(NoeModelMaterials(heightmap.textures, \
-            heightmap.materials))
-    mdlList.append(mdl)
+    def create(self):   
+        self.noeWnd = noewin.NoeUserWindow("Import options", "HTRAWWindowClass", \
+            286, 180) 
+        noeWindowRect = noewin.getNoesisWindowRect()
+        
+        if noeWindowRect:
+            windowMargin = 100
+            self.noeWnd.x = noeWindowRect[0] + windowMargin
+            self.noeWnd.y = noeWindowRect[1] + windowMargin   
+            
+        if self.noeWnd.createWindow():
+            self.noeWnd.setFont("Arial", 12)    
+            
+            self.noeWnd.createStatic("Height coefficient:", 5, 7, 120, 20)
+            #            
+            index = self.noeWnd.createEditBox(110, 5, 70, 20, None, 0)
+            self.heightEdit = self.noeWnd.getControlByIndex(index)
+            self.heightEdit.setText(str(DEFAULT_HEIGHT_COEFF))
+                           
+            self.noeWnd.createStatic("Sand level:", 43, 32, 120, 20)
+            #            
+            index = self.noeWnd.createEditBox(110, 30, 70, 20, None, 0)
+            self.levelEdit = self.noeWnd.getControlByIndex(index)
+            self.levelEdit.setText(str(DEFAULT_SAND_LEVEL))
+            
+            self.noeWnd.createStatic("Scale:", 69, 57, 120, 20)
+            #            
+            index = self.noeWnd.createEditBox(110, 55, 70, 20, None, 0)
+            self.scaleEdit = self.noeWnd.getControlByIndex(index)
+            self.scaleEdit.setText(str(DEFAULT_SCALE))
+            
+            index = self.noeWnd.createCheckBox("add textures", 5, 80, \
+                 135, 20)
+            self.texturesCheckBox = self.noeWnd.getControlByIndex(index) 
+            self.texturesCheckBox.setChecked(1)
+            
+            self.noeWnd.createStatic("uTile:", 72, 107, 70, 20)
+            self.noeWnd.createStatic("vTile:", 74, 130, 70, 20)
+            #            
+            index = self.noeWnd.createEditBox(110, 105, 70, 20, None, 0)
+            self.utileEdit = self.noeWnd.getControlByIndex(index) 
+            self.utileEdit.setText(str(DEFAULT_UTILE))            
+            index = self.noeWnd.createEditBox(110, 130, 70, 20, None, 0)
+            self.vtileEdit = self.noeWnd.getControlByIndex(index)            
+            self.vtileEdit.setText(str(DEFAULT_VTILE))
+            
+            self.noeWnd.createButton("Import", 190, 5, 80, 30, \
+                 self.openOptionsButtonImport)
+            self.noeWnd.createButton("Cancel", 190, 40, 80, 30, \
+                 self.openOptionsButtonCancel)
+            
+            self.noeWnd.doModal()   
+    
+    
+def rawLoadModel(data, mdlList):       
+    #if noesis.optWasInvoked("-heightcoeff"):
+    #    try: 
+    #        hc = float(noesis.optGetArg("-heightcoeff"))
+    #    except ValueError:
+    #        hc = DEFAULT_HEIGHT_COEFF
+        
+    #    if hc <= 0 or hc > 1:       
+    #        hc = DEFAULT_HEIGHT_COEFF
+            
+    #    heightmap = heightmapMesh(raw.heightsData, hc)
+    #else:
+    #    heightmap = heightmapMesh(raw.heightsData)
+    
+    openOptionsDialog = openOptionsDialogWindow()
+    openOptionsDialog.create()
+
+    if not openOptionsDialog.isCanceled: 
+        raw = RAWFile(NoeBitStream(data))   
+        raw.loadData()
+               
+        heightmap = heightmapMesh(raw.heightsData, \
+            openOptionsDialog.options["HeightCoefficient"], \
+            openOptionsDialog.options["SandLevel"], \
+            openOptionsDialog.options["UTile"], \
+            openOptionsDialog.options["VTile"])
+         
+        heightmap.create()
+         
+        ctx = rapi.rpgCreateContext()
+
+        #noesis.logPopup()
+        #startTime = time.time()   
+ 
+        # transform heightmap to original view
+        transMatrix = NoeMat43( ((0, 1, 0), (1, 0, 0), (0, 0, 1), (0, 0, 0)) )    
+        rapi.rpgSetTransform(transMatrix)      
+ 
+        for surface in heightmap.surfaces:
+            if heightmap.textures:     
+                rapi.rpgSetMaterial(surface.materialName)
+    
+            rapi.immBegin(noesis.RPGEO_TRIANGLE)
+         
+            for face in surface.faces:
+                for vertex in face:
+                    rapi.immUV2(vertex.uv)
+                    rapi.immVertex3(vertex.pos) 
+                
+            rapi.immEnd()              
+    
+        #rapi.rpgOptimize()
+        mdl = rapi.rpgConstructModelSlim()
+        if heightmap.textures: 
+            mdl.setModelMaterials(NoeModelMaterials(heightmap.textures, \
+                heightmap.materials))
+        mdlList.append(mdl)
+   
   
     #timeTaken = time.time() - startTime
-    #print("Total load time:", timeTaken, "seconds.")  
-
-
-  
+    #print("Total load time:", timeTaken, "seconds.")   
     #rapi.setPreviewOption("setAngOfs", "0 0 0")
     
     return 1   
