@@ -1,4 +1,0 @@
-name "Hard Truck 1, Hard Truck 2 (8.x) B3D importer"
-version 0.1
-run "B3D_import.mcr"
-drop "B3D_import.mcr"

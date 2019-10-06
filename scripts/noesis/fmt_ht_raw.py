@@ -5,15 +5,14 @@ import noewin
 
 
 def registerNoesisTypes():
-    handle = noesis.register("Hard Truck 2 heightmap", ".raw")
+    handle = noesis.register("Hard Truck 2 King of The Road heightmap", ".raw")
     noesis.setHandlerTypeCheck(handle, rawCheckType)
     noesis.setHandlerLoadModel(handle, rawLoadModel)
-    #noesis.setHandlerWriteModel(handle, rawWriteModel)
+    # noesis.setHandlerWriteModel(handle, rawWriteModel)
     
-    noesis.addOption(handle, "-heightcoeff", "height coefficient (0..1)", \
-        noesis.OPTFLAG_WANTARG)  
-    noesis.addOption(handle, "-sealevel", "sea level (0..255)", \
-        noesis.OPTFLAG_WANTARG)         
+    noesis.addOption(handle, "-heightcoeff", "height coefficient (0..1)", noesis.OPTFLAG_WANTARG)
+    noesis.addOption(handle, "-sealevel", "sea level (0..255)", noesis.OPTFLAG_WANTARG)
+
     return 1
  
 
@@ -23,32 +22,32 @@ DEFAULT_HEIGHTMAP_SIZE = 257
 DEFAULT_UTILE = 1  
 DEFAULT_VTILE = 1 
 DEFAULT_SCALE = 1
- 
+
+
 class RAWFile:
-    def __init__(self, reader):
+    def __init__(self, reader, heightmapSize=DEFAULT_HEIGHTMAP_SIZE):
         self.reader = reader
         self.heightsData = []
-     
-    def loadVertsData(self, filereader):   
-        vertInRowCount = DEFAULT_HEIGHTMAP_SIZE
-        filesize = vertInRowCount * vertInRowCount
-    
-        for row in range(vertInRowCount):
+        self.vertInRowCount = heightmapSize
+
+    def readHeightMap(self, filereader):
+        # raw file stores the heightmap 256x256 in size
+        for row in range(self.vertInRowCount):
             line = bytearray() 
-            for col in range(vertInRowCount):             
+            for col in range(self.vertInRowCount):
                 line.append(filereader.readUByte())          
-                filereader.seek(1, NOESEEK_REL) # skip one bit
+                filereader.seek(1, NOESEEK_REL)  # skip one bit
             self.heightsData.append(line)
             
         return 1
     
-    def loadData(self):   
-        self.loadVertsData(self.reader)  
+    def read(self):
+        self.readHeightMap(self.reader)
         
         return 1  
 
         
-class faceVertex:        
+class faceVertex:
     def __init__(self):
         self.pos = ()
         self.uv = ()
@@ -64,13 +63,12 @@ class heightmapSurface:
         
         
 class heightmapMesh:
-    def __init__(self, heightsData, heightCoeff = DEFAULT_HEIGHT_COEFF, \
-            seaLevel = DEFAULT_SAND_LEVEL, utile = DEFAULT_UTILE, \
-            vtile = DEFAULT_VTILE):
+    def __init__(self, heightmap, heightCoeff=DEFAULT_HEIGHT_COEFF, seaLevel=DEFAULT_SAND_LEVEL,
+                 utile=DEFAULT_UTILE, vtile=DEFAULT_VTILE):
         self.utileValue = utile 
         self.vtileValue = vtile
         
-        self.heights = heightsData            
+        self.heights = heightmap
         self.heightCoeff = heightCoeff
         self.seaLevel = seaLevel * heightCoeff  
         
@@ -162,30 +160,7 @@ class heightmapMesh:
     
 def rawCheckType(data):
 
-	return 1
- 
-
-#def rawWriteModel(mdl, filewriter):
-    #heightmapSize = DEFAULT_HEIGHTMAP_SIZE
-    #count = 0
-    #size = heightmapSize * heightmapSize
-    
-    #print("mesh count: ", len(mdl.meshes))
-    
-    
-    #for mesh in mdl.meshes:
-        #print("pos count: ", len(mesh.positions))
-        #for vcmp in mesh.positions:         
-            #bytes = int(vcmp[2]).to_bytes(1, byteorder='little')
-            #bytes += bytes
-            #filewriter.writeBytes(bytes) 
-                
-            #if count == size:
-                #break  
-
-            #count += 1
-                      
-   # return 1  
+    return 1
    
  
 def isNumber(number):
@@ -199,10 +174,8 @@ def isNumber(number):
     
 class openOptionsDialogWindow:
     def __init__(self):
-        self.options = {"HeightCoefficient":DEFAULT_HEIGHT_COEFF, \
-            "SandLevel":DEFAULT_SAND_LEVEL, "UTile":DEFAULT_UTILE, \
-            "VTile":DEFAULT_VTILE, \
-            "Scale":DEFAULT_SCALE}
+        self.options = {"HeightCoefficient": DEFAULT_HEIGHT_COEFF, "SandLevel": DEFAULT_SAND_LEVEL,
+                        "UTile": DEFAULT_UTILE, "VTile": DEFAULT_VTILE, "Scale": DEFAULT_SCALE}
             
         self.isCanceled = True
         
@@ -311,15 +284,13 @@ def rawLoadModel(data, mdlList):
 
     if not openOptionsDialog.isCanceled: 
         raw = RAWFile(NoeBitStream(data))   
-        raw.loadData()
+        raw.read()
                
-        heightmap = heightmapMesh(raw.heightsData, \
-            openOptionsDialog.options["HeightCoefficient"], \
-            openOptionsDialog.options["SandLevel"], \
-            openOptionsDialog.options["UTile"], \
-            openOptionsDialog.options["VTile"])
+        hmMesh = heightmapMesh(raw.heightsData, openOptionsDialog.options["HeightCoefficient"],
+                                  openOptionsDialog.options["SandLevel"], openOptionsDialog.options["UTile"],
+                                  openOptionsDialog.options["VTile"])
          
-        heightmap.create()
+        hmMesh.create()
          
         ctx = rapi.rpgCreateContext()
 
@@ -327,7 +298,7 @@ def rawLoadModel(data, mdlList):
         #startTime = time.time()   
  
         # transform heightmap to original view
-        transMatrix = NoeMat43( ((0, 1, 0), (1, 0, 0), (0, 0, 1), (0, 0, 0)) )    
+        transMatrix = NoeMat43(((0, 1, 0), (1, 0, 0), (0, 0, 1), (0, 0, 0)))
         rapi.rpgSetTransform(transMatrix)      
  
         for surface in heightmap.surfaces:

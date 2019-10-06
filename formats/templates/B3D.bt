@@ -117,17 +117,17 @@ UINT chunkTree(UINT ChildCount) {
         // unused
         case 0: 
         {
-          FLOAT Unknown;         
-          FLOAT Unknown; 
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;         
-          FLOAT Unknown;
-          FLOAT Unknown; 
-          FLOAT Unknown;
-          FLOAT Unknown; 
+          FLOAT Unknown; // 0        
+          FLOAT Unknown; // 0 
+          FLOAT Unknown; // 0 
+          FLOAT Unknown; // 0 
+          FLOAT Unknown; // 0         
+          FLOAT Unknown; // 0 
+          FLOAT Unknown; // 0  
+          FLOAT Unknown; // 0 
+          FLOAT Unknown; // 0  
           FLOAT Unknown; // 1
-          FLOAT Unknown;          
+          FLOAT Unknown; // 0          
         }; break;
         // unused
         case 1: 
@@ -253,7 +253,7 @@ UINT chunkTree(UINT ChildCount) {
                 UINT L1;
             } F[Count] <name="Face">;  
             if (type == 2)
-              FLOAT L2[CountA*2];                
+              FLOAT L2[Count*2];                
           } FD[FaceCount] <optimize=false, name="Face data">;         
         }; break;
 

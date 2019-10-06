@@ -26,60 +26,65 @@ local DWORD bfSize, bfOffBits, biSize, biWidth, biHeight, biCompression, biSizeI
 FileIndex = GetFileNum();
 FileName = GetFileName();
 
-IDLength = ReadByte(0);
-FSkip(1);
-ColorMapType = ReadByte(FTell());
-FSkip(1);
-ImageType = ReadByte(FTell());
-FSkip(1);
-FirstIndexEntry = ReadShort(FTell());
-FSkip(2);
-ColorMapLength = ReadShort(FTell());
-FSkip(2);
-ColorMapEntrySize = ReadByte(FTell());
-FSkip(1);
-XOrigin = ReadShort(FTell());
-FSkip(2);
-YOrigin = ReadShort(FTell());
-FSkip(2);
-Width = ReadShort(FTell() );
-FSkip(2);
-Height = ReadShort(FTell());
-FSkip(2);
-PixelDepth = ReadByte(FTell());
-FSkip(1);
-ImageDescriptor = ReadByte(FTell());
-FSkip(1);
-
-FSkip(12);
-
-local float bitinPixel = ColorMapEntrySize/8;
-size = 23*Width/23*Height*bitinPixel;
-
-local float w = Width;
-padding = 4 - (w*bitinPixel)%4;
-
-pos = 0;
-if (padding)
+void readTXR()
 {
-  FSkip(size);
-  for ( i = 0; i < Height; ++i)
-  {
-    FSkip(-w*bitinPixel);
-    ReadBytes(Buffer2, FTell(), w*bitinPixel);
-    Memcpy(Buffer, Buffer2, w*bitinPixel, pos, 0);
-    pos += w*bitinPixel;
-    Memcpy(Buffer, Empty, padding, pos, 0);
-    pos += padding;    
-  }
-  FSkip(size);
-}
-else
-  {
-    ReadBytes(Buffer, FTell(), size);  
-    FSkip(size);
-  };
+  // read header
+  IDLength = ReadByte(0);
+  FSkip(1);
+  ColorMapType = ReadByte(FTell());
+  FSkip(1);
+  ImageType = ReadByte(FTell());
+  FSkip(1);
+  FirstIndexEntry = ReadShort(FTell());
+  FSkip(2);
+  ColorMapLength = ReadShort(FTell());
+  FSkip(2);
+  ColorMapEntrySize = ReadByte(FTell());
+  FSkip(1);
+  XOrigin = ReadShort(FTell());
+  FSkip(2);
+  YOrigin = ReadShort(FTell());
+  FSkip(2);
+  Width = ReadShort(FTell() );
+  FSkip(2);
+  Height = ReadShort(FTell());
+  FSkip(2);
+  PixelDepth = ReadByte(FTell());
+  FSkip(1);
+  ImageDescriptor = ReadByte(FTell());
+  FSkip(1);
 
+  FSkip(12);
+
+  local float bitinPixel = ColorMapEntrySize/8;
+  size = 23*Width/23*Height*bitinPixel;
+
+  local float w = Width;
+  if ((w*bitinPixel)%4 > 0)
+    padding = 4 - (w*bitinPixel)%4;
+
+  // read image data
+  pos = 0;
+  if (padding)
+  {
+    FSkip(size);
+    for ( i = 0; i < Height; ++i)
+    {
+      FSkip(-w*bitinPixel);
+      ReadBytes(Buffer2, FTell(), w*bitinPixel);
+      Memcpy(Buffer, Buffer2, w*bitinPixel, pos, 0);
+      pos += w*bitinPixel;
+      Memcpy(Buffer, Empty, padding, pos, 0);
+      pos += padding;    
+    }
+    FSkip(size);
+  }
+  else
+    {
+      ReadBytes(Buffer, FTell(), size);  
+      FSkip(size);
+    };
+};
 
 if (!FEof())
 {
@@ -96,7 +101,9 @@ if (!FEof())
   FSkip(4);
   biBMask = ReadInt(FTell());
   FSkip(4);
-  biAMask = ReadInt(FTell());
+  biAMask
+};
+ = ReadInt(FTell());
 };
 
 NewFile = FileNew("Hex");

@@ -370,7 +370,8 @@ while (!FEof()) {
           struct {
             string FileName;
             UINT DataSize;
-            PLM_FILE plm; 
+            //PLM_FILE plm;
+            BYTE Data[DataSize]; 
           } PALETTE_FILES[count] <optimize=false>;
         break;
     case "SOUNDFILES": 

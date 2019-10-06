@@ -2,6 +2,7 @@ from inc_noesis import *
 import os
 import noewin
 
+
 def registerNoesisTypes():
     handle = noesis.register("Hard Truck 1/2 Resource archive", ".res;.rmp;.pro")
     noesis.setHandlerExtractArc(handle, resExtractRes)

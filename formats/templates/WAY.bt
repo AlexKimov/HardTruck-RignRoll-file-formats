@@ -13,6 +13,8 @@
 //------------------------------------------------
 
 local uchar i[4];
+local uint pos = 0;
+local float padding = 0;
 
 typedef enum <char> {
   MNAM, // = Name
@@ -26,7 +28,8 @@ typedef enum <char> {
   RSEG, // = Room Segment
   ATTR, // = Attributes
   VDAT, //
-  FLAG //
+  RTEN, // ??
+  FLAG, //
 } IDENTIFIER;
 
 
@@ -64,83 +67,123 @@ while (!FEof())
         } PID;
         if (PID.id == "RNOD") 
         {
+          pos = 0;  
           struct {
-            UINT DataSize; 
+            UINT NodDataSize; 
             struct {
               IDENTIFIER id[4];
-              UINT NameLengh; //
-              if (NameLengh > 12) 
-                char Name[16]; 
-              else
-                char Name[12];
-            } NNAM;   
-            struct {
-              IDENTIFIER id[4];
-              UINT SectionSize;
-              DOUBLE X;
-              DOUBLE Y;
-              DOUBLE Z;
-            } POSN;
-            IDENTIFIER id[4]; 
-            if (id == "FLAG")
-              struct {        
-                UINT SectionSize;
-                UINT Unknown;
-              } FLAG; 
-            else
-              struct {        
-                UINT SectionSize;
+              UINT Lengh;
+              padding = -Lengh & 3;
+              char Name[Lengh + padding];
+              pos += Lengh + padding + 8;
+            } NNAM;              
+            while (pos < NodDataSize)
+            {
+              struct {
+                IDENTIFIER id[4];
+              } IS;
+              pos += 4;
+              if (IS.id == "POSN") 
+              { 
                 struct {
+                  UINT SectionSize;
                   DOUBLE X;
                   DOUBLE Y;
                   DOUBLE Z;
-                } X;
-                struct {
-                  DOUBLE X;
-                  DOUBLE Y;
-                  DOUBLE Z;
-                } Y;
-                struct {
-                  DOUBLE X;
-                  DOUBLE Y;
-                  DOUBLE Z;
-                } Z;
-                struct {
-                  DOUBLE X;
-                  DOUBLE Y;
-                  DOUBLE Z;
-                } Pos;
-              } ORTN;  
+                } POSN;
+                pos += 28; 
+              }; 
+              if (IS.id == "FLAG")
+              {  
+                 struct {        
+                   UINT SectionSize;
+                   UINT Unknown;
+                 } FLAG; 
+                 pos += 8; 
+              };
+              if (IS.id == "ORTN")
+              {
+                struct {        
+                  UINT SectionSize;
+                  struct {
+                    DOUBLE X;
+                    DOUBLE Y;
+                    DOUBLE Z;
+                  } X;
+                  struct {
+                    DOUBLE X;
+                    DOUBLE Y;
+                    DOUBLE Z;
+                  } Y;
+                  struct {
+                    DOUBLE X;
+                    DOUBLE Y;
+                    DOUBLE Z;
+                  } Z;
+                  struct {
+                    DOUBLE X;
+                    DOUBLE Y;
+                     DOUBLE Z;
+                  } Pos;
+                } ORTN; 
+                pos += 100; 
+              };
+            };   
           } RNOD <name="RNOD">;
         };
-  
+
         if (PID.id == "RSEG") 
         {
+          pos = 0;  
           struct {
-            UINT DataSize;  
+            UINT SegDataSize;  
             struct {
               IDENTIFIER id[4];
               UINT SectionSize;
               UINT Unknown;
               DOUBLE Unknown;
               UINT Unknown; 
-            } ATTR; 
-            struct {
-              IDENTIFIER id[4];
-              UINT SectionSize;
-              DOUBLE Unknown;
-              DOUBLE Unknown; 
-            } WDTH; 
-            struct {
-              IDENTIFIER id[4];
-              UINT DataSize;
-              UINT Count;
-              struct { 
-                DOUBLE X;
-                DOUBLE Y;
-                DOUBLE Z;
-              } P[Count];  
-            } VDAT; 
+            } ATTR;
+            pos += 28; 
+            while (pos < SegDataSize)
+            {
+              struct {
+                IDENTIFIER id[4];
+              } IS;
+              pos += 4;
+              if (IS.id == "VDAT")
+              {
+                struct {
+                  UINT DataSize;
+                  UINT Count;
+                  struct { 
+                    DOUBLE X;
+                    DOUBLE Y;
+                    DOUBLE Z;
+                  } P[Count];  
+                  pos += DataSize + 4;
+                } VDAT;
+              }; 
+              if (IS.id == "WDTH")
+              {
+                struct {
+                  UINT SectionSize;
+                  DOUBLE Unknown;
+                  DOUBLE Unknown; 
+                } WDTH;
+                pos += 24;
+              };
+              if (IS.id == "RTEN")
+              {
+                struct {
+                  UINT Unknown;
+                  UCHAR Name[4];
+                  UINT Unknown; 
+                } RTEN;
+                pos += 16; 
+              };   
+                      
+            };
           } RNOD <name="RSEG">;
         };
       };

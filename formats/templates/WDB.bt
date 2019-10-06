@@ -1,158 +1,280 @@
 //------------------------------------------------
 //--- 010 Editor v2.0 Binary Template
 //
+//      File: B3D.bt
+//   Authors: Alexandr Evdokimov
+//   Version: 0.1
+//   Purpose: Hard truck 3 WDB file
+//
+//   History: 
+//
+//   2018.05 v 0.1 initial release 
+//  
 //------------------------------------------------
 
-struct {
-  char WDB[4] <fgcolor=cBlack, bgcolor=0x0000FF>;
-} WDBID <name="WDB file Id"> ;
+typedef enum <uint> {
+  DXT1 = 827611204,
+  DXT3 = 861165636,
+  DXT5 = 894720068,
+  A8R8G8B8 = 21,
+  X8R8G8B8 = 22,
+  A4R4G4B4 = 26,
+} TEXTURE_FORMAT <name="Format">; 
+
+typedef enum <uint> {
+  Texture_RGB = 306,
+  Texture_DXT = 307, 
+  Material = 320,
+  ID401 = 401,
+  ID402 = 402,
+  ID403 = 403,
+  ID404 = 404,
+  ID405 = 405,
+  ID406 = 406,
+  ID407 = 407
+} IDENTIFIER; 
+
+// ---------------------------------------------
 
 struct {
-  UINT FileSize <name="WDB file size">; 
+  char WDB[4] <fgcolor=cBlack, bgcolor=0x00FF00, name="WDB file Id">;
+  UINT FileSize <name="File size">; 
+} HEADER <name="WDB file header">;
+
+struct {
+  IDENTIFIER ID;
+  UINT Size; 
+
+  UINT Index;
+  UINT UnknownConst; // 1001
+  UINT Unknown; // 235, 191 
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown; 
+  UINT Unknownn;
+  UINT Unknown; 
+  UINT Unknown;
+  UINT Count <name="Number of sections">;
+  typedef struct {  
+    IDENTIFIER ID <name="">;
+    UINT Size <name="">;
+    UINT Index <name="Section index">;  
+    UINT SectionOffset <name="Offset">; 
+    UINT SectionSize <name="Size">; 
+  } SECTION_INFORMATION <name="Section information">;
+
+  typedef struct (uint size) {
+    SECTION_INFORMATION array[size];
+  } SECTIONS_INFO;
+
+  SECTIONS_INFO Sections(Count) <name="Sections">;
+} WDB_SECTIONS;
+
+// ---------------------------------------------
+
+struct {
   struct {
-    UINT mn <name="">;
-    UINT mn <name="">; 
-    UINT mn <name="">;
-    UINT mn <name="">; 
-  } header;
+    IDENTIFIER ID <name="ID">; 
+    UINT SectionSize <name="">;    
+    string Name;
+  } HEADER; 
 
-  UINT mn <name="">; 
-  UINT mn <name="">;
-  UINT mn <name="">;
-  UINT mn <name="">; 
-  UINT mn <name="">;
-
-  UINT mn <name="">; 
-  UINT mn <name="">;
-  UINT mn <name="">;
-
-  struct {
-    struct {  
-      UINT mn <name="">;
-      UINT mn <name="">;
-      UINT mn <name="">;  
-      UINT SectionAdress <name="">; 
-      UINT SectionSize <name="">; 
-    } Section1;
-    struct {   
-      UINT mn <name="">; 
-      UINT mn <name="">;
-      UINT mn <name="">;
-      UINT SectionAdress <name="">; 
-      UINT SectionSize <name="">; 
-    } Section2;
-    struct {  
-      UINT mn <name="">;
-      UINT mn <name="">;
-      UINT mn <name="">;
-      UINT SectionAdress <name="">; 
-      UINT SectionSize <name="">; 
-    } Section3; 
-    struct {  
-      UINT mn <name="">; 
-      UINT mn <name="">;
-      UINT mn <name="">;  
-      UINT SectionAdress <name="">; 
-      UINT SectionSize <name="">;  
-    } Section4; 
-    struct {   
-      UINT mn <name="">; 
-      UINT mn <name="">;
-      UINT mn <name="">;  
-      UINT SectionAdress <name="">; 
-      UINT SectionSize <name="">; 
-    } Section5;
-  } Sections;
-} WDBHEADER <name="WDB file header">;
-
-
-struct {
-  UINT mn <name="">; 
-  UINT SectionSize <name="">;    
-  BYTE Default[8]; 
-  //
-  struct {  
-    UINT SectionsCount <name="Sections Count">; 
-    typedef struct {
-      UINT mn <name="">;
-      UINT SectionOffset <name="">; 
-      UINT SectionNameOffset <name="">;       
-    } Sn;
-    Sn SectonsArray[SectionsCount] <optimize=false>; 
-  } SectonsTable;
-  //
-  UINT PP <name="">;  
-  //
-  struct {   
-    typedef struct {
-      string str;
-    } Name <name="Name">;
-    Name NamesArray[SectonsTable.SectionsCount] <optimize=false>; 
-  } Names <name="Names">;
-} Section1;
-
-struct {
-  struct { 
-    UINT mn <name="">; 
-    UINT SectionSize <name="">;   
-    BYTE mn2[5];
-  } ms1;
-  struct { 
-    UINT mn <name="">; 
-    UINT SectionSize <name="">;   
-    BYTE mn3[5];
-  } ms2;
-
+  UINT BlockCount <name="Count">; 
   typedef struct {
-    UINT mn <name="">; 
-    UINT SectionSize <name="">;  
+    UINT Index;
+    UINT FileOffset <name="File Offset">; 
+    UINT FileNameOffset <name="FileName Offset">;       
+  } BLOCK_RECORD <name="File record">;
+  typedef struct (uint size) {
+    BLOCK_RECORD array[size] <optimize=false>;
+  } BLOCK_TABLE;
+  BLOCK_TABLE BlockTable(BlockCount) <name="Block Table">; 
 
-    if (mn == 2) {
-      struct {
-        UINT mn <name="">; 
-        UINT mn <name="">; 
-        UINT mn <name="">; 
-      } mnstruct ;   
-    };
+  UINT Unknown;   
+  typedef struct {
+    string Name;
+  } BLOCK_NAME <name=getFName>;
+  typedef struct (uint size) {
+    BLOCK_NAME array[size] <optimize=false>;
+  } BLOCK_NAMES;
 
-    if (SectionSize > 12) {      
-        UINT mn <name="">; 
-        UINT subSectionSize <name="">;
-        BYTE ss[subSectionSize - 8]; 
-    }
-    else {
-      BYTE ss[SectionSize - 8];       
-    };
-   } ss;
+  BLOCK_NAMES FilenNames(BlockCount) <name="FileNames">; 
 
-   //ss ssarray[Section1.SectonsTable.SectionsCount] <optimize = false>;
-   ss ssarray[488] <optimize = false>;
+} BLOCKS_TABLE <name="Table">;
 
-} Section2;
+string getFName (BLOCK_NAME &block)
+{
+  return block.Name;
+};
 
-struct {
-  //FSeek(WDBHEADER.Sections.Section3.SectionAdress);
+// ---------------------------------------------
+
+typedef struct {
+  string Name;  
+     
+  UINT Count; 
   struct {
-    UINT mn <name="">; 
-    UINT subSectionSize <name="">; 
-    BYTE ss1[subSectionSize-8]; 
-  } ss1;   
-} Section3 <name="Geometry data">;
+    struct {
+      IDENTIFIER ID <name="ID">; 
+      UINT SectionSize <name="">;    
+      string Name;
+    } HEADER; 
+    UINT Count;
+    BYTE Empty[64];
+  } MN6[Count] <optimize=false>;
 
-struct {
-  FSeek(WDBHEADER.Sections.Section4.SectionAdress);
+  UINT Count;
   struct {
-    UINT mn <name="">; 
-    UINT subSectionSize <name="">; 
-    BYTE ss1[subSectionSize-8]; 
-  } ss1;  
-} Section4;
+    UINT A;
+    string Name4;
+    UINT B;
+  } MN[Count] <optimize=false>;
 
-struct {
-  FSeek(WDBHEADER.Sections.Section5.SectionAdress);
+} MATERIAL;
+
+// Texture Chunk
+
+typedef struct { 
+  TEXTURE_FORMAT Format;
+  UINT16 Width;
+  UINT16 Height;
+  UINT DataSize;
+  BYTE ImageData[DataSize];
+} TEXTURE306;
+
+typedef struct {
+  UINT ImageCount;
+  typedef struct {
+    struct {
+      IDENTIFIER ID <name="ID">; 
+      UINT SectionSize <name="">;    
+      string Name;
+    } HEADER;
+    TEXTURE_FORMAT Format;
+    UINT16 Width;
+    UINT16 Height;
+    UINT DataSize;
+    BYTE ImageData[DataSize];
+  } IMAGE;
+
+  typedef struct (uint size) {
+    IMAGE array[size] <optimize=false>;
+  } IMAGES;
+
+  IMAGES Images(ImageCount) <name="Images">;
+} TEXTURE307;
+
+typedef struct {
   struct {
-    UINT mn <name="">; 
-    UINT subSectionSize <name="">; 
-    BYTE ss1[subSectionSize-8]; 
-  } ss1;  
-} Section5;
+    IDENTIFIER ID <name="ID">; 
+    UINT SectionSize <name="">;    
+  } HEADER; 
+} CHUNK402;
+
+typedef struct {
+  UINT Unknown;  
+  FLOAT Unknown;
+  UINT Unknown; 
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;  
+  FLOAT Unknown;
+  FLOAT Unknown; 
+} CHUNK1;
+
+typedef struct { 
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown;
+  BYTE A;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+  FLOAT Unknown;
+} ID124;
+
+local uint i = 0;
+
+void chunkTree(uint count)
+{
+  typedef struct {
+    struct {
+      IDENTIFIER ID <name="ID">; 
+      UINT SectionSize <name="">;    
+      if (ID != 123 && ID != 124 && ID != 139 && ID != 134) 
+        string Name;
+    } HEADER; 
+
+    switch (HEADER.ID) {
+      case (1):
+        CHUNK1 Chunk1;
+        //UINT Count;
+        //chunkTree(Count); 
+        break; 
+      case (123):
+        chunkTree(5);         
+        break;
+      case (134):
+        chunkTree(1);                  
+        break;   
+      case (139):
+        chunkTree(10);         
+        break;      
+      case (124):
+        ID124 id124;
+        UINT Count;
+        chunkTree(Count); 
+        break; 
+      case (306):
+        TEXTURE306 texture; 
+        break; 
+      case (307): 
+        TEXTURE307 texture;           
+        break; 
+      case (308): 
+        chunkTree(6);           
+        break; 
+      case (402):        
+        UINT Count;
+        chunkTree(Count);
+        break;
+      case (403): 
+        UINT Count;
+        chunkTree(Count); 
+      case (342):
+      case (320):
+      default:  
+        FSkip(HEADER.SectionSize - (sizeof(HEADER.Name) + 8)); 
+        break;  
+    }; 
+  } CHUNK;
+  CHUNK Chunks[count] <name=getChunkName, optimize=false>;
+};
+
+
+chunkTree(1);   
+ 
+struct {
+  struct {
+    IDENTIFIER ID <name="ID">; 
+    UINT SectionSize <name="">;    
+    string Name;
+  } CHUNK_HEADER;  
+  UINT Count;
+} UNKNOWN_SECTION;
+
+string getChunkName(CHUNK &Chunk) {
+  local string str;
+  SPrintf(str, " (id = %d)", Chunk.HEADER.ID);
+  switch (Chunk.HEADER.ID) {
+    case 306:
+    case 307:
+    case 308:
+      return "Texture: " + str + Chunk.HEADER.Name;
+    break;
+  };
+
+};
