@@ -9,7 +9,7 @@
 #### Текущие планы
 
 ##### Дальнобойщики 1/2
-1. (Формат b3D)[https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/2].
+1. [Формат b3D](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/2)
 
 2. Импорт/экспорт форматов.
 
