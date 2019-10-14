@@ -2,12 +2,16 @@
 
 Описание бинарных форматов игр  **Дальнобойщики 1**, **Дальнобойщики 2** (версия 8) и **Дальнобойщики 3**. Для каждого формата доступен (в процессе) шаблон шестнадцатиричного редактора **010 Editor**, который описывает структуры формата, а также дополнительные скрипты для работы с форматами. 
 
-Текущий прогресс [Issues](https://github.com/AlexKimov/HT2-RnR-tools/issues). Описание форматов [Вики страница](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki).
+Текущий прогресс по исследованию структуры форматов [Projects/Formats](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/projects/1). Описание форматов [Вики страница](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki).
+
+####  Дополнительные ссылки
+1. [Группа ВК](https://vk.com/rnr_mods).
+2. [Wiki по созданию модификаций (будет когда-нибудь)](https://hard-truck-modding.fandom.com/ru/wiki/Hard_truck_modding_%D0%B2%D0%B8%D0%BA%D0%B8).
 
 #### Текущие планы
 
 ##### Дальнобойщики 1/2
-1. **b3D**.
+1. [Формат b3D](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/2)
 
 2. Импорт/экспорт форматов.
 
