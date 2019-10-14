@@ -1,0 +1,58 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: WAY.bt
+//   Authors: Alexandr Evdokimov
+//   Version: 0.1
+//   Purpose: RignRoll WAY file
+//
+//   History: 
+//    
+//   2018.07 v 0.1 initial release 
+//   
+//------------------------------------------------
+
+struct {
+  char WAY[4] <name="Signature">;
+  UINT FileSize;
+  UINT B;
+  UINT C;
+  UINT D;
+  UINT C;
+  UINT DataSize;
+} FILE_HEADER;
+
+string Name;
+UINT A;
+UINT B;
+UBYTE R;
+UINT C;
+UINT D;
+UINT C;
+UINT D;
+UINT A;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT A;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT A;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT C;
+FLOAT B;
+UINT A;
+FLOAT B;
+UINT C;
+FLOAT B;
