@@ -1,0 +1,14 @@
+[raw_export]
+
+filename = "raw_export.ms"
+
+includes = [
+  "lib/ms.ms",
+  "lib/utils.ms",
+  "lib/ini.ms",   
+  "lib/max.ms",
+  "lib/settings.ms",
+  "lib/dialogs.ms",
+  "lib/heightmap.ms",  
+  "lib/raw.ms" 
+]
