@@ -4,7 +4,9 @@
 
 Текущий прогресс по исследованию структуры форматов [Projects/Formats](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/projects/1). Описание форматов [Вики страница](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki).
 
-####  Обсуждение
+####  Дополнительные ссылки
+1. [Группа ВК](https://vk.com/rnr_mods).
+2. [Wiki по сощданию модификаций (будет когда-нибудь)](https://hard-truck-modding.fandom.com/ru/wiki/Hard_truck_modding_%D0%B2%D0%B8%D0%BA%D0%B8).
 
 #### Текущие планы
 
