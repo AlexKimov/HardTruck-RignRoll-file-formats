@@ -4,10 +4,12 @@
 
 Текущий прогресс по исследованию структуры форматов [Projects/Formats](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/projects/1). Описание форматов [Вики страница](https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/wiki).
 
+####  Обсуждение
+
 #### Текущие планы
 
 ##### Дальнобойщики 1/2
-1. **b3D**.
+1. (Формат b3D)[https://github.com/AlexKimov/HardTruck-RignRoll-file-formats/issues/2].
 
 2. Импорт/экспорт форматов.
 
