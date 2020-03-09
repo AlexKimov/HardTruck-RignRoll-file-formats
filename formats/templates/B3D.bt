@@ -23,6 +23,11 @@ string IntToStr (uint i) {
   return s;
 } 
 
+typedef enum <uint> {
+    no,
+    yes
+} BOOL; // bool data type
+
 typedef struct {
   struct {
     FLOAT X;
@@ -46,6 +51,17 @@ typedef struct {
   } Pos; 
 } TRANSFORMATION_MATRIX <name="Transformation matrix">;
 
+typedef struct {
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;  
+}  VECTOR_3F;
+
+typedef struct {
+  FLOAT X;
+  FLOAT Y; 
+} VERTEX_2F;
+
 typedef enum <uint> {
   Begin_Chunks = 111,
   End_Chunks = 222,
@@ -62,6 +78,29 @@ typedef struct {
   } ORIGIN;
   FLOAT radius;
 } BOUNDING_SPHERE <name="Bounding sphere">;
+
+typedef struct { 
+   VECTOR_3F Position <name="Position">;
+  VERTEX_2F UV <name="UV">;
+} VERTEX <name = "Vertex">;
+
+typedef struct (int arraySize) {
+  VERTEX array[arraySize] <optimize=false>;
+} VERTEXE_ATTRIBUTES;
+
+typedef enum <uint> {
+  asphalt = 1,
+  land = 2,
+  swamp = 4,
+  bog = 3,
+  wet_asphalt = 5,
+  ice = 7,
+  water = 8,
+  sand = 10,
+  desert = 11,
+  spikes = 13,
+  hard_ice = 16
+} SURFACE_TYPE <name="Surface">;
 
 struct {
   char B3D[4] <name="b3D signature">;
@@ -94,7 +133,7 @@ UINT chunkTree(UINT ChildCount) {
   typedef struct {
     UINT ChildCount;
     chunkTree(ChildCount);
-  } CHILD_CHUNKS <name="Chunks">;
+  } CHILD_CHUNKS <name="Child chunks/objects">;
 
   typedef struct {
     while (true) { 
@@ -136,113 +175,110 @@ UINT chunkTree(UINT ChildCount) {
           char Name2[32];
         }; break;
 
+        // some kind of trigger/switch
         case 2: 
         {
           BOUNDING_SPHERE Sphere;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
+          struct {
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } NORMAL; // ??
+          FLOAT Distance; // Radius
           CHILD_CHUNKS ChildChunks;            
         }; break;
 
-        // id = 3 only in Hard Truck 1
-        case 3  : 
+        // container for 3d objects, id = 3 only in Hard Truck 1
+        case 3: 
         {
           BOUNDING_SPHERE Sphere;
           CHILD_CHUNKS ChildChunks;           
         }; break;
 
-        case 4  : 
+        // container for 3d objects
+        case 4: 
         {
           BOUNDING_SPHERE Sphere;
-          char Name1[32]; 
-          char Data[32]; // 0000000...
+          char MatrixName[32] <name="Transform matrix">; 
+          char UnknownData[32]; // 0000000...
           CHILD_CHUNKS ChildChunks; 
         }; break;
     
-        case 5  : 
+        // container for 3d objects
+        case 5: 
         { 
           BOUNDING_SPHERE Sphere; 
           char GroupName[32] <name="Name">; // name 
+
           CHILD_CHUNKS ChildChunks;      
         }; break;
 
-        // Only in Hard Truck 1
-        case 6  : {
+        // Only in Hard Truck 1, Vertex attributes
+        case 6: {
           BOUNDING_SPHERE Sphere;
           char GroupName[32] <name="Name">; // name 
           char Name[32]; // name 
-          UINT Count;   
-          struct { 
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-          } ARRAY[Count];      
+
+          UINT VertexCount <name="Vertex Count">; 
+          VERTEXE_ATTRIBUTES VertAttributes(VertexCount);
+
           CHILD_CHUNKS ChildChunks;         
         }; break;
 
-        case 7  : {
+        // Vertex attributes
+        case 7: {
           BOUNDING_SPHERE Sphere; 
           char GroupName[32]; // name 
-          UINT VertexCount <name="Vertex Count">;
-          typedef struct { 
-            struct {
-              FLOAT X;
-              FLOAT Y;
-              FLOAT Z;
-            } XYZ;
-            struct {
-              FLOAT U;
-              FLOAT V;
-            } UV;
-          } VERTEX <name = "Vertex">;
-          typedef struct (int arraySize) {
-            VERTEX array[arraySize] <optimize=false>;
-          } VERTEX_Array;       
-          VERTEX_Array Data(VertexCount) <name="Vertex data">;
+
+          UINT VertexCount <name="Vertex Count">; 
+          VERTEXE_ATTRIBUTES VertAttributes(VertexCount);
+
           CHILD_CHUNKS ChildChunks; 
         }; break;
 
-        case 8  : {
+        // polygons
+        case 8: {
           BOUNDING_SPHERE Sphere; 
-          UINT FaceCount;
+
+          UINT PolygonCount;
+
           struct { 
-            UINT type;
+            UINT PolygonType;
+
             FLOAT Unknown;
             UINT Unknown;
-            UINT Unknown;
 
-            UINT Count;  
+            UINT MaterialIndex;
+
+            UINT Count;
+
+            //if (Count != 3 && Count != 4)
+            //Printf("%d ", Count);  
+
             struct { 
-              if (type == 129) 
-                UINT FaceIndex;                         
-              else
-              if (type == 3 || type == 131) 
+              if (PolygonType == 3 || PolygonType == 131) 
               {
-                FLOAT FaceIndex;
+                UINT Index;
                 FLOAT U;
                 FLOAT V;                         
               } 
               else
-              if (type == 177) 
+              if (PolygonType == 177) 
               {
                 FLOAT U;
                 FLOAT V;                           
               } 
               else
-              if (type == 48 || type == 48 || type == 176 || type == 179) 
+              if (PolygonType == 48 || PolygonType == 176 || PolygonType == 179) 
               {
-                FLOAT FaceIndex;
+                UINT Index;
                 FLOAT X;
                 FLOAT Y;
                 FLOAT Z;          
               } else 
-              if (type == 50 || type == 178) 
+              if (PolygonType == 50 || PolygonType == 178) 
               {
-                UINT FaceIndex;
+                UINT Index;
                 FLOAT X;
                 FLOAT Y;
                 FLOAT Z; 
@@ -250,35 +286,44 @@ UINT chunkTree(UINT ChildCount) {
                 FLOAT V; 
               } 
               else
-                UINT L1;
-            } F[Count] <name="Face">;  
-            if (type == 2)
-              FLOAT L2[Count*2];                
-          } FD[FaceCount] <optimize=false, name="Face data">;         
+                UINT Index;
+            } POLYGONS[Count] <name="Polygon attributes">;  
+
+            if (PolygonType == 2)
+              FLOAT Unknown1[Count*2];     
+           
+          } POLYGON[PolygonCount] <optimize=false, name="Meshes">;  
+   
         }; break;
 
         case 9  : 
         {
           BOUNDING_SPHERE Sphere;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
+          struct {
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } NORMAL;
+          FLOAT Distance;
           CHILD_CHUNKS ChildChunks;     
         }; break;
 
+        // LOD Switch
         case 10  : 
         {
           BOUNDING_SPHERE Sphere ; 
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;     
-          CHILD_CHUNKS ChildChunks;             
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z; 
+          } POs; //??
+          FLOAT Distance;     
+          CHILD_CHUNKS ChildChunks;         
         }; break;
 
         // only in Hard Truck 1
         case 11  : {
+         // fkgfk();
           BOUNDING_SPHERE Sphere ;  
           FLOAT Unknown;
           FLOAT Unknown;
@@ -304,148 +349,134 @@ UINT chunkTree(UINT ChildCount) {
 
         case 13: {
           BOUNDING_SPHERE Sphere ;   
-          UINT Unknown;
-          UINT Unknown;
+          UINT Unknown; // 11
+          UINT Unknown2; // index, property ??
           UINT Count;
-          FLOAT Unknown1[Count];  
+          
+          if (Count > 3)
+          {
+            FLOAT Coords[Count - 3];
+            char RoomName[8];
+            UINT Unknown;
+          };
+  
         }; break;
 
         case 14: {
-          UINT Unknown;
-          UINT Unknown;
-          UINT Unknown;
-          UINT Unknown;
+          UINT Empty; // 0
+          UINT Empty; // 0
+          UINT Empty; // 0
+          UINT Empty; // 0
+
           FLOAT Unknown;
           FLOAT Unknown;
           FLOAT Unknown;
-          FLOAT Unknown;  
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;  
+          FLOAT Unknown; 
+          FLOAT Empty; // 0
+          FLOAT Empty; // 0
+          FLOAT Empty; // 0
         }; break;
 
         // only in Hard Truck 1
-        case 16  : {
-          BOUNDING_SPHERE Sphere ; 
+        case 16: {
+          BOUNDING_SPHERE Sphere ;
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } POS;
+          struct {
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } NORMAL;
+
           FLOAT Unknown;
           FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
+
+          UINT Unknown;
+          FLOAT Empty; // 0
+          FLOAT Empty; // 0
         }; break;
 
         // only in Hard Truck 1
-        case 17  : {
+        case 17: {
           BOUNDING_SPHERE Sphere ; 
+          struct { 
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } POS;
+          struct {
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } NORMAL;
+
           FLOAT Unknown;
           FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
+
+          UINT Unknown;
+          FLOAT Empty; // 0
+          FLOAT Empty; // 0
         }; break;
 
-        case 18  : {
+        // attachement
+        case 18: {
           BOUNDING_SPHERE Sphere ;  
-          char Space[32];
-          char Object[32];
+          char MatrixName[32];
+          char AttachementObjectName[32];
         }; break;
     
-        case 19  : {
+        // container, used for rooms
+        case 19: {
           CHILD_CHUNKS ChildChunks;   
         }; break;
 
-        case 20  : {
+        // 2d collision vertex data
+        case 20: {
           BOUNDING_SPHERE Sphere ; 
-          UINT CountA;
+          UINT VertexCount;
           UINT Unknown;
           UINT Unknown;
-          UINT CountB;
-          struct {
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;                         
-          } Y[CountA];
-          FLOAT A[CountB];                   
+          UINT Count;
+          VECTOR_3F Vertex[VertexCount];
+          FLOAT Unknown1[Count];               
         }; break;
 
         case 21  : {
-          BOUNDING_SPHERE Sphere ; 
+          BOUNDING_SPHERE Sphere; 
           UINT Count;
           UINT Unknown;
           CHILD_CHUNKS ChildChunks;    
         }; break;
 
-        case 23  : {
-            UINT Unknown;
-            UINT Unknown;
-            UINT type;
-            if (type == 3) {
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;   
-           
-              UINT CountA;  
-              struct {  
-                  UINT Count;
+        // 3d collision object properties and geometry
+        case 23: {
+            UINT Unknown; // 0, 1
+            SURFACE_TYPE Surface;
 
-                  struct { 
-                    FLOAT Unknown;
-                    FLOAT Unknown;   
-                    FLOAT Unknown;
-                  } L[Count];
-                                 
-              } L[CountA] <optimize=false>;               
-            } else
-            if (type == 2) {
-              FLOAT Unknown;
-              FLOAT Unknown;
-              UINT CountA;  
-                struct {  
-                  FLOAT Unknown;
-                  FLOAT Unknown;
-                  FLOAT Unknown;   
-                  FLOAT Unknown;
-                  FLOAT Unknown;
-                  FLOAT Unknown; 
-                  FLOAT Unknown;
-                  FLOAT Unknown;
-                  FLOAT Unknown;   
-                  FLOAT Unknown;               
-                } L[CountA]; 
-
-            } else {
-              UINT CountA; 
+            UINT Count;            
+            FLOAT Unknown0[Count];
+   
+            UINT PolygonCount <name="Number of polygons">; 
+            struct {
               struct {    
-                UINT Count;
-                struct {  
-                    FLOAT Unknown;
-                    FLOAT Unknown;
-                    FLOAT Unknown;                   
-                } L[Count];         
-              } K1[CountA] <optimize=false>;
-            };   
+                UINT CoordCount; // 3, 4
+                VECTOR_3F Vertex[CoordCount];         
+              } POLYGON[PolygonCount] <optimize=false>;
+            } POLYGONS <name="Polygons">;
         }; break;
 
-        case 24  : {
+        // matrix
+        case 24: {
           TRANSFORMATION_MATRIX TM;
-          UINT Unknown; // 0, 1
+          BOOL isShown; // 1 - show attached object, 0 - hide
           CHILD_CHUNKS ChildChunks;      
         }; break;
 
         // Sound
-        case 25  : {
+        case 25: {
             FLOAT Unknown;
             UINT Unknown;
             UINT Unknown;
@@ -495,7 +526,7 @@ UINT chunkTree(UINT ChildCount) {
         case 29  : {
           BOUNDING_SPHERE Sphere ; 
           UINT type; 
-          UINT Count;
+          UINT Unknown;
           FLOAT Unknown;
           FLOAT Unknown;
           FLOAT Unknown;
@@ -511,7 +542,7 @@ UINT chunkTree(UINT ChildCount) {
         // Portal
         case 30  : {
           BOUNDING_SPHERE Sphere ; 
-          char ConnectedRoom[32];
+          char ConnectedRoomName[32];
           struct { 
             struct {
               FLOAT X;
@@ -530,25 +561,34 @@ UINT chunkTree(UINT ChildCount) {
         case 31  : {
           BOUNDING_SPHERE Sphere ; 
           UINT Count;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
+          struct {
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } POS1;
           FLOAT Unknown;
           UINT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
-          FLOAT Unknown;
           struct {
-            FLOAT Unknown;
-            UINT Count; 
-          } Ar[Count];  
+            FLOAT X;
+            FLOAT Y;
+            FLOAT Z;
+          } POS2;
+          struct {
+            FLOAT Index;
+            UINT Distance; 
+          } VERTEX0[Count];
+
+
         }; break;
 
+        // light
         case 33  : {
           BOUNDING_SPHERE Sphere ; 
-          UINT Unknown;
-          UINT Unknown;
-          UINT Unknown;
+          
+          UINT X;
+          UINT Y;
+          UINT Z;
+          
           struct {
             FLOAT X;
             FLOAT Y;
@@ -567,10 +607,13 @@ UINT chunkTree(UINT ChildCount) {
             FLOAT Unknown;
             FLOAT Unknown;
             FLOAT Unknown;
-          } Color;
-          CHILD_CHUNKS ChildChunks;    
+          } COLOR;
+ 
+          CHILD_CHUNKS ChildChunks;  
+  
         }; break;   
 
+        // only in hard truck 2
         case 34  : {
           BOUNDING_SPHERE Sphere ; 
           FLOAT Unknown;
@@ -580,10 +623,10 @@ UINT chunkTree(UINT ChildCount) {
             FLOAT Unknown;
             FLOAT Unknown;
             FLOAT Unknown;
-          } K[Count]; 
+          } K[Count];
         }; break; 
  
-        case 35  : {
+        case 35  :{
           BOUNDING_SPHERE Sphere ; 
           
           UINT type;
@@ -592,9 +635,11 @@ UINT chunkTree(UINT ChildCount) {
 
           struct { 
             UINT type1;
+
             FLOAT Unknown;
             UINT Unknown;
-            UINT MatIndex;
+
+            UINT MaterialIndex;
             UINT Count;
 
             if (type == 3) {
@@ -627,7 +672,7 @@ UINT chunkTree(UINT ChildCount) {
              }; 
            
              } else
-              //gfj;
+
              if (type == 1) {
 
                 if (type1 == 0) {
@@ -824,7 +869,7 @@ string ChunkName(CHUNKS &chunks) {
     switch (chunks.array.HEADER.ID) {
       case 0: return "Empty/Unused (id 0): " + chunks.array.HEADER.String; break;
       case 1: return "Empty/Unused (id 1): " + chunks.array.HEADER.String; break;
-      case 2: return "Unknown (id 2): " + chunks.array.HEADER.String; break;
+      case 2: return "Switch?? (id 2): " + chunks.array.HEADER.String; break;
       case 3: return "Goods (id 3): " + chunks.array.HEADER.String; break;
       case 4: return "Road/Truck Object (id 4): " + chunks.array.HEADER.String; break;
       case 5: return "3d Object Group (id 5): " + chunks.array.HEADER.String; break;
@@ -833,8 +878,13 @@ string ChunkName(CHUNKS &chunks) {
       case 8: return "Face Data (id 8): " + chunks.array.HEADER.String; break;
       case 9: return "Trigger parameters (id 9): " + chunks.array.HEADER.String; break;
       case 10: return "LOD (id 10): " + chunks.array.HEADER.String; break;
+      case 11: return "Unknown (id 11): " + chunks.array.HEADER.String; break;
+      case 12: return "Collision ??: " + chunks.array.HEADER.String; break;
       case 13: return "Trigger object (id 13): " + chunks.array.HEADER.String; break;
-      case 18: return "Embeded object (id 18): " + chunks.array.HEADER.String; break;
+      case 14: return "Unknown object (id 14): " + chunks.array.HEADER.String; break;
+      case 16: return "Unknown object (id 16): " + chunks.array.HEADER.String; break;
+      case 17: return "Unknown object (id 17): " + chunks.array.HEADER.String; break;
+      case 18: return "Attachement (id 18): " + chunks.array.HEADER.String; break;
       case 19: return "Room Group (id 19): " + chunks.array.HEADER.String; break;
       case 20: return "Collision (id 20): " + chunks.array.HEADER.String; break;
       case 21: return "Switch Group (id 21): " + chunks.array.HEADER.String; break;
@@ -857,7 +907,7 @@ string getChunkName(CH &chunk) {
     switch (chunk.HEADER.ID) {
       case 0: return "Empty/Unused (id 0): " + chunk.HEADER.String; break;
       case 1: return "Empty/Unused (id 1): " + chunk.HEADER.String; break;
-      case 2: return "Unknown (id 2): " + chunk.HEADER.String; break;
+      case 2: return "Switch?? (id 2): " + chunk.HEADER.String; break;
       case 3: return "Goods (id 3): " + chunk.HEADER.String; break;
       case 4: return "Road/Truck Object (id 4): " + chunk.HEADER.String; break;
       case 5: return "3d Object Group(id 5): " + chunk.HEADER.String; break;
@@ -866,7 +916,12 @@ string getChunkName(CH &chunk) {
       case 8: return "Face Data(id 8): " + chunk.HEADER.String; break;
       case 9: return "Trigger (id 9): " + chunk.HEADER.String; break;
       case 10: return "LOD (id 10): " + chunk.HEADER.String; break;
+      case 11: return "Unknown: " + chunk.HEADER.String; break;
+      case 12: return "Collision??: " + chunk.HEADER.String; break;
       case 13: return "Trigger object (id 13): " + chunk.HEADER.String; break;
+      case 14: return "Object object (id 14): " + chunk.HEADER.String; break;
+      case 16: return "Object object (id 16): " + chunk.HEADER.String; break;
+      case 17: return "Object object (id 17): " + chunk.HEADER.String; break;
       case 18: return "Embeded object (id 18): " + chunk.HEADER.String; break;
       case 19: return "Room (id 19): " + chunk.HEADER.String; break;
       case 20: return "Collision 2D (id 20): " + chunk.HEADER.String; break;
@@ -895,7 +950,7 @@ struct {
     if (ID == 222) 
     {     
        IDENTIFIER End <name="END">;  
-       Printf("%d, %d ", Start4, End4);  
+       //Printf("%d, %d ", Start4, End4);  
        return 1;
     };
   };
