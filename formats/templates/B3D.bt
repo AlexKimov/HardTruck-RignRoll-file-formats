@@ -60,7 +60,7 @@ typedef struct {
 typedef struct {
   FLOAT X;
   FLOAT Y; 
-} VERTEX_2F;
+} VECTOR_2F;
 
 typedef enum <uint> {
   Begin_Chunks = 111,
@@ -80,8 +80,8 @@ typedef struct {
 } BOUNDING_SPHERE <name="Bounding sphere">;
 
 typedef struct { 
-   VECTOR_3F Position <name="Position">;
-  VERTEX_2F UV <name="UV">;
+  VECTOR_3F Position <name="Position">;
+  VECTOR_2F UV <name="UV">;
 } VERTEX <name = "Vertex">;
 
 typedef struct (int arraySize) {
@@ -444,7 +444,7 @@ UINT chunkTree(UINT ChildCount) {
           FLOAT Unknown1[Count];               
         }; break;
 
-        case 21  : {
+        case 21: {
           BOUNDING_SPHERE Sphere; 
           UINT Count;
           UINT Unknown;
@@ -494,7 +494,7 @@ UINT chunkTree(UINT ChildCount) {
             FLOAT Unknown;    
         }; break;
 
-        case 28  : {
+        case 28: {
           BOUNDING_SPHERE Sphere ; 
           FLOAT Unknown;
           FLOAT Unknown;
@@ -504,8 +504,8 @@ UINT chunkTree(UINT ChildCount) {
           struct {
             INT type;
             FLOAT Unknown;
-            UINT A;
-            UINT B;
+            UINT Unknown;
+            UINT Unknown;
             UINT Count;
             if (type == 4294967040) 
             {
@@ -523,7 +523,7 @@ UINT chunkTree(UINT ChildCount) {
           } Y[Count] <optimize=false>; 
         }; break;
 
-        case 29  : {
+        case 29: {
           BOUNDING_SPHERE Sphere ; 
           UINT type; 
           UINT Unknown;
@@ -539,26 +539,16 @@ UINT chunkTree(UINT ChildCount) {
           CHILD_CHUNKS ChildChunks;      
         }; break;
 
-        // Portal
-        case 30  : {
+        // Portals
+        case 30: {
           BOUNDING_SPHERE Sphere ; 
           char ConnectedRoomName[32];
-          struct { 
-            struct {
-              FLOAT X;
-              FLOAT Y;
-              FLOAT Z;
-            } P1; // left down point
-            struct {
-              FLOAT X;
-              FLOAT Y;
-              FLOAT Z;
-            } P2; // up right point
-          } PORTAL;                 
+          VECTOR_3F P1; // left down point
+          VECTOR_3F P2; // up right point                 
         }; break;
 
         // only in Hard Truck 1
-        case 31  : {
+        case 31: {
           BOUNDING_SPHERE Sphere ; 
           UINT Count;
           struct {
@@ -577,12 +567,10 @@ UINT chunkTree(UINT ChildCount) {
             FLOAT Index;
             UINT Distance; 
           } VERTEX0[Count];
-
-
         }; break;
 
         // light
-        case 33  : {
+        case 33: {
           BOUNDING_SPHERE Sphere ; 
           
           UINT X;
@@ -614,7 +602,7 @@ UINT chunkTree(UINT ChildCount) {
         }; break;   
 
         // only in hard truck 2
-        case 34  : {
+        case 34: {
           BOUNDING_SPHERE Sphere ; 
           FLOAT Unknown;
           UINT Count;
@@ -626,186 +614,129 @@ UINT chunkTree(UINT ChildCount) {
           } K[Count];
         }; break; 
  
-        case 35  :{
+        case 35: {
           BOUNDING_SPHERE Sphere ; 
           
           UINT type;
-          UINT MIndex;
-          UINT MeshCount;
+          UINT MaterialIndex;
+          UINT PolygonCount;
 
-          struct { 
-            UINT type1;
-
-            FLOAT Unknown;
-            UINT Unknown;
-
-            UINT MaterialIndex;
-            UINT Count;
-
+          struct {
             if (type == 3) {
-              UINT Indexes[Count];
-            } else
-            if (type == 2) {
-              if (type1 == 49) {
-                struct {
-                  UINT Unknown;
+              UINT Unknown;
+              FLOAT Unknown;
+              UINT Unknown;
+              UINT Unknown;
+              UINT Unknown;
+              UINT Unknown;
+              UINT Unknown;
+              UINT Unknown;            
+            } else {
+              UINT type1;
+
+              FLOAT Unknown;
+              UINT Unknown;    
+              UINT Unknown; 
+              UINT Unknown; 
+
+              if (type1 == 50) {
+                struct {    
+                  UINT Index; // vertex index   
+                  FLOAT Unknown;  
+                  FLOAT Unknown; 
+                  FLOAT Unknown;    
+                  FLOAT Unknown; 
                   FLOAT Unknown;
-                } U[Count];
+                } FACE_VERTEX_ATTRIBUTES[3];
               } else
-              if (type1 == 51) {
+              if (type1 == 49) {
+                struct {     
+                  UINT Index;
+                  FLOAT Unknown;
+                } FACE_VERTEX_ATTRIBUTES[3];
+              } else          
+              if (type1 == 1 || type1 == 0) {
                 struct {
-                  UINT Unknown;
+                  UINT I1;
+                  UINT I2;
+                  UINT I3;
+                } FACE_INDEXES;
+              } else
+              if (type1 == 2 || type1 == 3) {
+                struct {     
+                  UINT Index;
                   FLOAT Unknown;
                   FLOAT Unknown;
-                  FLOAT Unknown;
-                }U[Count];
+                } FACE_VERTEX_ATTRIBUTES[3];
               } else {
-                UINT Indexes[Count];
-                if (type1 == 3) {
-                  UINT Unknown;
+                struct {     
+                  UINT Index;
                   FLOAT Unknown;
                   FLOAT Unknown;
-                  UINT Unknown;
                   FLOAT Unknown;
-                  UINT Unknown;
-                };
-             }; 
-           
-             } else
-
-             if (type == 1) {
-
-                if (type1 == 0) {
-                  struct {
-                    FLOAT Unknown;
-                  } Y[Count];
-                } else
-                if (type1 == 2) {
-                  struct {
-                    FLOAT Unknown;
-                    FLOAT Unknown;
-                    FLOAT Unknown;
-                  } Y[Count];
-                } else
-                struct {
-                  UINT FaceIndex;
-                  FLOAT X;
-                  FLOAT Y; 
-                  FLOAT Z; 
-                  if (type1 == 50) 
-                  {
-                    FLOAT U; 
-                    FLOAT V; 
-                  } ;   
-                } Y[Count] <optimize=false>;
-
+                } FACE_VERTEX_ATTRIBUTES[3];
+              } 
             };
-          } MESH[MeshCount] <optimize=false>;
+          } POLYGON[PolygonCount] <optimize=false>;             
         }; break;
  
-        case 36  : {
+        case 36: {
           BOUNDING_SPHERE Sphere ; 
           char Name1[32];
           char Name2[32];
           UINT type;
-          UINT Count;
-          if (type == 2) {
+          UINT VertexCount;
+          if (type == 2)
             struct { 
-              FLOAT X;
-              FLOAT Y;
-              FLOAT Z;
-              FLOAT X;
-              FLOAT Y;
-              FLOAT Z;
-              FLOAT X;
-              FLOAT X;
-            } K1[Count];
-          } else 
+              VECTOR_3F Coordinates;
+              VECTOR_2F UV;
+              VECTOR_3F NORMAL;
+            } VERTEX_ATTRIBUTES[VertexCount];
+          else 
           struct { 
-            FLOAT X;
-            FLOAT Y;
-            FLOAT Z;
-            FLOAT X;
-            FLOAT Y;
-            FLOAT Z;
-          } K1[Count];
+            VECTOR_3F Coordinates;
+            VECTOR_2F UV;
+            FLOAT Unknown;
+          } VERTEX_ATTRIBUTES[VertexCount];
           CHILD_CHUNKS ChildChunks;    
         }; break;   
 
     
-        case 37  : {
+        case 37: {
           BOUNDING_SPHERE Sphere ; 
           char Name[32];
           UINT type;
           UINT VertexCount;
 
-          typedef struct {
-            if (type == 515) 
-            {
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown; 
-              FLOAT Unknown; 
-              FLOAT Unknown;
-              FLOAT Unknown; 
-              FLOAT Unknown;  
-              FLOAT Unknown;
-              FLOAT Unknown;  
-            };         
+          typedef struct {        
             if (type == 514) 
             {
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown; 
-              FLOAT Unknown; 
-              FLOAT Unknown;
-              FLOAT Unknown; 
-              FLOAT Unknown;  
+              VECTOR_3F Coordinates;
+              VECTOR_2F UV;
+              VECTOR_3F NORMAL; 
               FLOAT Unknown;
               FLOAT Unknown; 
               FLOAT Unknown;  
               FLOAT Unknown;           
             }; 
-            if (type == 258) 
+            if (type == 258 && type == 515) 
             { 
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;  
-              FLOAT Unknown;
-              FLOAT Unknown;
+              VECTOR_3F Coordinates;
+              VECTOR_2F UV;
+              VECTOR_3F NORMAL;
               FLOAT Unknown;  
               FLOAT Unknown;   
             };              
             if (type == 2) 
             {
-              struct {     
-                FLOAT X;
-                FLOAT Y;
-                FLOAT Z;
-              } COORDINATES;
-              struct {
-                FLOAT U;
-                FLOAT V;
-              } TEXTURE_COORDINATES;
-              struct {
-                FLOAT X;
-                FLOAT Y;
-                FLOAT Z; 
-              } NORMAL;
+              VECTOR_3F Coordinates;
+              VECTOR_2F UV;
+              VECTOR_3F NORMAL;
             };                   
             if (type == 3) 
             {
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;                 
+              VECTOR_3F Coordinates;
+              VECTOR_3F Normal;                 
             };
           } VERTEX1 <optimize=false>; 
           typedef struct (int arraySize) {
