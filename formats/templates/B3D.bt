@@ -243,56 +243,45 @@ UINT chunkTree(UINT ChildCount) {
           UINT PolygonCount;
 
           struct { 
-            UINT PolygonType;
+            UINT type;
 
-            FLOAT Unknown;
-            UINT Unknown;
-
+            FLOAT Unknown; // 1
+            UINT Unknown; // 32767
             UINT MaterialIndex;
-
             UINT Count;
 
-            //if (Count != 3 && Count != 4)
-            //Printf("%d ", Count);  
+            //if (Count > 4) {
+             // Printf("%d ", Count); 
+           // };
 
             struct { 
-              if (PolygonType == 3 || PolygonType == 131) 
+              if (type == 3 || type == 131 || type == 2) 
               {
-                UINT Index;
-                FLOAT U;
-                FLOAT V;                         
+                UINT VertexIndex;
+                VECTOR_2F UV;                         
               } 
               else
-              if (PolygonType == 177) 
+              if (type == 177) 
               {
-                FLOAT U;
-                FLOAT V;                           
+                VECTOR_2F UV;                           
               } 
               else
-              if (PolygonType == 48 || PolygonType == 176 || PolygonType == 179) 
+              if (type == 48 || type == 51 || type == 176 || type == 179) 
               {
-                UINT Index;
-                FLOAT X;
-                FLOAT Y;
-                FLOAT Z;          
+                UINT VertexIndex;
+                VECTOR_3F Coordinates;          
               } else 
-              if (PolygonType == 50 || PolygonType == 178) 
+              if (type == 50 || type == 178) 
               {
-                UINT Index;
-                FLOAT X;
-                FLOAT Y;
-                FLOAT Z; 
-                FLOAT U; 
-                FLOAT V; 
+                UINT VertexIndex;
+                VECTOR_3F Coordinates;  
+                VECTOR_2F UV;  
               } 
               else
-                UINT Index;
-            } POLYGONS[Count] <name="Polygon attributes">;  
-
-            if (PolygonType == 2)
-              FLOAT Unknown1[Count*2];     
+                UINT VertexIndex;
+            } POLYGONS[Count] <name="Polygon attributes", optimize=false>;     
            
-          } POLYGON[PolygonCount] <optimize=false, name="Meshes">;  
+          } POLYGON[PolygonCount] <optimize=false, name="Polygons">;  
    
         }; break;
 
@@ -358,7 +347,9 @@ UINT chunkTree(UINT ChildCount) {
             FLOAT Coords[Count - 3];
             char RoomName[8];
             UINT Unknown;
-          };
+            //dfjdtfj();
+          } else
+          FLOAT Unknown0[Count];
   
         }; break;
 
@@ -500,27 +491,28 @@ UINT chunkTree(UINT ChildCount) {
           FLOAT Unknown;
           FLOAT Unknown;
 
-          UINT Count;
+          UINT PolygonCount;
           struct {
             INT type;
-            FLOAT Unknown;
-            UINT Unknown;
-            UINT Unknown;
+            //Printf("%d  ", type);
+            FLOAT Unknown; // 1
+            UINT Unknown; // 32767
+            UINT MaterialIndex;
             UINT Count;
-            if (type == 4294967040) 
-            {
+            if (type == -256) 
               struct {
                 FLOAT Unknown; 
                 FLOAT Unknown;
-              } E[Count]; 
-            } else 
-            struct {
-              FLOAT Unknown; 
-              FLOAT Unknown;
-              FLOAT Unknown;
-              FLOAT Unknown;
-            } E[Count];
-          } Y[Count] <optimize=false>; 
+              } FACE_VERTEX_ATTRIBUTES[Count]; 
+            else 
+              struct {
+                FLOAT Unknown; 
+                FLOAT Unknown;
+                FLOAT Unknown;
+                FLOAT Unknown;
+              } FACE_VERTEX_ATTRIBUTES[Count];
+          } POLYGON[PolygonCount] <optimize=false>; 
+          //ghkghk();
         }; break;
 
         case 29: {
@@ -617,66 +609,58 @@ UINT chunkTree(UINT ChildCount) {
         case 35: {
           BOUNDING_SPHERE Sphere ; 
           
-          UINT type;
+          UINT unknown; // 1, 2, 3
+          //Printf("%d", unknown);
           UINT MaterialIndex;
           UINT PolygonCount;
 
           struct {
-            if (type == 3) {
-              UINT Unknown;
-              FLOAT Unknown;
-              UINT Unknown;
-              UINT Unknown;
-              UINT Unknown;
-              UINT Unknown;
-              UINT Unknown;
-              UINT Unknown;            
-            } else {
-              UINT type1;
+            UINT type;
 
-              FLOAT Unknown;
-              UINT Unknown;    
-              UINT Unknown; 
-              UINT Unknown; 
+            FLOAT Unknown0; // 1
+            UINT Unknown1; // 32767   
+            UINT MaterialIndex; 
+            UINT IndexCount; 
 
-              if (type1 == 50) {
+            if (type == 50) {
                 struct {    
-                  UINT Index; // vertex index   
-                  FLOAT Unknown;  
+                  UINT Index; // vertex index 
+                  // normals??  
+                  FLOAT Unknown; 
                   FLOAT Unknown; 
                   FLOAT Unknown;    
                   FLOAT Unknown; 
                   FLOAT Unknown;
-                } FACE_VERTEX_ATTRIBUTES[3];
-              } else
-              if (type1 == 49) {
+                } FACE_VERTEX_ATTRIBUTES[IndexCount];
+            } else
+            if (type == 49) {
                 struct {     
                   UINT Index;
                   FLOAT Unknown;
-                } FACE_VERTEX_ATTRIBUTES[3];
-              } else          
-              if (type1 == 1 || type1 == 0) {
+                } FACE_VERTEX_ATTRIBUTES[IndexCount];
+            } else          
+            if (type == 1 || type == 0 || type == 16 || type == 17) {
                 struct {
                   UINT I1;
                   UINT I2;
                   UINT I3;
                 } FACE_INDEXES;
-              } else
-              if (type1 == 2 || type1 == 3) {
+            } else
+            if (type == 2 || type == 3) {
                 struct {     
                   UINT Index;
-                  FLOAT Unknown;
-                  FLOAT Unknown;
-                } FACE_VERTEX_ATTRIBUTES[3];
-              } else {
+                  FLOAT Unknown; // 0, 1
+                  FLOAT Unknown; // 0, 1
+                } FACE_VERTEX_ATTRIBUTES[IndexCount];
+            } else {
                 struct {     
                   UINT Index;
+                  // normal ??
                   FLOAT Unknown;
                   FLOAT Unknown;
                   FLOAT Unknown;
-                } FACE_VERTEX_ATTRIBUTES[3];
-              } 
-            };
+                } FACE_VERTEX_ATTRIBUTES[IndexCount];
+            }; 
           } POLYGON[PolygonCount] <optimize=false>;             
         }; break;
  
@@ -719,13 +703,15 @@ UINT chunkTree(UINT ChildCount) {
               FLOAT Unknown;  
               FLOAT Unknown;           
             }; 
-            if (type == 258 && type == 515) 
+            if (type == 258 || type == 515) 
             { 
               VECTOR_3F Coordinates;
               VECTOR_2F UV;
-              VECTOR_3F NORMAL;
               FLOAT Unknown;  
-              FLOAT Unknown;   
+              FLOAT Unknown;
+              FLOAT Unknown;
+              FLOAT Unknown;  
+              FLOAT Unknown;    
             };              
             if (type == 2) 
             {
