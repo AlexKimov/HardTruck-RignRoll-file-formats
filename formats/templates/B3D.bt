@@ -499,20 +499,18 @@ UINT chunkTree(UINT ChildCount) {
             UINT Unknown; // 32767
             UINT MaterialIndex;
             UINT Count;
-            if (type == -256) 
-              struct {
-                FLOAT Unknown; 
-                FLOAT Unknown;
-              } FACE_VERTEX_ATTRIBUTES[Count]; 
-            else 
-              struct {
-                FLOAT Unknown; 
-                FLOAT Unknown;
-                FLOAT Unknown;
-                FLOAT Unknown;
-              } FACE_VERTEX_ATTRIBUTES[Count];
+            struct {
+              if (type == -256) {
+                  FLOAT Unknown; 
+                  FLOAT Unknown;
+              } else {
+                  FLOAT Unknown; 
+                  FLOAT Unknown;
+                  FLOAT Unknown;
+                  FLOAT Unknown;
+              }
+            } FACE_VERTEX_ATTRIBUTES[Count];
           } POLYGON[PolygonCount] <optimize=false>; 
-          //ghkghk();
         }; break;
 
         case 29: {
@@ -677,11 +675,11 @@ UINT chunkTree(UINT ChildCount) {
               VECTOR_3F NORMAL;
             } VERTEX_ATTRIBUTES[VertexCount];
           else 
-          struct { 
-            VECTOR_3F Coordinates;
-            VECTOR_2F UV;
-            FLOAT Unknown;
-          } VERTEX_ATTRIBUTES[VertexCount];
+            struct { 
+              VECTOR_3F Coordinates;
+              VECTOR_2F UV;
+              FLOAT Unknown;
+            } VERTEX_ATTRIBUTES[VertexCount];
           CHILD_CHUNKS ChildChunks;    
         }; break;   
 
@@ -756,7 +754,7 @@ UINT chunkTree(UINT ChildCount) {
         UINT type;
         FLOAT Unknown;
         UINT Count;
-        FLOAT Unknown1[Count];      
+        FLOAT Unknown1[Count];   
       }; break;
     }; 
     // } PROPERTIES <name="Properties">;
