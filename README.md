@@ -23,6 +23,10 @@
 
 Здесь https://github.com/aleko2144/Hard-Truck-1-2-Blender-plugins
 
+    2. Какие есть еще проекты по Дальнобойщикам?
+    
+Дальнобойщики 2 + редактор локаций на движке Unity https://github.com/Duude92/KOTRunity. 
+
 ### Форматы файлов
 
 #### Дальнобойщики 1 (1998)
