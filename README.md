@@ -22,7 +22,7 @@
 
 Здесь https://github.com/aleko2144/Hard-Truck-1-2-Blender-plugins
 
-    2. Где скачать плагины для карты, моделей и т.п. Дальнобойщиков 1/2?
+    2. Где скачать плагины для карты, моделей и т.п. Дальнобойщиков 3?
     
 Здесь https://github.com/aleko2144/RigNRoll-Blender-plugins
 
