@@ -9,7 +9,8 @@
 | >50% | 100% | 100% | 100% | 100% | 100% | >85% | 100% | 100% | 5% |
 
 ####  Дополнительные ссылки
-[Группа ВК](https://vk.com/rnr_mods)
+* [Группа ВК](https://vk.com/rnr_mods)
+* <a href="https://discord.gg/cmmmd53Wsy"><img src="https://img.shields.io/badge/discord-join-7289DA.svg?logo=discord&longCache=true&style=flat" /></a>
 
 #### Текущие планы
 
